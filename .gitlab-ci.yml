@@ -8,7 +8,7 @@ stages:
 job-build:
   image: gradle:7.3.1-jdk11
   stage: build
-  script: 
+  script:
     - chmod +x gradlew
     - ./gradlew clean build -x test
   artifacts:
@@ -17,20 +17,20 @@ job-build:
     expire_in: 1 day
   # only:
     # - main
-  # tags: 
+  # tags:
     # - build.001
 
 job-test:
   image: gradle:7.3.1-jdk11
   stage: test
-  script: 
+  script:
     - chmod +x gradlew
     - ./gradlew clean test --info
     # Print test coverage to console
-    - cat build/reports/jacoco/test/html/index.html | grep -o 'Total[^%]*%'
+#    - cat build/reports/jacoco/test/html/index.html | grep -o 'Total[^%]*%'
   artifacts:
     paths:
-      - build/reports/jacoco/test/*
+#      - build/reports/jacoco/test/*
   # tags: 
     # - build.001
 
@@ -38,7 +38,7 @@ job-deploy:
   stage: deploy
   script:
     - echo 'Not used'
-  # tags: 
+  # tags:
     # - build.001 # gir-runner 이름
   only:
     - main
