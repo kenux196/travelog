@@ -28,10 +28,10 @@ job-test:
     - ./gradlew clean test --info
     # Print test coverage to console
 #    - cat build/reports/jacoco/test/html/index.html | grep -o 'Total[^%]*%'
-  artifacts:
-    paths:
+#  artifacts:
+#    paths:
 #      - build/reports/jacoco/test/*
-  # tags: 
+  # tags:
     # - build.001
 
 job-deploy:
