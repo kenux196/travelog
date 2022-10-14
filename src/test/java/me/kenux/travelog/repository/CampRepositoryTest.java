@@ -2,6 +2,7 @@ package me.kenux.travelog.repository;
 
 import me.kenux.travelog.domain.Camp;
 import me.kenux.travelog.domain.SiteInfo;
+import me.kenux.travelog.domain.StarPoint;
 import me.kenux.travelog.domain.enums.SiteType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,8 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -30,6 +31,10 @@ class CampRepositoryTest {
 
     @Autowired
     private SiteInfoRepository siteInfoRepository;
+    @Autowired
+    private StarPointRepository starPointRepository;
+
+    final Random random = new Random();
 
     @BeforeEach
     void init() {
@@ -52,6 +57,12 @@ class CampRepositoryTest {
 //            siteInfoRepository.save(siteInfo);
         }
         siteInfoRepository.saveAll(siteInfos);
+
+        for (int i = 0; i < 100; i++) {
+            final StarPoint starPoint = new StarPoint(random.nextInt(5), camp);
+            starPointRepository.save(starPoint);
+        }
+
         em.flush();
         em.clear();
     }
