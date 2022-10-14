@@ -38,10 +38,14 @@ class CampRepositoryTest {
 
     @BeforeEach
     void init() {
-        final Camp camp = Camp.builder()
-            .name("base camp")
-            .build();
-        campRepository.save(camp);
+        List<Camp> campList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            final Camp camp = Camp.builder()
+                .name("base camp")
+                .build();
+            campList.add(camp);
+            campRepository.save(camp);
+        }
 
         List<SiteInfo> siteInfos = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -52,14 +56,14 @@ class CampRepositoryTest {
                 .type(SiteType.STONE)
                 .price(30000)
                 .build();
-            siteInfo.setCamp(camp);
+            siteInfo.setCamp(campList.get(0));
             siteInfos.add(siteInfo);
 //            siteInfoRepository.save(siteInfo);
         }
         siteInfoRepository.saveAll(siteInfos);
 
         for (int i = 0; i < 100; i++) {
-            final StarPoint starPoint = new StarPoint(random.nextInt(5), camp);
+            final StarPoint starPoint = new StarPoint(random.nextInt(5), campList.get(0));
             starPointRepository.save(starPoint);
         }
 
@@ -103,6 +107,15 @@ class CampRepositoryTest {
         for (Camp camp : camps) {
             System.out.println("camp = " + camp);
         }
+    }
 
+    @Test
+    void findOneWithBatchSize() {
+        System.out.println("=============== start");
+        final List<Camp> camps = campRepository.findAll();
+        System.out.println("=============== find");
+        for (Camp camp : camps) {
+            System.out.println("camp = " + camp);
+        }
     }
 }
