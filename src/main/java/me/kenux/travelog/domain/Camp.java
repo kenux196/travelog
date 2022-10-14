@@ -3,6 +3,8 @@ package me.kenux.travelog.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "camp")
@@ -10,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class Camp {
 
     @Id
@@ -21,4 +24,8 @@ public class Camp {
     private String address1;
 
     private String address2;
+
+    @OneToMany(mappedBy = "camp")
+    @Builder.Default
+    List<SiteInfo> siteInfos = new ArrayList<>();
 }

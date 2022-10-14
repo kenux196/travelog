@@ -2,6 +2,7 @@ package me.kenux.travelog.domain;
 
 import lombok.*;
 import me.kenux.travelog.domain.enums.SiteType;
+import net.bytebuddy.build.ToStringPlugin;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class SiteInfo {
 
     @Id
@@ -19,7 +21,7 @@ public class SiteInfo {
 
     private String siteNumber;
 
-    private Integer with;
+    private Integer width;
 
     private Integer height;
 
@@ -30,5 +32,11 @@ public class SiteInfo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "camp_id", referencedColumnName = "id")
+    @ToString.Exclude
     private Camp camp;
+
+    public void setCamp(Camp camp) {
+        this.camp = camp;
+        camp.siteInfos.add(this);
+    }
 }
