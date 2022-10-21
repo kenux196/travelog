@@ -17,11 +17,11 @@ public class StarPoint {
     private Integer starPoint;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "camp_id", referencedColumnName = "id")
-    private Camp camp;
+    @JoinColumn(name = "destination_id", referencedColumnName = "id")
+    private Destination destination;
 
-    public StarPoint(Integer starPoint, Camp camp) {
+    public StarPoint(Integer starPoint, Destination camp) {
         this.starPoint = starPoint;
-        this.camp = camp;
+        this.destination = camp;
     }
 }
