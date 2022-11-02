@@ -1,6 +1,7 @@
 package me.kenux.travelog.repository;
 
 import me.kenux.travelog.domain.TravelHistory;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,6 +17,7 @@ class TravelHistoryRepositoryTest {
     private TravelHistoryRepository travelHistoryRepository;
 
     @Test
+    @DisplayName("여행 히스토리 저장 테스트")
     void save() {
         // given
         final TravelHistory history = TravelHistory.builder()
