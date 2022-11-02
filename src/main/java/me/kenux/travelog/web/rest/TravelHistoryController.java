@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.service.TravelHistoryService;
 import me.kenux.travelog.web.dto.TravelHistoryDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,6 +20,11 @@ public class TravelHistoryController {
     @PostMapping
     public ResponseEntity<?> createHistory(@Valid @RequestBody TravelHistoryDto historyDto) {
         travelHistoryService.save(historyDto.toEntity());
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getTravelHistoryByUser(String userId) {
         return ResponseEntity.ok().build();
     }
 }
