@@ -36,3 +36,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### ETC ###
+.DS_Store
+
+#src/main/resources/static/
