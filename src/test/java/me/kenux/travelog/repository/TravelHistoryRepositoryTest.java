@@ -4,13 +4,17 @@ import me.kenux.travelog.domain.TravelHistory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+//@Rollback(value = false)
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class TravelHistoryRepositoryTest {
 
     @Autowired
@@ -31,5 +35,23 @@ class TravelHistoryRepositoryTest {
 
         // then
         assertThat(history.getId()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Auditing test")
+    void saveWithAuditing() {
+        // given
+        final TravelHistory history = TravelHistory.builder()
+            .title("팔공산 등산")
+            .content("힘들었지만, 즐겁다.")
+            .startDate(LocalDate.of(2022, 10, 1))
+            .build();
+
+        // when
+        travelHistoryRepository.save(history);
+
+        // then
+        assertThat(history.getCreatedDate()).isNotNull();
+        assertThat(history.getUpdatedDate()).isNotNull();
     }
 }

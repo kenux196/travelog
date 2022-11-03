@@ -1,6 +1,7 @@
 package me.kenux.travelog.domain;
 
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -35,10 +36,6 @@ public class TravelHistoryComment {
     @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY)
     @Builder.Default
     private List<TravelHistoryComment> childComments = new ArrayList<>();
-
-    private OffsetDateTime createdTime;
-
-    private OffsetDateTime updatedTime;
 
     public void addCommentToHistory(TravelHistory history) {
         travelHistory = history;

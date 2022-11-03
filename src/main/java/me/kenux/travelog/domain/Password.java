@@ -5,14 +5,10 @@ import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "password")
-public class Password {
+public class Password extends BaseTimeEntity {
 
     @Id
     private String memberName;
 
     private String password;
-
-    private OffsetDateTime createdTime;
-
-    private OffsetDateTime updatedTime;
 }

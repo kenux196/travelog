@@ -2,6 +2,7 @@ package me.kenux.travelog.domain;
 
 import lombok.*;
 import me.kenux.travelog.domain.enums.TravelType;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-public class TravelHistory {
+public class TravelHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +42,4 @@ public class TravelHistory {
     @OneToMany(mappedBy = "travelHistory")
     @Builder.Default
     private List<TravelHistoryComment> comments = new ArrayList<>();
-
-    private OffsetDateTime createdTime;
-
-    private OffsetDateTime updatedTime;
 }
