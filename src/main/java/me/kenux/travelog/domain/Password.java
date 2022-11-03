@@ -1,7 +1,8 @@
 package me.kenux.travelog.domain;
 
-import javax.persistence.*;
-import java.time.OffsetDateTime;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "password")
