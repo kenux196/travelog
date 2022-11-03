@@ -1,8 +1,6 @@
 package me.kenux.travelog.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -12,6 +10,8 @@ import java.util.List;
 @Entity
 @Table(name = "travel_history_comment")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @Getter
 public class TravelHistoryComment {
 
@@ -33,9 +33,15 @@ public class TravelHistoryComment {
     private TravelHistoryComment parentComment;
 
     @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY)
+    @Builder.Default
     private List<TravelHistoryComment> childComments = new ArrayList<>();
 
     private OffsetDateTime createdTime;
 
     private OffsetDateTime updatedTime;
+
+    public void addCommentToHistory(TravelHistory history) {
+        travelHistory = history;
+        history.getComments().add(this);
+    }
 }
