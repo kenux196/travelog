@@ -32,6 +32,6 @@ public class TravelHistory {
     // TODO - 이미지 등 추가 기능 구현 2022-10-21 skyun
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destination_id", referencedColumnName = "id")
+    @JoinColumn(name = "destination_id")
     private Destination destination;
 }

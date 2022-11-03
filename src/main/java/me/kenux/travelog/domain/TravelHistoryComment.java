@@ -21,14 +21,14 @@ public class TravelHistoryComment {
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "travel_history_id", referencedColumnName = "id")
+    @JoinColumn(name = "travel_history_id")
     private TravelHistory travelHistory;
 
     @Column(name = "parent_id")
     private Long parentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "comment_id", insertable = false, updatable = false)
     private TravelHistoryComment parentComment;
 
     @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY)

@@ -17,7 +17,7 @@ public class StarPoint {
     private Integer starPoint;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destination_id", referencedColumnName = "id")
+    @JoinColumn(name = "destination_id")
     private Destination destination;
 
     public StarPoint(Integer starPoint, Destination camp) {
