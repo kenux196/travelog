@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,4 +34,8 @@ public class TravelHistoryComment {
 
     @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY)
     private List<TravelHistoryComment> childComments = new ArrayList<>();
+
+    private OffsetDateTime createdTime;
+
+    private OffsetDateTime updatedTime;
 }

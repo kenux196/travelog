@@ -5,6 +5,7 @@ import me.kenux.travelog.domain.enums.TravelType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "travel_history")
@@ -34,4 +35,8 @@ public class TravelHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "destination_id")
     private Destination destination;
+
+    private OffsetDateTime createdTime;
+
+    private OffsetDateTime updatedTime;
 }
