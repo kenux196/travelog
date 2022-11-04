@@ -40,4 +40,8 @@ public class TravelHistory extends BaseEntity {
     @OneToMany(mappedBy = "travelHistory")
     @Builder.Default
     private List<TravelHistoryComment> comments = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 }
