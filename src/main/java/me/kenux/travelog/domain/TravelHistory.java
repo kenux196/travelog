@@ -4,6 +4,7 @@ import lombok.*;
 import me.kenux.travelog.domain.enums.TravelType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +21,17 @@ public class TravelHistory extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String title;
 
+    @NotNull
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
     private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private TravelType travelType;
 
     private String content;
@@ -41,7 +46,8 @@ public class TravelHistory extends BaseEntity {
     @Builder.Default
     private List<TravelHistoryComment> comments = new ArrayList<>();
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "member_id")
+    @NotNull
     private Member member;
 }

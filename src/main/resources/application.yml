@@ -4,20 +4,11 @@ spring:
     activate:
       on-profile: develop
   datasource:
-    url: jdbc:h2:tcp://localhost/~/h2dbs/test2
-    driver-class-name: org.h2.Driver
-    username: sa
----
-spring:
-  config:
-    activate:
-      on-profile: default
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/h2dbs/test
+    url: jdbc:h2:tcp://localhost/~/h2dbs/travelog
     driver-class-name: org.h2.Driver
     username: sa
   jpa:
-#    show-sql: true
+    #    show-sql: true
     hibernate:
       ddl-auto: validate
     properties:
@@ -28,13 +19,33 @@ spring:
   output:
     ansi:
       enabled: always
-
-  # flyway
   flyway:
     enabled: true
     baseline-on-migrate: true
     baseline-version: 0
 #    locations: classpath:/db/migration
+
+---
+spring:
+  config:
+    activate:
+      on-profile: default
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/h2dbs/test
+    driver-class-name: org.h2.Driver
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    generate-ddl: false
+  output:
+    ansi:
+      enabled: always
+
 
 #logging:
 #  level:

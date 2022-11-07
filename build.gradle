@@ -47,7 +47,7 @@ clean {
 }
 
 flyway {
-    url='jdbc:h2:tcp://localhost:9092/~/h2dbs/test'
+    url='jdbc:h2:tcp://localhost:9092/~/h2dbs/travelog'
     user='sa'
 //    locations=['classpath:db/migration']
 }
