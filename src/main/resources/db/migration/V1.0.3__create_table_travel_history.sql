@@ -7,12 +7,13 @@ create table travel_history
     updated_by     varchar(255),
     content        varchar(255),
     end_date       date,
-    start_date     date,
-    title          varchar(255),
-    travel_type    varchar(255),
+    start_date     date         not null,
+    title          varchar(255) not null,
+    travel_type    varchar(255) not null,
     destination_id bigint,
+    member_id      bigint       not null,
     primary key (id)
-);
+)
 
 create table travel_history_comment
 (
