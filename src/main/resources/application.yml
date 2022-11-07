@@ -1,35 +1,14 @@
+spring:
+  profiles:
+    group:
+      "local": "h2db, common"
+      "dev": "devdb, common"
+      "prd": "prddb, common"
 ---
 spring:
   config:
     activate:
-      on-profile: develop
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/h2dbs/travelog
-    driver-class-name: org.h2.Driver
-    username: sa
-  jpa:
-    #    show-sql: true
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-    generate-ddl: false
-  output:
-    ansi:
-      enabled: always
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
-    baseline-version: 0
-#    locations: classpath:/db/migration
-
----
-spring:
-  config:
-    activate:
-      on-profile: default
+      on-profile: h2db
   datasource:
     url: jdbc:h2:tcp://localhost/~/h2dbs/test
     driver-class-name: org.h2.Driver
@@ -42,12 +21,38 @@ spring:
         format_sql: true
         show_sql: true
     generate-ddl: false
+  flyway:
+    enabled: false
+---
+spring:
+  config:
+    activate:
+      on-profile: devdb
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/h2dbs/travelog
+    driver-class-name: org.h2.Driver
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    generate-ddl: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+#    locations: classpath:/db/migration
+---
+spring:
+  config:
+    activate:
+      on-profile: common
   output:
     ansi:
       enabled: always
-  flyway:
-    enabled: false
-
 #logging:
 #  level:
 #    org:
