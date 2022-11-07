@@ -1,14 +1,14 @@
 spring:
   profiles:
     group:
-      "local": "h2db, common"
-      "dev": "devdb, common"
+      "local": "h2DB, common"
+      "dev": "mariaDB, common"
       "prd": "prddb, common"
 ---
 spring:
   config:
     activate:
-      on-profile: h2db
+      on-profile: h2DB
   datasource:
     url: jdbc:h2:tcp://localhost/~/h2dbs/test
     driver-class-name: org.h2.Driver
@@ -27,7 +27,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: devdb
+      on-profile: mariaDB
   datasource:
     url: jdbc:h2:tcp://localhost/~/h2dbs/travelog
     driver-class-name: org.h2.Driver
