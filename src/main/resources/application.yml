@@ -45,7 +45,8 @@ spring:
   output:
     ansi:
       enabled: always
-
+  flyway:
+    enabled: false
 
 #logging:
 #  level:
