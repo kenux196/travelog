@@ -2,7 +2,8 @@ spring:
   profiles:
     group:
       "test": "h2DB, common"
-      "local": "h2DB, common"
+      "test1": "h2DB-mysql, common"
+      "local": "h2DB-server, common"
       "dev": "mariaDB, common"
       "prd": "prddb, common"
 ---
@@ -10,6 +11,32 @@ spring:
   config:
     activate:
       on-profile: h2DB
+  datasource:
+    url:  jdbc:h2:mem:testdb;DATABASE_TO_LOWER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+#        dialect: org.hibernate.dialect.MariaDBDialect
+    #    database: h2
+    generate-ddl: false
+  #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  flyway:
+    enabled: false
+---
+spring:
+  config:
+    activate:
+      on-profile: h2DB-mysql
   datasource:
 #    url: jdbc:h2:tcp://localhost/~/h2dbs/test
     url:  jdbc:h2:mem:testdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE
@@ -36,9 +63,9 @@ spring:
 spring:
   config:
     activate:
-      on-profile: mariaDB
+      on-profile: h2DB-server
   datasource:
-    url: jdbc:h2:tcp://localhost/~/h2dbs/travelog
+    url: jdbc:h2:tcp://localhost/~/h2dbs/test
     driver-class-name: org.h2.Driver
     username: sa
   jpa:
