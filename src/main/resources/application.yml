@@ -2,6 +2,7 @@ spring:
   profiles:
     group:
       "test": "h2DB, common"
+      "local": "h2DB, common"
       "dev": "mariaDB, common"
       "prd": "prddb, common"
 ---
