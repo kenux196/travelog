@@ -101,12 +101,19 @@ logging:
   level:
     org:
       hibernate:
+        resource:
+          transaction: DEBUG
         type:
           descriptor:
             sql: trace
       springframework:
-        transaction.interceptor: TRACE
-        orm.jpa: DEBUG
+        transaction:
+          interceptor: TRACE
+        orm:
+          jpa:
+            JpaTransactionManager: DEBUG
+        jdbc:
+          datasource:
+            DataSourceTransactionManager: DEBUG
     com.zaxxer.hikari: TRACE
     com.zaxxer.hikari.HikariConfig: DEBUG
-
