@@ -3,11 +3,7 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: [
-    'plugin:vue/vue3-essential',
-    'eslint:recommended',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['plugin:vue/vue3-essential', 'eslint:recommended', 'plugin:prettier/recommended'],
   parserOptions: {
     parser: '@babel/eslint-parser',
   },
@@ -22,7 +18,7 @@ module.exports = {
         useTabs: false,
         tabWidth: 2,
         trailingComma: 'all',
-        printWidth: 80,
+        printWidth: 120,
         bracketSpacing: true,
         arrowParens: 'avoid',
       },
