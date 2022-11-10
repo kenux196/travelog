@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <img alt="Vue logo" src="../assets/logo.png" />
-        <HelloWorld msg="Welcome to Your Vue.js App" />
+        <HelloWorld msg="여기는 kenux의 개인 프로젝트 화면입니다." />
     </div>
 </template>
 
