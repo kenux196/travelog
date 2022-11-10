@@ -104,5 +104,9 @@ logging:
         type:
           descriptor:
             sql: trace
-
+      springframework:
+        transaction.interceptor: TRACE
+        orm.jpa: DEBUG
+    com.zaxxer.hikari: TRACE
+    com.zaxxer.hikari.HikariConfig: DEBUG
 
