@@ -1,11 +1,12 @@
 spring:
   profiles:
     group:
-      "test": "h2DB, common"
-      "test1": "h2DB-mysql, common"
-      "local": "h2DB-server, common"
+      "test": "h2DB, common, dev-logging"
+      "test1": "h2DB-mysql, common, dev-logging"
+      "local": "h2DB-server, common, dev-logging"
       "dev": "mariaDB, common"
       "prd": "prddb, common"
+    active: test
 ---
 spring:
   config:
@@ -86,15 +87,22 @@ spring:
   config:
     activate:
       on-profile: common
+  jpa:
+    open-in-view: false
   output:
     ansi:
       enabled: always
-#logging:
-#  level:
-#    org:
-#      hibernate:
-#        type:
-#          descriptor:
-#            sql: trace
+---
+spring:
+  config:
+    activate:
+      on-profile: dev-logging
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
 
 
