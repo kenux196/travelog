@@ -2,14 +2,15 @@
   <div>
     <h1>로그인 화면</h1>
     <div id="loginForm">
-      <b-form @submit.prevent="login()">
+      <b-form>
         <p>
           <b-form-input id="user" type="text" placeholder="Enter ID" v-model="user" />
         </p>
         <p>
           <b-form-input id="password" type="password" placeholder="Enter password" v-model="password" />
         </p>
-        <b-button variant="primary" type="submit">로그인</b-button>
+        <b-button variant="primary" type="submit" @click="loginPost()">로그인:Post</b-button>
+        <b-button variant="primary" type="submit" @click="loginGet()">로그인:Get</b-button>
         <p v-if="error" class="error">Bad login information.</p>
       </b-form>
     </div>
@@ -39,21 +40,49 @@ export default {
     };
   },
   methods: {
-    async login() {
-      try {
-        const result = await axios.post('http://localhost:8080/api/login', {
-          auth: {
-            username: this.user,
-            password: this.password,
-          },
+    async loginGet() {
+      axios
+        .get('/api/login', {
+          username: this.user,
+          password: this.password,
+        })
+        .then(response => {
+          console.log(response.data);
+          if (response.status === 200) {
+            this.loginSuccess = true;
+            this.loginError = false;
+            this.error = false;
+          } else {
+            this.loginSuccess = false;
+            this.loginError = true;
+            this.error = true;
+          }
+        })
+        .catch(e => {
+          console.error('error : ', e);
         });
-        if (result.status === 200) {
-          this.loginSuccess = true;
-        }
-      } catch (err) {
-        this.loginError = true;
-        throw new Error(err);
-      }
+    },
+    async loginPost() {
+      axios
+        .post('/api/login', {
+          username: this.user,
+          password: this.password,
+        })
+        .then(response => {
+          console.log(response.data);
+          if (response.status === 200) {
+            this.loginSuccess = true;
+            this.loginError = false;
+            this.error = false;
+          } else {
+            this.loginSuccess = false;
+            this.loginError = true;
+            this.error = true;
+          }
+        })
+        .catch(e => {
+          console.error('error : ', e);
+        });
     },
   },
 };

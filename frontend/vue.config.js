@@ -8,7 +8,15 @@ module.exports = {
   indexPath: '../templates/index.html',
   devServer: {
     port: 3000,
-    proxy: 'http://localhost:8080',
+    // proxy: 'http://localhost:8080/',
+    proxy: {
+      '/': {
+        target: 'http://localhost:8080/',
+        pathRewrite: { '^/': '' },
+        changeOrigin: true,
+        logLevel: 'debug',
+      },
+    },
   },
   chainWebpack: config => {
     const svgRule = config.module.rule('svg');
