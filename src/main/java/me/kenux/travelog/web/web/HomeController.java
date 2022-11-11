@@ -17,4 +17,9 @@ public class HomeController {
     public String test() {
         return "/view/test";
     }
+
+    @GetMapping("/member")
+    public String member() {
+        return "/view/member";
+    }
 }
