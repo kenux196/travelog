@@ -1,4 +1,4 @@
-package me.kenux.travelog.web.rest;
+package me.kenux.travelog.web.api;
 
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.web.dto.LoginRequest;
