@@ -1,0 +1,21 @@
+GET http://localhost:8080/api/login?username=kenux&password=1234
+
+###
+POST http://localhost:8080/api/login
+Content-Type: Application/json
+
+{
+    "username": "kenux",
+    "password": "1234"
+}
+###
+GET http://localhost:8080/hello
+
+###
+POST http://localhost:8080/hello
+Content-Type: Application/json
+
+{
+    "username": "kenux",
+    "password": "1234"
+}
