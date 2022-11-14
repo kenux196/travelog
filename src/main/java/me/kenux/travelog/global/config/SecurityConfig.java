@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            .and()
             .authorizeRequests()
             .antMatchers("/").permitAll()
+            .antMatchers("/thymeleaf/*").permitAll()
             .anyRequest().authenticated()
             .and()
 //            .httpBasic()
