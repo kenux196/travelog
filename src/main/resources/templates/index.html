@@ -1,25 +1,13 @@
 <!doctype html>
-<html lang="">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="icon" href="/favicon.ico">
-  <title>frontend</title>
-<!--  <script defer="defer" src="/js/chunk-vendors.83b0e578.js"></script>-->
-<!--  <script defer="defer" src="/js/app.60d20169.js"></script>-->
-<!--  <link href="/css/app.127d95a2.css" rel="stylesheet">-->
-  <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-<div>
-  <h1>Main page</h1>
-</div>
-<a href="/member">member</a> |
-<a href="/test">test</a> |
-<a href="/login">login</a> |
-<a href="/logout">logout</a> |
-<a href="/thymeleaf">thymeleaf</a>
-<!--<div id="app"></div>-->
-</body>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<th:block layout:fragment="content">
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+    <h1>레이아웃을 사용해 페이지 구성하기!</h1>
+  </div>
+</th:block>
 </html>

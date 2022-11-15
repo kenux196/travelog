@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="topFragment">
-  <div class="bg-info m-5" >
+  <div class="bg-info m-5">
     <h2>여기는 Top 영역입니다.</h2>
   </div>
   <nav class="navbar navbar-expand-lg bg-light">
-    <ul>
-      <li><a href="/thymeleaf">goto main</a></li>
-      <li><a href="/thymeleaf/test1">test1</a></li>
-    </ul>
+    <a href="/member">member</a> |
+    <a href="/test">test</a> |
+    <a href="/login">login</a> |
+    <a href="/logout">logout</a> |
+    <a href="/thymeleaf">thymeleaf</a> |
+    <a href="/thymeleaf/test1">test1</a> |
+    <a href="/">goto main</a>
   </nav>
 </th:block>
 </html>
