@@ -2,17 +2,15 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-  <!-- 공통으로 쓰이는 js 파일을 넣는다.-->
-<!--  <script th:src="@{js/jquery-3.6.0.min.js}"></script>-->
-  <script th:src="@{js/bootstrap.min.js}"></script>
-</head>
-<body>
-<header th:replace="/layouts/fragments/header :: headerFragment"></header>
-<!--<div layout:fragment="content"></div>-->
-<th:block layout:fragment="content"></th:block>
-<footer th:replace="/layouts/fragments/footer :: footerFragment"></footer>
+
+<th:block th:replace="/layouts/fragments/head :: headFragment"></th:block>
+<body id="page-top">
+<div id="wrapper">
+  <header th:replace="/layouts/fragments/top :: topFragment"></header>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <th:block layout:fragment="content"></th:block>
+  </div>
+  <footer th:replace="/layouts/fragments/footer :: footerFragment"></footer>
+</div>
 </body>
 </html>
