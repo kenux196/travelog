@@ -10,8 +10,9 @@
   <script th:src="@{js/bootstrap.min.js}"></script>
 </head>
 <body>
-<header th:replace="fragments/header :: headerFragment"></header>
-<div layout:fragment="content"></div>
-<footer th:replace="fragments/footer :: footerFragment"></footer>
+<header th:replace="/layouts/fragments/header :: headerFragment"></header>
+<!--<div layout:fragment="content"></div>-->
+<th:block layout:fragment="content"></th:block>
+<footer th:replace="/layouts/fragments/footer :: footerFragment"></footer>
 </body>
 </html>

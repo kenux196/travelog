@@ -20,4 +20,10 @@ public class ThymeleafTestController {
         model.addAttribute("data1", "Hello <b>Spring!<b>");
         return "thymeleaf/main-test";
     }
+
+    @GetMapping("/test1")
+    public String getTest1() {
+        return "thymeleaf/content1";
+    }
+
 }
