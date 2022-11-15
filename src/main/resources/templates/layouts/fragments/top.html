@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="topFragment">
-  <div class="bg-info m-5">
-    <h2>여기는 Top 영역입니다.</h2>
+  <!-- Background image -->
+  <div
+    class="p-5 text-center bg-image"
+    style="
+      background-image: url('https://mdbcdn.b-cdn.net/img/new/slides/041.webp');
+      height: 200px;
+    "
+  >
+    <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-white">
+          <h1 class="mb-3">Kenux Toy Project</h1>
+          <h4 class="mb-3">내 장난감</h4>
+        </div>
+      </div>
+    </div>
   </div>
-  <nav class="navbar bg-light">
-    <a href="/member">member</a>
-    <a href="/board">board</a>
-    <a href="/login">login</a>
-    <a href="/logout">logout</a>
-    <a href="/">goto main</a>
-    <a href="/test">test</a>
+  <!-- Background image -->
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Menu</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <a class="nav-link" href="/member">Member</a>
+          <a class="nav-link" href="/board">Board</a>
+          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" href="/logout">Logout</a>
+          <a class="nav-link" href="/test">테스트</a>
+        </div>
+      </div>
+    </div>
   </nav>
 </th:block>
 </html>
