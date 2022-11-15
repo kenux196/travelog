@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-<div>
-  <h1>Member page</h1>
-  <a href="/">메인으로</a>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<th:block layout:fragment="content">
   <div>
-    현재 회원 정보입니다.
+    <h1>회원 목록</h1>
+  </div>
+  <ul>
     <li>member1</li>
     <li>member2</li>
     <li>member3</li>
-  </div>
-</div>
-</body>
+  </ul>
+</th:block>
 </html>
