@@ -117,3 +117,7 @@ logging:
             DataSourceTransactionManager: DEBUG
     com.zaxxer.hikari: TRACE
     com.zaxxer.hikari.HikariConfig: DEBUG
+server:
+  error:
+    whitelabel:
+      enabled: false

@@ -9,7 +9,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
-
     @ExceptionHandler(CustomException.class)
     protected String handleCustomException(RedirectAttributes redirectAttributes, CustomException e) {
         redirectAttributes.addFlashAttribute("exception", e);
