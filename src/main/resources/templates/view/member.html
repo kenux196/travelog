@@ -8,29 +8,19 @@
     <thead class="thead-light">
     <tr>
       <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">이름</th>
+      <th scope="col">이메일</th>
+      <th scope="col">가입일</th>
+      <th scope="col">상태</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
+    <tr th:each="m : ${memberInfo}">
+      <td th:text="${m.id}">1</td>
+      <td th:text="${m.name}">Mark</td>
+      <td th:text="${m.email}">abc@email.com</td>
+      <td th:text="${#temporals.format(m.joinDate, 'yyyy-MM-dd HH:mm:ss')}">2022-10-10</td>
+      <td th:text="${m.status}">normal</td>
     </tr>
     </tbody>
   </table>
