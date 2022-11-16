@@ -1,7 +1,7 @@
 package me.kenux.travelog.service;
 
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.domain.TravelHistory;
+import me.kenux.travelog.domain.TravelLog;
 import me.kenux.travelog.repository.TravelHistoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ public class TravelHistoryService {
 
     private final TravelHistoryRepository travelHistoryRepository;
 
-    public void save(TravelHistory history) {
+    public void save(TravelLog history) {
         travelHistoryRepository.save(history);
     }
 }

@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "travel_history")
+@Table(name = "travel_log")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Getter
-public class TravelHistory extends BaseEntity {
+public class TravelLog extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,9 +42,9 @@ public class TravelHistory extends BaseEntity {
     @JoinColumn(name = "destination_id")
     private Destination destination;
 
-    @OneToMany(mappedBy = "travelHistory")
+    @OneToMany(mappedBy = "travelLog")
     @Builder.Default
-    private List<TravelHistoryComment> comments = new ArrayList<>();
+    private List<TravelLogComment> comments = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "member_id")

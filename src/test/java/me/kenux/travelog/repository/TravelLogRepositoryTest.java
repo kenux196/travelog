@@ -1,7 +1,7 @@
 package me.kenux.travelog.repository;
 
 import me.kenux.travelog.domain.Member;
-import me.kenux.travelog.domain.TravelHistory;
+import me.kenux.travelog.domain.TravelLog;
 import me.kenux.travelog.domain.enums.TravelType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ActiveProfiles("test")
 //@Rollback(value = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class TravelHistoryRepositoryTest {
+class TravelLogRepositoryTest {
 
     @Autowired
     private TravelHistoryRepository travelHistoryRepository;
@@ -34,7 +34,7 @@ class TravelHistoryRepositoryTest {
         Member member = new Member("kenux", "kenux.yun@gmail.com");
         memberRepository.save(member);
 
-        final TravelHistory history = TravelHistory.builder()
+        final TravelLog history = TravelLog.builder()
             .content("힘들었지만, 즐겁다.")
             .travelType(TravelType.CAMPING)
             .member(member)
@@ -48,7 +48,7 @@ class TravelHistoryRepositoryTest {
     @Test
     @DisplayName("여행 타입은 필수이다.")
     void travelTypeIsNotNull() {
-        final TravelHistory history = TravelHistory.builder()
+        final TravelLog history = TravelLog.builder()
             .title("title")
             .content("content")
             .build();
@@ -59,7 +59,7 @@ class TravelHistoryRepositoryTest {
     @Test
     @DisplayName("멤버 아이디 필수이다.")
     void memberIdIsNotNull() {
-        final TravelHistory history = TravelHistory.builder()
+        final TravelLog history = TravelLog.builder()
             .title("title")
             .content("content")
             .travelType(TravelType.PICNIC)
@@ -74,7 +74,7 @@ class TravelHistoryRepositoryTest {
         Member member = new Member("kenux", "kenux.yun@gmail.com");
         memberRepository.save(member);
 
-        final TravelHistory history = TravelHistory.builder()
+        final TravelLog history = TravelLog.builder()
             .title("팔공산 등산")
             .content("힘들었지만, 즐겁다.")
             .travelType(TravelType.CAMPING)
@@ -92,7 +92,7 @@ class TravelHistoryRepositoryTest {
         Member member = new Member("kenux", "kenux.yun@gmail.com");
         memberRepository.save(member);
 
-        final TravelHistory history = TravelHistory.builder()
+        final TravelLog history = TravelLog.builder()
             .title("팔공산 등산")
             .content("힘들었지만, 즐겁다.")
             .startDate(LocalDate.of(2022, 10, 1))
@@ -114,7 +114,7 @@ class TravelHistoryRepositoryTest {
         Member member = new Member("kenux", "kenux.yun@gmail.com");
         memberRepository.save(member);
 
-        final TravelHistory history = TravelHistory.builder()
+        final TravelLog history = TravelLog.builder()
             .title("팔공산 등산")
             .content("힘들었지만, 즐겁다.")
             .startDate(LocalDate.of(2022, 10, 1))

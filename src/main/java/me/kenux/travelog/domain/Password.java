@@ -1,15 +1,21 @@
 package me.kenux.travelog.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "password")
-public class Password extends BaseTimeEntity {
+public class Password {
 
     @Id
-    private String memberName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String password;
+
+    private OffsetDateTime lastChangedDate;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 }

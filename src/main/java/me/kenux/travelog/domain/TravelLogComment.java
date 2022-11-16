@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "travel_history_comment")
+@Table(name = "travel_log_comment")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Getter
-public class TravelHistoryComment {
+public class TravelLogComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,22 +21,22 @@ public class TravelHistoryComment {
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "travel_history_id")
-    private TravelHistory travelHistory;
+    @JoinColumn(name = "travel_log_id")
+    private TravelLog travelLog;
 
-    @Column(name = "parent_id")
-    private Long parentId;
+    @Column(name = "parent_comment_id")
+    private Long parentCommentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id", insertable = false, updatable = false)
-    private TravelHistoryComment parentComment;
+    @JoinColumn(name = "parent_comment_id", insertable = false, updatable = false)
+    private TravelLogComment parentComment;
 
     @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<TravelHistoryComment> childComments = new ArrayList<>();
+    private List<TravelLogComment> childComments = new ArrayList<>();
 
-    public void addCommentToHistory(TravelHistory history) {
-        travelHistory = history;
+    public void addCommentToHistory(TravelLog history) {
+        travelLog = history;
         history.getComments().add(this);
     }
 }

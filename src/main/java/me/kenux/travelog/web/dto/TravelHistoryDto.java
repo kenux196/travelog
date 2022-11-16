@@ -2,7 +2,7 @@ package me.kenux.travelog.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import me.kenux.travelog.domain.TravelHistory;
+import me.kenux.travelog.domain.TravelLog;
 import me.kenux.travelog.domain.enums.TravelType;
 
 import javax.validation.constraints.NotBlank;
@@ -26,8 +26,8 @@ public class TravelHistoryDto {
 
     private TravelType travelType;
 
-    public TravelHistory toEntity() {
-        return TravelHistory.builder()
+    public TravelLog toEntity() {
+        return TravelLog.builder()
             .title(title)
             .content(content)
             .startDate(startDate)
