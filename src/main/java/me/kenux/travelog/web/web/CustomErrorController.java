@@ -18,9 +18,6 @@ import static org.springframework.http.HttpStatus.*;
 @RequestMapping("/error")
 public class CustomErrorController implements ErrorController {
 
-    // https://dev-overload.tistory.com/29
-    // https://hongs-coding.tistory.com/118
-
     @GetMapping
     public String handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
