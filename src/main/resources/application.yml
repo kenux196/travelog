@@ -92,6 +92,10 @@ spring:
   output:
     ansi:
       enabled: always
+server:
+  error:
+    whitelabel:
+      enabled: false
 ---
 spring:
   config:
@@ -117,7 +121,3 @@ logging:
             DataSourceTransactionManager: DEBUG
     com.zaxxer.hikari: TRACE
     com.zaxxer.hikari.HikariConfig: DEBUG
-server:
-  error:
-    whitelabel:
-      enabled: false
