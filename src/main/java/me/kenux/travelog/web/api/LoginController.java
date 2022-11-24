@@ -1,7 +1,7 @@
 package me.kenux.travelog.web.api;
 
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.web.dto.LoginRequest;
+import me.kenux.travelog.service.dto.request.LoginRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

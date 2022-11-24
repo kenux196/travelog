@@ -1,4 +1,4 @@
-package me.kenux.travelog.web.dto;
+package me.kenux.travelog.service.dto.request;
 
 import lombok.Data;
 

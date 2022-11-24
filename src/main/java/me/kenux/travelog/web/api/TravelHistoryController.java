@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.service.TravelHistoryService;
-import me.kenux.travelog.web.dto.TravelHistoryDto;
+import me.kenux.travelog.service.dto.TravelHistoryDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

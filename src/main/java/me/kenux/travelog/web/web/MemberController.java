@@ -2,7 +2,7 @@ package me.kenux.travelog.web.web;
 
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.service.MemberService;
-import me.kenux.travelog.web.dto.MemberInfoResponse;
+import me.kenux.travelog.service.dto.response.MemberInfoResponse;
 import me.kenux.travelog.service.dto.request.MemberJoinRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ public class MemberController {
 
     @GetMapping
     public String getMembers(Model model) {
-        model.addAttribute("memberInfo", getTestData());
+        model.addAttribute("memberInfo", memberService.getMemberInfoResponse());
         return "/view/member/list";
     }
 
@@ -40,23 +40,5 @@ public class MemberController {
     public String joinMember(@ModelAttribute MemberJoinRequest request) {
         memberService.joinMember(request);
         return "redirect:/";
-    }
-
-    private List<MemberInfoResponse> getTestData() {
-        List<MemberInfoResponse> memberInfoResponses = new ArrayList<>();
-        for (int i = 0; i < 23; i++) {
-            final long id = (long) i + 1;
-            final String name = "member_" + id;
-            final String email = name + "@email.com";
-            final LocalDateTime joinDateBase = LocalDateTime.of(2022, 01, 01, 10, 10, 10);
-            final MemberInfoResponse memberInfoResponse = new MemberInfoResponse();
-            memberInfoResponse.setId(id);
-            memberInfoResponse.setName(name);
-            memberInfoResponse.setEmail(email);
-            memberInfoResponse.setJoinDate(joinDateBase.plusDays(i));
-            memberInfoResponse.setStatus("normal");
-            memberInfoResponses.add(memberInfoResponse);
-        }
-        return memberInfoResponses;
     }
 }
