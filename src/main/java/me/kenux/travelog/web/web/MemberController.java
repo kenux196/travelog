@@ -3,7 +3,7 @@ package me.kenux.travelog.web.web;
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.service.MemberService;
 import me.kenux.travelog.web.dto.MemberInfoResponse;
-import me.kenux.travelog.web.dto.MemberJoinRequest;
+import me.kenux.travelog.service.dto.request.MemberJoinRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +38,7 @@ public class MemberController {
 
     @PostMapping("/join")
     public String joinMember(@ModelAttribute MemberJoinRequest request) {
-        memberService.joinMember(request.toEntity(), request.getPassword());
+        memberService.joinMember(request);
         return "redirect:/";
     }
 

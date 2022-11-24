@@ -1,5 +1,6 @@
-package me.kenux.travelog.web.dto;
+package me.kenux.travelog.service.dto.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import me.kenux.travelog.domain.Member;
 

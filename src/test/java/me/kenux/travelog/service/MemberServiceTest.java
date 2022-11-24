@@ -5,6 +5,7 @@ import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.repository.MemberRepository;
 import me.kenux.travelog.repository.PasswordRepository;
+import me.kenux.travelog.service.dto.request.MemberJoinRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,10 +32,13 @@ class MemberServiceTest {
     @DisplayName("회원 중복인 경우 예외 발생해야 한다.")
     void duplicated_member_test() {
         // given
-        final Member member = new Member("test", "test@test.com");
+        MemberJoinRequest request = new MemberJoinRequest();
+        request.setName("testUser1");
+        request.setEmail("testUser1@email.com");
+        request.setPassword("password");
         given(memberRepository.existsByEmail(any())).willReturn(true);
 
-        assertThatThrownBy(() -> memberService.joinMember(member, any()))
+        assertThatThrownBy(() -> memberService.joinMember(request))
             .isInstanceOf(CustomException.class)
             .hasMessage(ErrorCode.EMAIL_DUPLICATION.getMessage());
     }
