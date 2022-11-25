@@ -29,7 +29,8 @@ public class MemberService {
         if (memberRepository.existsByEmail(joinRequest.getEmail())) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }
-        final Member savedMember = memberRepository.save(joinRequest.toEntity());
+        final Member newMember = Member.createNewMember(joinRequest.getName(), joinRequest.getEmail());
+        final Member savedMember = memberRepository.save(newMember);
         final UserPassword userPassword = new UserPassword(joinRequest.getPassword(), savedMember);
         passwordRepository.save(userPassword);
     }
@@ -38,6 +39,12 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    @Transactional
+    public void leaveMember(Long memberId) {
+        final Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        member.leave();
+    }
 
 
     // TODO - 아래 코드는 테스트를 위한 코드이므로 언젠가는 제거해야 한다. 2022-11-24 skyun

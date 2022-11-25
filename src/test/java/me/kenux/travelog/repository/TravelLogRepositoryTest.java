@@ -31,7 +31,7 @@ class TravelLogRepositoryTest {
     @Test
     @DisplayName("제목은 필수이다.")
     void titleIsNotNull() {
-        Member member = new Member("kenux", "kenux.yun@gmail.com");
+        Member member = getMember();
         memberRepository.save(member);
 
         final TravelLog history = TravelLog.builder()
@@ -71,7 +71,7 @@ class TravelLogRepositoryTest {
     @Test
     @DisplayName("시작일은 필수이다.")
     void startDateIsNotNull() {
-        Member member = new Member("kenux", "kenux.yun@gmail.com");
+        Member member = getMember();
         memberRepository.save(member);
 
         final TravelLog history = TravelLog.builder()
@@ -89,7 +89,7 @@ class TravelLogRepositoryTest {
     @DisplayName("여행 히스토리 저장 테스트")
     void save() {
         // given
-        Member member = new Member("kenux", "kenux.yun@gmail.com");
+        Member member = getMember();
         memberRepository.save(member);
 
         final TravelLog history = TravelLog.builder()
@@ -111,7 +111,7 @@ class TravelLogRepositoryTest {
     @DisplayName("Auditing test")
     void saveWithAuditing() {
         // given
-        Member member = new Member("kenux", "kenux.yun@gmail.com");
+        Member member = getMember();
         memberRepository.save(member);
 
         final TravelLog history = TravelLog.builder()
@@ -129,4 +129,9 @@ class TravelLogRepositoryTest {
         assertThat(history.getCreatedDate()).isNotNull();
         assertThat(history.getUpdatedDate()).isNotNull();
     }
+
+    private static Member getMember() {
+        return Member.createNewMember("kenux", "kenux.yun@gmail.com");
+    }
+
 }

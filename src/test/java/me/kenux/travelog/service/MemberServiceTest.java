@@ -1,6 +1,7 @@
 package me.kenux.travelog.service;
 
 import me.kenux.travelog.domain.Member;
+import me.kenux.travelog.domain.enums.MemberStatus;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.repository.MemberRepository;
@@ -12,9 +13,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static org.assertj.core.api.Assertions.*;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -41,5 +44,19 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.joinMember(request))
             .isInstanceOf(CustomException.class)
             .hasMessage(ErrorCode.EMAIL_DUPLICATION.getMessage());
+    }
+
+    @Test
+    @DisplayName("회원 탈퇴 처리가 되면 회원의 상태는 LEAVED이다.")
+    void leave_member_test() {
+        // given
+        Member member = new Member("member1", "member1@email.com");
+        given(memberRepository.findById(any())).willReturn(Optional.of(member));
+
+        // when
+        memberService.leaveMember(any());
+
+        // then
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.LEAVED);
     }
 }
