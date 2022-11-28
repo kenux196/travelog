@@ -20,6 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -44,6 +46,24 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.joinMember(request))
             .isInstanceOf(CustomException.class)
             .hasMessage(ErrorCode.EMAIL_DUPLICATION.getMessage());
+    }
+
+    @Test
+    @DisplayName("회원 가입 성공")
+    void save_password_success_join_member() {
+        // given
+        MemberJoinRequest request = new MemberJoinRequest();
+        request.setName("testUser1");
+        request.setEmail("testUser1@email.com");
+        request.setPassword("password");
+        given(memberRepository.existsByEmail(any())).willReturn(false);
+
+        // when
+        memberService.joinMember(request);
+
+        // then
+        verify(memberRepository, times(1)).save(any());
+        verify(passwordRepository, times(1)).save(any());
     }
 
     @Test
