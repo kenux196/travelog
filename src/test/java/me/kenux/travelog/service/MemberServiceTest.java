@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -62,8 +63,10 @@ class MemberServiceTest {
         memberService.joinMember(request);
 
         // then
-        verify(memberRepository, times(1)).save(any());
-        verify(passwordRepository, times(1)).save(any());
+//        verify(memberRepository, times(1)).save(any());
+//        verify(passwordRepository, times(1)).save(any());
+        then(memberRepository).should(times(1)).save(any());
+        then(passwordRepository).should(times(1)).save(any());
     }
 
     @Test
