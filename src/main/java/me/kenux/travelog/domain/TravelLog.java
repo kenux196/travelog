@@ -37,6 +37,10 @@ public class TravelLog extends BaseEntity {
 
     private String content;
 
+    @Column(name = "member_id", nullable = false)
+    @NotNull
+    private Long memberId;
+
     // TODO - 이미지 등 추가 기능 구현 2022-10-21 skyun
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,8 +51,8 @@ public class TravelLog extends BaseEntity {
     @Builder.Default
     private List<TravelLogComment> comments = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    @NotNull
-    private Member member;
+    // TODO - 연관관계가 필요한 경우에 설정한다. 현재는 연관관계가 필요없다고 보인다. 2022-11-30 skyun
+//    @ManyToOne
+//    @JoinColumn(name = "member_id", insertable = false, updatable = false)
+//    private Member member;
 }

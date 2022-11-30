@@ -6,6 +6,7 @@ import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.service.TravelLogService;
 import me.kenux.travelog.service.dto.TravelLogDto;
+import me.kenux.travelog.service.dto.request.TravelLogSaveRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,8 @@ public class TravelHistoryController {
     private final TravelLogService travelLogService;
 
     @PostMapping
-    public ResponseEntity<?> createHistory(@Valid @RequestBody TravelLogDto historyDto) {
-        travelLogService.registerTravelLog(historyDto.toEntity());
+    public ResponseEntity<?> createHistory(@Valid @RequestBody TravelLogSaveRequest request) {
+        travelLogService.registerTravelLog(request);
         return ResponseEntity.ok().build();
     }
 

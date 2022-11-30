@@ -6,6 +6,7 @@ import me.kenux.travelog.domain.enums.TravelType;
 import me.kenux.travelog.global.config.QueryDslConfig;
 import me.kenux.travelog.repository.base.RepositoryTest;
 import me.kenux.travelog.repository.cond.TravelLogSearchCond;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +31,23 @@ class TravelLogRepositoryTest extends RepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @BeforeEach
+    void beforeEach() {
+        final Member member = getMember();
+        memberRepository.save(member);
+    }
+
     @Test
     @DisplayName("제목은 필수이다.")
     void titleIsNotNull() {
-        Member member = getMember();
-        memberRepository.save(member);
+//        Member member = getMember();
+//        memberRepository.save(member);
 
         final TravelLog history = TravelLog.builder()
             .content("힘들었지만, 즐겁다.")
             .travelType(TravelType.CAMPING)
-            .member(member)
             .startDate(LocalDate.now())
+            .memberId(1L)
             .build();
 
         assertThatThrownBy(() -> travelLogRepository.save(history))
@@ -53,6 +60,7 @@ class TravelLogRepositoryTest extends RepositoryTest {
         final TravelLog history = TravelLog.builder()
             .title("title")
             .content("content")
+            .memberId(1L)
             .build();
         assertThatThrownBy(() -> travelLogRepository.save(history))
             .isInstanceOf(ConstraintViolationException.class);
@@ -65,6 +73,7 @@ class TravelLogRepositoryTest extends RepositoryTest {
             .title("title")
             .content("content")
             .travelType(TravelType.PICNIC)
+            .memberId(1L)
             .build();
         assertThatThrownBy(() -> travelLogRepository.save(history))
             .isInstanceOf(ConstraintViolationException.class);
@@ -80,7 +89,7 @@ class TravelLogRepositoryTest extends RepositoryTest {
             .title("팔공산 등산")
             .content("힘들었지만, 즐겁다.")
             .travelType(TravelType.CAMPING)
-            .member(member)
+            .memberId(1L)
             .build();
 
         assertThatThrownBy(() -> travelLogRepository.save(history))
@@ -91,16 +100,7 @@ class TravelLogRepositoryTest extends RepositoryTest {
     @DisplayName("여행 히스토리 저장 테스트")
     void save() {
         // given
-        Member member = getMember();
-        memberRepository.save(member);
-
-        final TravelLog history = TravelLog.builder()
-            .title("팔공산 등산")
-            .content("힘들었지만, 즐겁다.")
-            .startDate(LocalDate.of(2022, 10, 1))
-            .travelType(TravelType.CAMPING)
-            .member(member)
-            .build();
+        final TravelLog history = getTravelLog();
 
         // when
         travelLogRepository.save(history);
@@ -113,16 +113,7 @@ class TravelLogRepositoryTest extends RepositoryTest {
     @DisplayName("Auditing test")
     void saveWithAuditing() {
         // given
-        Member member = getMember();
-        memberRepository.save(member);
-
-        final TravelLog history = TravelLog.builder()
-            .title("팔공산 등산")
-            .content("힘들었지만, 즐겁다.")
-            .startDate(LocalDate.of(2022, 10, 1))
-            .travelType(TravelType.CAMPING)
-            .member(member)
-            .build();
+        final TravelLog history = getTravelLog();
 
         // when
         travelLogRepository.save(history);
@@ -136,15 +127,12 @@ class TravelLogRepositoryTest extends RepositoryTest {
     @DisplayName("사용자가 작성한 여행로그를 찾는다.")
     void findAllTravelLogByMemberId() {
         // given
-        Member member = getMember();
-        memberRepository.save(member);
-
-        final TravelLog travelLog = getTravelLog(member);
+        final TravelLog travelLog = getTravelLog();
         travelLogRepository.save(travelLog);
 
         // when
         TravelLogSearchCond cond = new TravelLogSearchCond();
-        cond.setMemberId(member.getId());
+        cond.setMemberId(travelLog.getMemberId());
         final List<TravelLog> result = travelLogRepository.findAllByCondition(cond);
 
         // then
@@ -155,13 +143,13 @@ class TravelLogRepositoryTest extends RepositoryTest {
         return Member.createNewMember("kenux", "kenux.yun@gmail.com");
     }
 
-    private static TravelLog getTravelLog(Member member) {
+    private static TravelLog getTravelLog() {
         return TravelLog.builder()
             .title("팔공산 등산")
             .content("힘들었지만, 즐겁다.")
             .startDate(LocalDate.of(2022, 10, 1))
             .travelType(TravelType.CAMPING)
-            .member(member)
+            .memberId(1L)
             .build();
     }
 }

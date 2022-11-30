@@ -27,7 +27,7 @@ public class TravelLogCustomRepositoryImpl implements TravelLogCustomRepository 
         if (cond.getMemberId() == null) {
             return null;
         }
-        return travelLog.member.id.eq(cond.getMemberId());
+        return travelLog.memberId.eq(cond.getMemberId());
     }
 
 }
