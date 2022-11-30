@@ -2,6 +2,7 @@ package me.kenux.travelog.domain;
 
 import lombok.*;
 import me.kenux.travelog.domain.enums.TravelType;
+import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -47,7 +48,7 @@ public class TravelLog extends BaseEntity {
     private List<TravelLogComment> comments = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     @NotNull
     private Member member;
 }
