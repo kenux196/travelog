@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 class TravelLogCommentRepositoryTest {
 
     @Autowired
-    private TravelHistoryCommentRepository commentRepository;
+    private TravelLogCommentRepository commentRepository;
 
     @Test
     void save() {

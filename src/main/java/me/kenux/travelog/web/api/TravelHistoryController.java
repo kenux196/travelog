@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
-import me.kenux.travelog.service.TravelHistoryService;
-import me.kenux.travelog.service.dto.TravelHistoryDto;
+import me.kenux.travelog.service.TravelLogService;
+import me.kenux.travelog.service.dto.TravelLogDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +17,11 @@ import javax.validation.Valid;
 @Slf4j
 public class TravelHistoryController {
 
-    private final TravelHistoryService travelHistoryService;
+    private final TravelLogService travelLogService;
 
     @PostMapping
-    public ResponseEntity<?> createHistory(@Valid @RequestBody TravelHistoryDto historyDto) {
-        travelHistoryService.save(historyDto.toEntity());
+    public ResponseEntity<?> createHistory(@Valid @RequestBody TravelLogDto historyDto) {
+        travelLogService.registerTravelLog(historyDto.toEntity());
         return ResponseEntity.ok().build();
     }
 

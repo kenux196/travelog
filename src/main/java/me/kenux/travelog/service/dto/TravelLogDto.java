@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
-public class TravelHistoryDto {
+public class TravelLogDto {
 
     @NotBlank
     private String title;

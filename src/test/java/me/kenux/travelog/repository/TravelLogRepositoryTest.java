@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class TravelLogRepositoryTest {
 
     @Autowired
-    private TravelHistoryRepository travelHistoryRepository;
+    private TravelLogRepository travelLogRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -41,7 +41,7 @@ class TravelLogRepositoryTest {
             .startDate(LocalDate.now())
             .build();
 
-        assertThatThrownBy(() -> travelHistoryRepository.save(history))
+        assertThatThrownBy(() -> travelLogRepository.save(history))
             .isInstanceOf(ConstraintViolationException.class);
     }
 
@@ -52,7 +52,7 @@ class TravelLogRepositoryTest {
             .title("title")
             .content("content")
             .build();
-        assertThatThrownBy(() -> travelHistoryRepository.save(history))
+        assertThatThrownBy(() -> travelLogRepository.save(history))
             .isInstanceOf(ConstraintViolationException.class);
     }
 
@@ -64,7 +64,7 @@ class TravelLogRepositoryTest {
             .content("content")
             .travelType(TravelType.PICNIC)
             .build();
-        assertThatThrownBy(() -> travelHistoryRepository.save(history))
+        assertThatThrownBy(() -> travelLogRepository.save(history))
             .isInstanceOf(ConstraintViolationException.class);
     }
 
@@ -81,7 +81,7 @@ class TravelLogRepositoryTest {
             .member(member)
             .build();
 
-        assertThatThrownBy(() -> travelHistoryRepository.save(history))
+        assertThatThrownBy(() -> travelLogRepository.save(history))
             .isInstanceOf(ConstraintViolationException.class);
     }
 
@@ -101,7 +101,7 @@ class TravelLogRepositoryTest {
             .build();
 
         // when
-        travelHistoryRepository.save(history);
+        travelLogRepository.save(history);
 
         // then
         assertThat(history.getId()).isNotNull();
@@ -123,7 +123,7 @@ class TravelLogRepositoryTest {
             .build();
 
         // when
-        travelHistoryRepository.save(history);
+        travelLogRepository.save(history);
 
         // then
         assertThat(history.getCreatedDate()).isNotNull();
