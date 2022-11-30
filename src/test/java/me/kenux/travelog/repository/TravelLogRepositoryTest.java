@@ -3,24 +3,26 @@ package me.kenux.travelog.repository;
 import me.kenux.travelog.domain.Member;
 import me.kenux.travelog.domain.TravelLog;
 import me.kenux.travelog.domain.enums.TravelType;
+import me.kenux.travelog.global.config.QueryDslConfig;
+import me.kenux.travelog.repository.base.RepositoryTest;
+import me.kenux.travelog.repository.cond.TravelLogSearchCond;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@DataJpaTest
-@ActiveProfiles("test")
-//@Rollback(value = false)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class TravelLogRepositoryTest {
+
+class TravelLogRepositoryTest extends RepositoryTest {
 
     @Autowired
     private TravelLogRepository travelLogRepository;
@@ -130,8 +132,36 @@ class TravelLogRepositoryTest {
         assertThat(history.getUpdatedDate()).isNotNull();
     }
 
+    @Test
+    @DisplayName("사용자가 작성한 여행로그를 찾는다.")
+    void findAllTravelLogByMemberId() {
+        // given
+        Member member = getMember();
+        memberRepository.save(member);
+
+        final TravelLog travelLog = getTravelLog(member);
+        travelLogRepository.save(travelLog);
+
+        // when
+        TravelLogSearchCond cond = new TravelLogSearchCond();
+        cond.setMemberId(member.getId());
+        final List<TravelLog> result = travelLogRepository.findAllByCondition(cond);
+
+        // then
+        assertThat(result).hasSize(1);
+    }
+
     private static Member getMember() {
         return Member.createNewMember("kenux", "kenux.yun@gmail.com");
     }
 
+    private static TravelLog getTravelLog(Member member) {
+        return TravelLog.builder()
+            .title("팔공산 등산")
+            .content("힘들었지만, 즐겁다.")
+            .startDate(LocalDate.of(2022, 10, 1))
+            .travelType(TravelType.CAMPING)
+            .member(member)
+            .build();
+    }
 }
