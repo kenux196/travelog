@@ -2,7 +2,6 @@ package me.kenux.travelog.domain;
 
 import lombok.*;
 import me.kenux.travelog.domain.enums.TravelType;
-import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,7 +28,7 @@ public class TravelLog extends BaseEntity {
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    private LocalDate endDate;
+    private Integer duration;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -55,4 +54,14 @@ public class TravelLog extends BaseEntity {
 //    @ManyToOne
 //    @JoinColumn(name = "member_id", insertable = false, updatable = false)
 //    private Member member;
+
+
+    public void changeDurationOfTheTrip(LocalDate startDate, int duration) {
+        this.startDate = startDate;
+        this.duration = duration;
+    }
+
+    public LocalDate getEndDate() {
+        return startDate.plusDays(duration);
+    }
 }

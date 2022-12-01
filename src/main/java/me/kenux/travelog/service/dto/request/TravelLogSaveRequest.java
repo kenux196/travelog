@@ -22,7 +22,8 @@ public class TravelLogSaveRequest {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    private LocalDate endDate;
+    @NotNull
+    private Integer duration;
 
     private TravelType travelType;
 
@@ -33,7 +34,7 @@ public class TravelLogSaveRequest {
             .title(title)
             .content(content)
             .startDate(startDate)
-            .endDate(endDate)
+            .duration(duration)
             .travelType(travelType)
             .memberId(memberId)
             .build();
