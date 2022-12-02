@@ -148,6 +148,7 @@ class TravelLogRepositoryTest extends RepositoryTest {
             .title("팔공산 등산")
             .content("힘들었지만, 즐겁다.")
             .startDate(LocalDate.of(2022, 10, 1))
+            .duration(3)
             .travelType(TravelType.CAMPING)
             .memberId(1L)
             .build();

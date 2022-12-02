@@ -28,6 +28,8 @@ public class TravelLog extends BaseEntity {
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
+    @NotNull
+    @Column(name = "duration", nullable = false)
     private Integer duration;
 
     @Enumerated(EnumType.STRING)
@@ -63,5 +65,9 @@ public class TravelLog extends BaseEntity {
 
     public LocalDate getEndDate() {
         return startDate.plusDays(duration);
+    }
+
+    public void changeTravelType(TravelType travelType) {
+        this.travelType = travelType;
     }
 }

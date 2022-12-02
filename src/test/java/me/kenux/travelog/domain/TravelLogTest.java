@@ -1,5 +1,6 @@
 package me.kenux.travelog.domain;
 
+import me.kenux.travelog.domain.enums.TravelType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -49,5 +50,22 @@ class TravelLogTest {
 
         // then
         assertThat(endDate).isEqualTo(startDate.plusDays(duration));
+    }
+
+    @Test
+    @DisplayName("여행 타입 변경")
+    void changeTravelType() {
+        // given
+        final TravelLog travelLog = TravelLog.builder()
+            .title("title")
+            .content("content")
+            .travelType(TravelType.TOURISM)
+            .build();
+
+        // when
+        travelLog.changeTravelType(TravelType.PICNIC);
+
+        // then
+        assertThat(travelLog.getTravelType()).isEqualTo(TravelType.PICNIC);
     }
 }
