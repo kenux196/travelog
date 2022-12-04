@@ -6,7 +6,7 @@ spring:
       "local": "h2DB-server, common, dev-logging"
       "dev": "mariaDB, common"
       "prd": "prddb, common"
-    active: test
+    active: dev
 ---
 spring:
   config:
@@ -82,6 +82,30 @@ spring:
     baseline-on-migrate: true
     baseline-version: 0
 #    locations: classpath:/db/migration
+---
+spring:
+  config:
+    activate:
+      on-profile: mariaDB
+  datasource:
+    url: jdbc:mariadb://129.154.50.38:3306/test
+    username: kenux
+    password: ENC(aHa2RW3L77g852hK+TDN97K6Gr/XxEJ8p/MnOcQsXCg=)
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  flyway:
+    enabled: false
+#    baseline-on-migrate: true
+#    baseline-version: 0
+jasypt:
+  encryptor:
+    bean: encryptorBean
 ---
 spring:
   config:
