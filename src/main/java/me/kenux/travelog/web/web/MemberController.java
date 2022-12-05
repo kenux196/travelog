@@ -26,12 +26,12 @@ public class MemberController {
     @GetMapping
     public String getMembers(Model model) {
         model.addAttribute("memberInfo", memberService.getMemberInfoResponse());
-        return "/view/member/list";
+        return "view/member/list";
     }
 
     @GetMapping("/join")
     public ModelAndView getMemberJoinForm() {
-        final ModelAndView mav = new ModelAndView("/view/member/join");
+        final ModelAndView mav = new ModelAndView("view/member/join");
         mav.addObject("joinRequest", new MemberJoinRequest());
         return mav;
     }

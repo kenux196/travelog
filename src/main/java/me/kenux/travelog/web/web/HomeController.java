@@ -18,7 +18,7 @@ public class HomeController {
     public String test(Model model) {
         model.addAttribute("data", "Hello Spring!");
         model.addAttribute("data1", "Hello <b>Spring!<b>");
-        return "/view/test";
+        return "view/test";
     }
 
 }
