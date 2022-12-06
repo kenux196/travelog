@@ -24,7 +24,6 @@ create table start_point
     primary key (id)
 );
 
-
 alter table start_point
     add constraint start_point_destination_fk
         foreign key (destination_id)

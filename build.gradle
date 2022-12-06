@@ -56,10 +56,15 @@ clean {
     delete file('src/main/generated')
 }
 
+ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
+
 flyway {
-    url='jdbc:h2:tcp://localhost:9092/~/h2dbs/travelog'
-    user='sa'
-//    locations=['classpath:db/migration']
+    configFiles = ["${file('src/main/resources/db/config/flyway-' + profile + '.conf').absolutePath}"]
+    locations = ["filesystem:${file('src/main/resources/db/sql').absolutePath}"]
+    encoding = 'UTF-8'
+    outOfOrder = true // 여러브랜치에서 서로 다른 날짜로 만들어도 작동하도록
+    validateOnMigrate = true
+    // locations = ["classpath:sql"] gradle CLI 를 사용하는 경우 classpath 는 인식 하지 못함.
 }
 
 tasks.named('test') {
