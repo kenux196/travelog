@@ -1,11 +1,8 @@
 spring:
   profiles:
     group:
-      "test": "h2DB, common, dev-logging"
-      "test1": "h2DB-mysql, common, dev-logging"
-      "local": "h2DB-server, common, dev-logging"
-      "dev": "mariaDB, common"
-      "prd": "prddb, common"
+      "test": "common, logging, h2DB"
+      "dev": "common, logging, mariaDB"
     active: test
 ---
 spring:
@@ -13,33 +10,7 @@ spring:
     activate:
       on-profile: h2DB
   datasource:
-    url:  jdbc:h2:mem:testdb;DATABASE_TO_LOWER=TRUE
-    driver-class-name: org.h2.Driver
-    username: sa
-  h2:
-    console:
-      enabled: true
-      path: /h2
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-#        dialect: org.hibernate.dialect.MariaDBDialect
-    #    database: h2
-    generate-ddl: false
-  #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-  flyway:
-    enabled: false
----
-spring:
-  config:
-    activate:
-      on-profile: h2DB-mysql
-  datasource:
-#    url: jdbc:h2:tcp://localhost/~/h2dbs/test
+#    url:  jdbc:h2:mem:testdb;DATABASE_TO_LOWER=TRUE
     url:  jdbc:h2:mem:testdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE
     driver-class-name: org.h2.Driver
     username: sa
@@ -55,40 +26,17 @@ spring:
         format_sql: true
         show_sql: true
         dialect: org.hibernate.dialect.MariaDBDialect
-#    database: h2
     generate-ddl: false
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   flyway:
     enabled: false
 ---
 spring:
   config:
     activate:
-      on-profile: h2DB-server
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/h2dbs/test
-    driver-class-name: org.h2.Driver
-    username: sa
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-    generate-ddl: false
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
-    baseline-version: 0
-#    locations: classpath:/db/migration
----
-spring:
-  config:
-    activate:
       on-profile: mariaDB
   datasource:
-    url: jdbc:mariadb://129.154.50.38:3306/test
+    url: jdbc:mariadb://kenux.duckdns.org:3306/test
     username: kenux
     password: ENC(aHa2RW3L77g852hK+TDN97K6Gr/XxEJ8p/MnOcQsXCg=)
     driver-class-name: org.mariadb.jdbc.Driver
@@ -124,7 +72,7 @@ server:
 spring:
   config:
     activate:
-      on-profile: dev-logging
+      on-profile: logging
 logging:
   level:
     org:
