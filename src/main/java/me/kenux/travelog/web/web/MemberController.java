@@ -39,6 +39,6 @@ public class MemberController {
     @PostMapping("/join")
     public String joinMember(@ModelAttribute MemberJoinRequest request) {
         memberService.joinMember(request);
-        return "redirect:/";
+        return "redirect:/member";
     }
 }
