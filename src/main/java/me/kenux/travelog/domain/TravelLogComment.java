@@ -24,11 +24,11 @@ public class TravelLogComment {
     @JoinColumn(name = "travel_log_id")
     private TravelLog travelLog;
 
-    @Column(name = "parent_comment_id")
-    private Long parentCommentId;
+    @Column(name = "parent_id")
+    private Long parentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_comment_id", insertable = false, updatable = false)
+    @JoinColumn(name = "parent_id", insertable = false, updatable = false)
     private TravelLogComment parentComment;
 
     @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY)
