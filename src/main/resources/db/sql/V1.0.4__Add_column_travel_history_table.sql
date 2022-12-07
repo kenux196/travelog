@@ -1,2 +1,1 @@
-ALTER TABLE TRAVEL_HISTORY ADD MEMBER_ID BIGINT NOT NULL;
-ALTER TABLE TRAVEL_HISTORY ADD CONSTRAINT TRAVEL_HISTORY_FK FOREIGN KEY (MEMBER_ID) REFERENCES "MEMBER"(ID);
+alter table travel_history add constraint travel_history_member_fk foreign key (member_id) references member(id);
