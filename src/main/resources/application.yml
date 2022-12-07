@@ -1,9 +1,10 @@
 spring:
   profiles:
     group:
-      "test": "common, logging, h2DB"
-      "dev": "common, logging, mariaDB"
-    active: test
+      "local": "common, logging, h2DB"
+      "test": "common, logging, mariaDB-test"
+      "dev": "common, mariaDB"
+    active: local
 ---
 spring:
   config:
@@ -34,7 +35,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: mariaDB
+      on-profile: mariaDB-test
   datasource:
     url: jdbc:mariadb://kenux.duckdns.org:3306/test
     username: kenux
@@ -42,11 +43,35 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
         show_sql: true
+  flyway:
+    enabled: false
+#    baseline-on-migrate: true
+#    baseline-version: 0
+jasypt:
+  encryptor:
+    bean: encryptorBean
+---
+spring:
+  config:
+    activate:
+      on-profile: mariaDB-dev
+  datasource:
+    url: jdbc:mariadb://kenux.duckdns.org:3306/travel_log_db
+    username: kenux
+    password: ENC(aHa2RW3L77g852hK+TDN97K6Gr/XxEJ8p/MnOcQsXCg=)
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false
+        show_sql: false
   flyway:
     enabled: false
 #    baseline-on-migrate: true
