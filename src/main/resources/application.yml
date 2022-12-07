@@ -1,10 +1,10 @@
 spring:
   profiles:
     group:
-      "local": "common, logging, h2DB"
-      "test": "common, logging, mariaDB-test"
+      "test": "common, logging, h2DB"
+      "local": "common, logging, mariaDB-test"
       "dev": "common, mariaDB"
-    active: local
+    active: test
 ---
 spring:
   config:

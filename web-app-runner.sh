@@ -7,7 +7,7 @@ kill -TERM "$processId"
 echo "Waiting 3 seconds."
 sleep 3
 
-active='local'
+active='test'
 if [ -n "$1" ]
 then
     active=$1
