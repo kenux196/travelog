@@ -6,10 +6,7 @@ import me.kenux.travelog.service.dto.response.MemberInfoResponse;
 import me.kenux.travelog.service.dto.request.MemberJoinRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
@@ -27,6 +24,12 @@ public class MemberController {
     public String getMembers(Model model) {
         model.addAttribute("memberInfo", memberService.getMemberInfoResponse());
         return "view/member/list";
+    }
+
+    @GetMapping("/{id}")
+    public String getMemberDetail(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("memberInfo", memberService.getMemberDetail(id));
+        return "view/member/detail";
     }
 
     @GetMapping("/join")

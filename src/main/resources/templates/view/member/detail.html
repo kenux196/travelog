@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<th:block layout:fragment="content">
+  <form action="#" method="post" th:action="@{/member/{id}(id=${memberInfo.id})}" th:object="${modifyRequest}">
+    <div class="mb-3">
+      <label for="inputName" class="form-label">이름: </label>
+      <input type="text" class="form-control" id="inputName" required th:field="${memberInfo.name}">
+    </div>
+    <div class="mb-3">
+      <label for="inputEmail" class="form-label">이메일: </label>
+      <input type="email" class="form-control" id="inputEmail" required th:field="${memberInfo.email}">
+    </div>
+    <div class="mb-3">
+      <label for="statusText" class="form-label">상태: </label>
+      <p id="statusText" th:text="${memberInfo.status}">상태</p>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</th:block>
+</html>

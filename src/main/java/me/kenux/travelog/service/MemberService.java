@@ -52,4 +52,10 @@ public class MemberService {
             .map(MemberInfoResponse::from)
             .collect(Collectors.toList());
     }
+
+    public MemberInfoResponse getMemberDetail(Long id) {
+        return memberRepository.findById(id)
+            .map(MemberInfoResponse::from)
+            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+    }
 }
