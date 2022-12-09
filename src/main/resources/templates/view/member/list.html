@@ -16,8 +16,12 @@
     </thead>
     <tbody>
     <tr th:each="m : ${memberInfo}">
-      <td th:text="${m.id}">1</td>
-      <td th:text="${m.name}">Mark</td>
+      <td>
+        <a th:text="${m.id}" th:href="@{/member/{id}(id=${m.id})}">1</a>
+      </td>
+      <td>
+        <a th:text="${m.name}" th:href="@{/member/{id}(id=${m.id})}">Mark</a>
+      </td>
       <td th:text="${m.email}">abc@email.com</td>
       <td th:text="${#temporals.format(m.joinDate, 'yyyy-MM-dd HH:mm:ss')}">2022-10-10</td>
       <td th:text="${m.status}">normal</td>
