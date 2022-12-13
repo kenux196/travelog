@@ -9,6 +9,7 @@ import me.kenux.travelog.repository.MemberRepository;
 import me.kenux.travelog.repository.PasswordRepository;
 import me.kenux.travelog.service.dto.request.MemberJoinRequest;
 import me.kenux.travelog.service.dto.response.MemberInfoResponse;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordRepository passwordRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void signup(MemberJoinRequest joinRequest) {
@@ -30,7 +32,8 @@ public class MemberService {
         }
         final Member newMember = Member.createNewMember(joinRequest.getName(), joinRequest.getEmail());
         final Member savedMember = memberRepository.save(newMember);
-        final UserPassword userPassword = new UserPassword(joinRequest.getPassword(), savedMember);
+        final String encodedPassword = passwordEncoder.encode(joinRequest.getPassword());
+        final UserPassword userPassword = new UserPassword(encodedPassword, savedMember);
         passwordRepository.save(userPassword);
     }
 
