@@ -12,8 +12,6 @@ import me.kenux.travelog.service.dto.response.MemberInfoResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +24,7 @@ public class MemberService {
     private final PasswordRepository passwordRepository;
 
     @Transactional
-    public void joinMember(MemberJoinRequest joinRequest) {
+    public void signup(MemberJoinRequest joinRequest) {
         if (memberRepository.existsByEmail(joinRequest.getEmail())) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }

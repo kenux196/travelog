@@ -31,17 +31,4 @@ public class MemberController {
         model.addAttribute("memberInfo", memberService.getMemberDetail(id));
         return "view/member/detail";
     }
-
-    @GetMapping("/join")
-    public ModelAndView getMemberJoinForm() {
-        final ModelAndView mav = new ModelAndView("view/member/join");
-        mav.addObject("joinRequest", new MemberJoinRequest());
-        return mav;
-    }
-
-    @PostMapping("/join")
-    public String joinMember(@ModelAttribute MemberJoinRequest request) {
-        memberService.joinMember(request);
-        return "redirect:/member";
-    }
 }
