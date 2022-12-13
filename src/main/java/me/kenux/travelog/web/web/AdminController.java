@@ -4,24 +4,20 @@ import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/member")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
-public class MemberController {
+public class AdminController {
 
     private final MemberService memberService;
 
-    @GetMapping
+    @GetMapping("/members")
     public String getMembers(Model model) {
         model.addAttribute("memberInfo", memberService.getMemberInfoResponse());
         return "view/admin/member-list";
-    }
-
-    @GetMapping("/{id}")
-    public String getMemberDetail(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("memberInfo", memberService.getMemberDetail(id));
-        return "view/member/detail";
     }
 }
