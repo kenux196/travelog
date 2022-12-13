@@ -33,12 +33,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/signup").permitAll()
-            .antMatchers("/**").permitAll()
+            .antMatchers("/sign-up").permitAll()
+            .antMatchers("/").permitAll()
             .antMatchers("/test").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()
+            .loginPage("/sign-in")
+            .defaultSuccessUrl("/")
+            .permitAll()
+            .and()
+            .logout()
         ;
     }
 
@@ -46,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
             .withUser("kenux")
-            .password("{noop}1234")
+            .password("$2a$10$JEQi5gycChexhPVkbNEB1OtaTcaslOF0HY732AxU.P/FdvTMkXEXS")
             .roles("USER");
     }
 }

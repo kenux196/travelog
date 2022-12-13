@@ -20,7 +20,7 @@ class PasswordEncoderTest {
     @DisplayName("패스워드 암호화 테스트")
     void passwordEncoderTest() {
         // given
-        String rawPassword = "eogksalsrnr";
+        String rawPassword = "1234";
 
         // when
         final String encodedPassword = passwordEncoder.encode(rawPassword);
