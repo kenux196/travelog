@@ -24,24 +24,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//            .and()
             .authorizeRequests()
+            .antMatchers("/signup").permitAll()
             .antMatchers("/**").permitAll()
             .antMatchers("/test").permitAll()
             .anyRequest().authenticated()
             .and()
-//            .httpBasic()
             .formLogin()
-//            .defaultSuccessUrl("/view/test")
-//            .and()
-//            .authorizeRequests()
-//            .antMatchers("/hello").permitAll()
-//            .antMatchers("/api/hello").permitAll()
-//            .antMatchers("/api/login").authenticated()
-//            .anyRequest().authenticated()
-//            .and()
-//            .csrf().disable();
         ;
     }
 

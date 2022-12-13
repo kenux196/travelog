@@ -44,7 +44,7 @@ class MemberServiceTest {
         request.setPassword("password");
         given(memberRepository.existsByEmail(any())).willReturn(true);
 
-        assertThatThrownBy(() -> memberService.joinMember(request))
+        assertThatThrownBy(() -> memberService.signup(request))
             .isInstanceOf(CustomException.class)
             .hasMessage(ErrorCode.EMAIL_DUPLICATION.getMessage());
     }
@@ -60,7 +60,7 @@ class MemberServiceTest {
         given(memberRepository.existsByEmail(any())).willReturn(false);
 
         // when
-        memberService.joinMember(request);
+        memberService.signup(request);
 
         // then
 //        verify(memberRepository, times(1)).save(any());
