@@ -5,7 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <th:block layout:fragment="content">
-  <form th:action="@{/sign-up}" th:object="${joinRequest}" action="#" method="post">
+  <form th:action="@{/join}" th:object="${joinRequest}" action="#" method="post">
     <div class="mb-3">
       <label for="inputName" class="form-label">Name</label>
       <input type="text" class="form-control" id="inputName" required th:field="*{name}">

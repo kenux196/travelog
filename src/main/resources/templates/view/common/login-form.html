@@ -5,7 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <th:block layout:fragment="content">
-  <form th:action="@{/sign-in}" th:object="${signInRequest}" action="#" method="post">
+<!--  <form th:action="@{/sign-in}" th:object="${signInRequest}" action="#" method="post">-->
 <!--    <div class="mb-3">-->
 <!--      <label for="inputName" class="form-label">Name</label>-->
 <!--      <input type="text" class="form-control" id="inputName" required th:field="*{name}">-->
@@ -21,7 +21,7 @@
 <!--    <button type="submit" class="btn btn-primary">Submit</button>-->
 <!--  </form>-->
 
-  <form class="form-signin" method="post" th:action="@{/sign-in}" th:object="${signInRequest}">
+  <form class="form-signin" method="post" th:action="@{/login}" th:object="${loginRequest}">
     <h2 class="form-signin-heading">Please sign in</h2>
     <p>
       <label for="username" class="sr-only">Username</label>
@@ -32,7 +32,7 @@
       <input type="password" id="password" name="password" class="form-control" placeholder="Password" required th:field="*{password}">
     </p>
     <input name="_csrf" type="hidden" value="e890e309-1c74-4ce8-beb5-0ff89630eb1d" />
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
   </form>
 </th:block>
 </html>

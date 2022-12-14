@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/login")
 @Slf4j
-public class LoginController {
+public class LoginRestController {
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
