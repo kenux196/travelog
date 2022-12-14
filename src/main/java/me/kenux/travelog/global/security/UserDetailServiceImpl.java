@@ -1,4 +1,4 @@
-package me.kenux.travelog.global.handler;
+package me.kenux.travelog.global.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

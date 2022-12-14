@@ -1,8 +1,8 @@
 package me.kenux.travelog.global.config;
 
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.global.handler.CustomAuthenticationProvider;
-import me.kenux.travelog.global.handler.CustomLoginSuccessHandler;
+import me.kenux.travelog.global.security.CustomAuthenticationProvider;
+import me.kenux.travelog.global.security.CustomLoginSuccessHandler;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
