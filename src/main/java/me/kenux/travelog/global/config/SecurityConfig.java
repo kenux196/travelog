@@ -1,5 +1,8 @@
 package me.kenux.travelog.global.config;
 
+import lombok.RequiredArgsConstructor;
+import me.kenux.travelog.global.handler.CustomAuthenticationProvider;
+import me.kenux.travelog.global.handler.CustomLoginSuccessHandler;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,17 +11,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private final UserDetailsService userDetailsService;
 
     @Override
     public void configure(WebSecurity web) {
@@ -33,20 +36,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/signup").permitAll()
-            .antMatchers("/**").permitAll()
-            .antMatchers("/test").permitAll()
+            .antMatchers("/", "/join", "/login", "/test").permitAll()
+            .antMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()
             .and()
             .formLogin()
+            .loginPage("/login")
+            .successHandler(customLoginSuccessHandler())
+            .and()
+            .logout()
         ;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-            .withUser("kenux")
-            .password("{noop}1234")
-            .roles("USER");
+//        auth.inMemoryAuthentication()
+//            .withUser("kenux")
+//            .password("{bcrypt}$2a$10$wPqb10jDmQakOP0kaw/tS.y5261/E/RwIVOY8vaesPiWFXCqLKn5K")
+//            .roles("ADMIN", "USER");
+        // 커스텀한 AuthenticationProvider 를 AuthenticationManager에 등록
+        auth.authenticationProvider(customAuthenticationProvider());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler customLoginSuccessHandler() {
+        // 로그인 성공 시 실행되는 CustomLoginSuccessHandler 를 빈으로 등록
+        return new CustomLoginSuccessHandler();
+    }
+
+    @Bean
+    public CustomAuthenticationProvider customAuthenticationProvider() {
+        // 실제 인증 담당 객체를 빈으로 등록
+        return new CustomAuthenticationProvider(userDetailsService, passwordEncoder());
     }
 }

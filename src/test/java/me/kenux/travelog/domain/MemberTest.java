@@ -46,7 +46,8 @@ class MemberTest {
     }
 
     private static Member getMember() {
-        return Member.createNewMember("member1", "member1@email.com");
+        final UserPassword password = new UserPassword("password");
+        return Member.createNewMember("member1", "member1@email.com", password);
     }
 
 }

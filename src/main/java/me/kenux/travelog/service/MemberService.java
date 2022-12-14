@@ -30,11 +30,13 @@ public class MemberService {
         if (memberRepository.existsByEmail(joinRequest.getEmail())) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }
-        final Member newMember = Member.createNewMember(joinRequest.getName(), joinRequest.getEmail());
-        final Member savedMember = memberRepository.save(newMember);
+
         final String encodedPassword = passwordEncoder.encode(joinRequest.getPassword());
-        final UserPassword userPassword = new UserPassword(encodedPassword, savedMember);
-        passwordRepository.save(userPassword);
+        final UserPassword password = new UserPassword(encodedPassword);
+        passwordRepository.save(password);
+
+        final Member newMember = Member.createNewMember(joinRequest.getName(), joinRequest.getEmail(), password);
+        memberRepository.save(newMember);
     }
 
     public List<Member> getMembers() {

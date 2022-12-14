@@ -2,6 +2,7 @@ package me.kenux.travelog.repository;
 
 import me.kenux.travelog.domain.Member;
 import me.kenux.travelog.domain.TravelLog;
+import me.kenux.travelog.domain.UserPassword;
 import me.kenux.travelog.domain.enums.TravelType;
 import me.kenux.travelog.global.config.QueryDslConfig;
 import me.kenux.travelog.repository.base.RepositoryTest;
@@ -31,18 +32,17 @@ class TravelLogRepositoryTest extends RepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private PasswordRepository passwordRepository;
+
     @BeforeEach
     void beforeEach() {
         final Member member = getMember();
-        memberRepository.save(member);
     }
 
     @Test
     @DisplayName("제목은 필수이다.")
     void titleIsNotNull() {
-//        Member member = getMember();
-//        memberRepository.save(member);
-
         final TravelLog history = TravelLog.builder()
             .content("힘들었지만, 즐겁다.")
             .travelType(TravelType.CAMPING)
@@ -82,9 +82,6 @@ class TravelLogRepositoryTest extends RepositoryTest {
     @Test
     @DisplayName("시작일은 필수이다.")
     void startDateIsNotNull() {
-        Member member = getMember();
-        memberRepository.save(member);
-
         final TravelLog history = TravelLog.builder()
             .title("팔공산 등산")
             .content("힘들었지만, 즐겁다.")
@@ -139,8 +136,12 @@ class TravelLogRepositoryTest extends RepositoryTest {
         assertThat(result).hasSize(1);
     }
 
-    private static Member getMember() {
-        return Member.createNewMember("kenux", "kenux.yun@gmail.com");
+    private Member getMember() {
+        final UserPassword password = new UserPassword("password");
+        passwordRepository.save(password);
+        final Member member = Member.createNewMember("kenux", "kenux.yun@gmail.com", password);
+        memberRepository.save(member);
+        return member;
     }
 
     private static TravelLog getTravelLog() {

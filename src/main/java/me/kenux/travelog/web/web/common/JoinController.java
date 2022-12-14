@@ -1,4 +1,4 @@
-package me.kenux.travelog.web.web;
+package me.kenux.travelog.web.web.common;
 
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.service.MemberService;
@@ -8,27 +8,27 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/signup")
+@RequestMapping("/join")
 @RequiredArgsConstructor
-public class SignUpController {
+public class JoinController {
 
     private final MemberService memberService;
 
     @GetMapping
-    public ModelAndView getMemberJoinForm() {
-        final ModelAndView mav = new ModelAndView("view/common/signup");
+    public ModelAndView joinForm() {
+        final ModelAndView mav = new ModelAndView("view/common/join-form");
         mav.addObject("joinRequest", new MemberJoinRequest());
         return mav;
     }
 
     @PostMapping
-    public String signup(@ModelAttribute MemberJoinRequest request) {
+    public String join(@ModelAttribute MemberJoinRequest request) {
         memberService.signup(request);
-        return "redirect:/signup/ok";
+        return "redirect:/join/success";
     }
 
-    @GetMapping("/ok")
-    public String signupCompleted() {
-        return "view/common/signup-completed";
+    @GetMapping("/success")
+    public String joinSuccess() {
+        return "view/common/join-success";
     }
 }

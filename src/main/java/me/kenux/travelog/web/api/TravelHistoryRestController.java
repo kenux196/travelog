@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @RequestMapping("/my-travel")
 @RequiredArgsConstructor
 @Slf4j
-public class TravelHistoryController {
+public class TravelHistoryRestController {
 
     private final TravelLogService travelLogService;
 

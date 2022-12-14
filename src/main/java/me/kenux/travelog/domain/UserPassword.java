@@ -21,14 +21,10 @@ public class UserPassword {
 
     private OffsetDateTime lastChangedDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
 
-    public UserPassword(String password, Member member) {
+    public UserPassword(String password) {
         this.password = password;
         this.lastChangedDate = OffsetDateTime.now();
-        this.member = member;
     }
 
     public void changePassword(String password) {

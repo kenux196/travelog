@@ -1,6 +1,7 @@
 package me.kenux.travelog.repository;
 
 import me.kenux.travelog.domain.Member;
+import me.kenux.travelog.domain.UserPassword;
 import me.kenux.travelog.domain.enums.MemberStatus;
 import me.kenux.travelog.global.config.QueryDslConfig;
 import me.kenux.travelog.repository.base.RepositoryTest;
@@ -28,7 +29,7 @@ class MemberRepositoryTest extends RepositoryTest {
     @Test
     void save() {
         // given
-        final Member newMember = Member.createNewMember("member1", "member1@email.com");
+        final Member newMember = getMember();
 
         // when
         memberRepository.save(newMember);
@@ -42,7 +43,7 @@ class MemberRepositoryTest extends RepositoryTest {
     @Test
     void saved_status_value_test() {
         // given
-        final Member newMember = Member.createNewMember("member1", "member1@email.com");
+        final Member newMember = getMember();
         newMember.leave();
 
         // when
@@ -53,5 +54,10 @@ class MemberRepositoryTest extends RepositoryTest {
         final Optional<Member> findMember = memberRepository.findById(newMember.getId());
         assertThat(findMember).isPresent();
         assertThat(findMember.get().getStatus()).isEqualTo(MemberStatus.LEAVED);
+    }
+
+    private static Member getMember() {
+        final UserPassword password = new UserPassword("password");
+        return Member.createNewMember("member1", "member1@email.com", password);
     }
 }
