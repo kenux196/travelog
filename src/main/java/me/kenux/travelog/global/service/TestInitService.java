@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,13 +24,26 @@ public class TestInitService implements ApplicationListener<ApplicationStartedEv
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public void onApplicationEvent(ApplicationStartedEvent event) {
-        log.info("로컬 개발 환경 : 관리자 추가 ");
+        log.info("로컬 개발 환경 : 멤버 추가 ");
+        insertAdmin();
+        insertMember();
+    }
 
-        final String encodedPassword = passwordEncoder.encode("1111");
+    private void insertAdmin() {
+        final String encodedPassword = passwordEncoder.encode("1");
         UserPassword password = new UserPassword(encodedPassword);
         passwordRepository.save(password);
-        final Member admin = Member.createAdmin("관리자", "admin@travlog.com", password);
+        final Member admin = Member.createAdmin("관리자", "admin@test.com", password);
+        memberRepository.save(admin);
+    }
+
+    private void insertMember() {
+        final String encodedPassword = passwordEncoder.encode("1");
+        UserPassword password = new UserPassword(encodedPassword);
+        passwordRepository.save(password);
+        final Member admin = Member.createNewMember("사용자", "user@test.com", password);
         memberRepository.save(admin);
     }
 }

@@ -12,6 +12,7 @@
       <th scope="col">이메일</th>
       <th scope="col">가입일</th>
       <th scope="col">상태</th>
+      <th scope="col">Role</th>
       <th scope="col">삭제</th>
     </tr>
     </thead>
@@ -26,6 +27,7 @@
       <td th:text="${m.email}">abc@email.com</td>
       <td th:text="${#temporals.format(m.joinDate, 'yyyy-MM-dd HH:mm:ss')}">2022-10-10</td>
       <td th:text="${m.status}">normal</td>
+      <td th:text="${m.role}">관리자</td>
       <td><button type="button" th:onclick="|location.href='@{/admin/members/delete(id=${m.id})}'|">삭제</button> </td>
     </tr>
     </tbody>

@@ -20,6 +20,8 @@ public class MemberInfoResponse {
     private LocalDateTime joinDate;
     private String status;
 
+    private String role;
+
     public static MemberInfoResponse from(Member member) {
         return MemberInfoResponse.builder()
             .id(member.getId())
@@ -27,6 +29,7 @@ public class MemberInfoResponse {
             .email(member.getEmail())
             .joinDate(member.getCreatedDate().toLocalDateTime())
             .status(member.getStatus().name())
+            .role(member.getUserRole().getValue())
             .build();
     }
 }
