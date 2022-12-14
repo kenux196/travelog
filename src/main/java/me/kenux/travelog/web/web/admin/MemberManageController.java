@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/admin/members")
 @RequiredArgsConstructor
 @Slf4j
-public class MemberManageAdminController {
+public class MemberManageController {
 
     private final MemberService memberService;
 

@@ -26,7 +26,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void signup(MemberJoinRequest joinRequest) {
+    public void joinMember(MemberJoinRequest joinRequest) {
         if (memberRepository.existsByEmail(joinRequest.getEmail())) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }

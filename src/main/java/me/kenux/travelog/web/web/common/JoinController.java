@@ -23,7 +23,7 @@ public class JoinController {
 
     @PostMapping
     public String join(@ModelAttribute MemberJoinRequest request) {
-        memberService.signup(request);
+        memberService.joinMember(request);
         return "redirect:/join/success";
     }
 
