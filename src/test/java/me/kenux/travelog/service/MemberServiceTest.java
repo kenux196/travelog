@@ -78,7 +78,10 @@ class MemberServiceTest {
     @DisplayName("회원 탈퇴 처리가 되면 회원의 상태는 LEAVED이다.")
     void leave_member_test() {
         // given
-        Member member = new Member("member1", "member1@email.com");
+        Member member = Member.builder()
+            .name("member1")
+            .email("member1@email.com")
+            .build();
         given(memberRepository.findById(any())).willReturn(Optional.of(member));
 
         // when
