@@ -5,20 +5,25 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <th:block layout:fragment="content">
-  <form th:action="@{/join}" th:object="${joinRequest}" action="#" method="post">
+  <div class="d-flex justify-content-center">
     <div class="mb-3">
-      <label for="inputName" class="form-label">Name</label>
-      <input type="text" class="form-control" id="inputName" required th:field="*{name}">
+      <h3 class="mb-3">회원 가입</h3>
+      <form th:action="@{/join}" th:object="${joinRequest}" action="#" method="post">
+        <div class="mb-3">
+          <label for="inputName" class="form-label">Name</label>
+          <input type="text" class="form-control" id="inputName" required th:field="*{name}">
+        </div>
+        <div class="mb-3">
+          <label for="inputEmail" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="inputEmail" required th:field="*{email}">
+        </div>
+        <div class="mb-3">
+          <label for="inputPassword" class="form-label">Password</label>
+          <input type="password" class="form-control" id="inputPassword" required th:field="*{password}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
     </div>
-    <div class="mb-3">
-      <label for="inputEmail" class="form-label">Email address</label>
-      <input type="email" class="form-control" id="inputEmail" required th:field="*{email}">
-    </div>
-    <div class="mb-3">
-      <label for="inputPassword" class="form-label">Password</label>
-      <input type="password" class="form-control" id="inputPassword" required th:field="*{password}">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+  </div>
 </th:block>
 </html>

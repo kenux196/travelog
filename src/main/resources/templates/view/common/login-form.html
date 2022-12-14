@@ -5,34 +5,25 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <th:block layout:fragment="content">
-<!--  <form th:action="@{/sign-in}" th:object="${signInRequest}" action="#" method="post">-->
-<!--    <div class="mb-3">-->
-<!--      <label for="inputName" class="form-label">Name</label>-->
-<!--      <input type="text" class="form-control" id="inputName" required th:field="*{name}">-->
-<!--    </div>-->
-<!--&lt;!&ndash;    <div class="mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;      <label for="inputEmail" class="form-label">Email address</label>&ndash;&gt;-->
-<!--&lt;!&ndash;      <input type="email" class="form-control" id="inputEmail" required th:field="*{email}">&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--    <div class="mb-3">-->
-<!--      <label for="inputPassword" class="form-label">Password</label>-->
-<!--      <input type="password" class="form-control" id="inputPassword" required th:field="*{password}">-->
-<!--    </div>-->
-<!--    <button type="submit" class="btn btn-primary">Submit</button>-->
-<!--  </form>-->
-
-  <form class="form-signin" method="post" th:action="@{/login}" th:object="${loginRequest}">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <p>
-      <label for="username" class="sr-only">Username</label>
-      <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus th:field="*{username}">
-    </p>
-    <p>
-      <label for="password" class="sr-only">Password</label>
-      <input type="password" id="password" name="password" class="form-control" placeholder="Password" required th:field="*{password}">
-    </p>
-    <input name="_csrf" type="hidden" value="e890e309-1c74-4ce8-beb5-0ff89630eb1d" />
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
-  </form>
+  <div class="d-flex justify-content-center">
+    <div class="mb-3">
+      <h3 class="mb-3">로그인</h3>
+      <form class="form" method="post" th:action="@{/login}" th:object="${loginRequest}">
+        <div class="mb-3">
+          <label for="username" class="form-label">E-Mail</label>
+          <input type="text" id="username" name="username" class="form-control" placeholder="email" required
+                 autofocus
+                 th:field="*{username}">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="Password" required
+                 th:field="*{password}">
+        </div>
+        <input name="_csrf" type="hidden" value="e890e309-1c74-4ce8-beb5-0ff89630eb1d"/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+      </form>
+    </div>
+  </div>
 </th:block>
 </html>
