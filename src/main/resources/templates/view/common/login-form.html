@@ -7,21 +7,21 @@
 <th:block layout:fragment="content">
   <div class="d-flex justify-content-center">
     <div class="mb-3">
-      <h3 class="mb-3">로그인</h3>
+      <h3 class="mb-3" th:text="#{login}">로그인</h3>
       <form class="form" method="post" th:action="@{/login}" th:object="${loginRequest}">
         <div class="mb-3">
-          <label for="username" class="form-label">E-Mail</label>
-          <input type="text" id="username" name="username" class="form-control" placeholder="email" required
+          <label for="username" class="form-label" th:text="#{member.email}">E-Mail</label>
+          <input type="text" id="username" name="username" class="form-control" th:placeholder="#{member.email}" required
                  autofocus
                  th:field="*{username}">
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" id="password" name="password" class="form-control" placeholder="Password" required
+          <label for="password" class="form-label" th:text="#{member.password}">Password</label>
+          <input type="password" id="password" name="password" class="form-control" th:placeholder="#{member.password}" required
                  th:field="*{password}">
         </div>
         <input name="_csrf" type="hidden" value="e890e309-1c74-4ce8-beb5-0ff89630eb1d"/>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login}">로그인</button>
       </form>
     </div>
   </div>

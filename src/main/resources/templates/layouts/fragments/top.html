@@ -12,8 +12,8 @@
     <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
       <div class="d-flex justify-content-center align-items-center h-100">
         <div class="text-white">
-          <h1 class="mb-3">Kenux Toy Project</h1>
-          <h4 class="mb-3">내 장난감</h4>
+          <h1 class="mb-3" th:text="#{app.title}">Kenux Toy Project</h1>
+          <h4 class="mb-3" th:text="#{app.sub_title}">내 장난감</h4>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
   <!-- Background image -->
   <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Menu</a>
+      <a class="navbar-brand" href="#" th:text="#{menu}">Menu</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -30,17 +30,17 @@
         <div style="float: left; width: 70%;">
           <div class="navbar-nav">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
-            <a class="nav-link" href="/board">Board</a>
-            <a class="nav-link" href="/test">테스트</a>
-            <a class="nav-link" href="/admin/members" sec:authorize="hasRole('ADMIN')">회원관리</a>
+            <a class="nav-link" href="/board" th:text="#{menu.board}">Board</a>
+            <a class="nav-link" href="/test" th:text="#{menu.test}">테스트</a>
+            <a class="nav-link" href="/admin/members" th:text="#{menu.member_management}" sec:authorize="hasRole('ADMIN')">회원관리</a>
           </div>
         </div>
         <div style="float: right; width: 30%;">
           <div class="navbar-nav">
-            <a class="btn btn-primary" href="/login" sec:authorize="isAnonymous()">Login</a>
-            <a class="btn btn-primary" href="/join" sec:authorize="isAnonymous()">회원가입</a>
+            <a class="btn btn-primary" href="/login" th:text="#{login}" sec:authorize="isAnonymous()">Login</a>
+            <a class="btn btn-primary" href="/join" th:text="#{signup}" sec:authorize="isAnonymous()">회원가입</a>
             <form id="logout" action="/logout" method="post" sec:authorize="isAuthenticated()">
-              <input class="btn btn-primary" type="submit" value="로그아웃">
+              <input class="btn btn-primary" type="submit" th:value="#{logout}" value="로그아웃">
               <input type="hidden" name="_csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             </form>
           </div>

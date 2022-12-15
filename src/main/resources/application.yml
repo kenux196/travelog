@@ -87,6 +87,8 @@ spring:
       on-profile: common
   jpa:
     open-in-view: false
+  messages:
+    basename: messages/messages
   output:
     ansi:
       enabled: always

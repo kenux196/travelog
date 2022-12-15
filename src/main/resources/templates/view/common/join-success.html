@@ -6,12 +6,12 @@
       layout:decorate="~{layouts/layout}">
 <th:block layout:fragment="content">
 <div>
-  <P>
+  <P th:text="#{signup.welcome}">
     회원 가입이 정상적으로 완료되었습니다.
     로그인을 하시길 바랍니다.
   </P>
-  <button th:onclick="|location.href='@{/login}'|">로그인하기</button>
-  <button th:onclick="|location.href='@{/}'|">메인으로</button>
+  <button th:onclick="|location.href='@{/login}'|" th:text="#{login}">로그인하기</button>
+  <button th:onclick="|location.href='@{/}'|" th:text="#{move.to_home}">메인으로</button>
 </div>
 </th:block>
 </html>

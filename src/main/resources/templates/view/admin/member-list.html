@@ -8,12 +8,12 @@
     <thead class="thead-light">
     <tr>
       <th scope="col">#</th>
-      <th scope="col">이름</th>
-      <th scope="col">이메일</th>
-      <th scope="col">가입일</th>
-      <th scope="col">상태</th>
-      <th scope="col">Role</th>
-      <th scope="col">삭제</th>
+      <th scope="col" th:text="#{member.name}">이름</th>
+      <th scope="col" th:text="#{member.email}">이메일</th>
+      <th scope="col" th:text="#{member.signup_date}">가입일</th>
+      <th scope="col" th:text="#{member.status}">상태</th>
+      <th scope="col" th:text="#{member.role}">Role</th>
+      <th scope="col" th:text="#{delete}">삭제</th>
     </tr>
     </thead>
     <tbody>
@@ -28,7 +28,9 @@
       <td th:text="${#temporals.format(m.joinDate, 'yyyy-MM-dd HH:mm:ss')}">2022-10-10</td>
       <td th:text="${m.status}">normal</td>
       <td th:text="${m.role}">관리자</td>
-      <td><button type="button" th:onclick="|location.href='@{/admin/members/delete(id=${m.id})}'|">삭제</button> </td>
+      <td>
+        <button type="button" th:onclick="|location.href='@{/admin/members/delete(id=${m.id})}'|" th:text="#{delete}">삭제</button>
+      </td>
     </tr>
     </tbody>
   </table>
