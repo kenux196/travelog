@@ -24,6 +24,6 @@ class MessageSourceTest {
     @Test
     void getTitleMessageForEN() {
         final String title = messageSource.getMessage("title", null, Locale.US);
-        assertThat(title).isEqualTo("title");
+        assertThat(title).isEqualTo("title2");
     }
 }
