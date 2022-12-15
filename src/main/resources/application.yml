@@ -30,8 +30,6 @@ spring:
   #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   flyway:
     enabled: false
-server:
-  port: 8088
 ---
 spring:
   config:
