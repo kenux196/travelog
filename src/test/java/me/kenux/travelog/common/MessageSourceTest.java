@@ -18,13 +18,13 @@ public class MessageSourceTest {
 
     @Test
     void titleMessage() {
-        final String message = messageSource.getMessage("app", null, null);
-        assertThat(message).isEqualTo("토이 프로젝트");
+        final String message = messageSource.getMessage("title", null, null);
+        assertThat(message).isEqualTo("제목");
     }
 
     @Test
     void getLoginMessage_en() {
-        final String message = messageSource.getMessage("app", null, Locale.US);
-        assertThat(message).isEqualTo("Toy Project");
+        final String message = messageSource.getMessage("title", null, Locale.US);
+        assertThat(message).isEqualTo("title");
     }
 }
