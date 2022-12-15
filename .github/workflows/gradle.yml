@@ -43,4 +43,4 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action/composite@v2
       if: always() # test가 실패해도 report를 남기기 위해 설정
       with:
-        junit_files: "test-results/**/*.xml"
+        junit_files: '**/build/test-results/test/TEST-*.xml'
