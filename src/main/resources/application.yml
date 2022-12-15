@@ -20,13 +20,13 @@ spring:
       path: /h2
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
         show_sql: true
-        dialect: org.hibernate.dialect.MariaDBDialect
-    generate-ddl: false
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+#    generate-ddl: false
   #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   flyway:
     enabled: false
