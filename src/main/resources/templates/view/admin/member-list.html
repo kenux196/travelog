@@ -27,7 +27,8 @@
       <td th:text="${m.email}">abc@email.com</td>
       <td th:text="${#temporals.format(m.joinDate, 'yyyy-MM-dd HH:mm:ss')}">2022-10-10</td>
       <td th:text="${m.status}">normal</td>
-      <td th:text="${m.role}">관리자</td>
+      <td th:if="${m.role == 'ADMIN'}" th:text="#{member.role.admin}">관리자</td>
+      <td th:unless="${m.role == 'ADMIN'}" th:text="#{member.role.user}">회원</td>
       <td>
         <button type="button" th:onclick="|location.href='@{/admin/members/delete(id=${m.id})}'|" th:text="#{delete}">삭제</button>
       </td>
