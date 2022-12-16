@@ -1,7 +1,7 @@
 package me.kenux.travelog.global.utils;
 
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.domain.enums.UserRole;
+import me.kenux.travelog.domain.member.entity.enums.UserRole;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 

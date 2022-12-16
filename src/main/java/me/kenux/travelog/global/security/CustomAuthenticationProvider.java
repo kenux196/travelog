@@ -2,7 +2,7 @@ package me.kenux.travelog.global.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.Member;
+import me.kenux.travelog.domain.member.entity.Member;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

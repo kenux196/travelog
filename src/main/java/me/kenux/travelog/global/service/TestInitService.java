@@ -2,10 +2,10 @@ package me.kenux.travelog.global.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.Member;
-import me.kenux.travelog.domain.UserPassword;
-import me.kenux.travelog.repository.MemberRepository;
-import me.kenux.travelog.repository.PasswordRepository;
+import me.kenux.travelog.domain.member.entity.Member;
+import me.kenux.travelog.domain.member.entity.UserPassword;
+import me.kenux.travelog.domain.member.repository.MemberRepository;
+import me.kenux.travelog.domain.member.repository.PasswordRepository;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
