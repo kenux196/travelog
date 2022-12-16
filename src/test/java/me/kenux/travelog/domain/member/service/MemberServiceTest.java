@@ -2,7 +2,6 @@ package me.kenux.travelog.domain.member.service;
 
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.enums.MemberStatus;
-import me.kenux.travelog.domain.member.service.MemberService;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
@@ -86,7 +85,7 @@ class MemberServiceTest {
         given(memberRepository.findById(any())).willReturn(Optional.of(member));
 
         // when
-        memberService.leaveMember(any());
+        memberService.removeMember(any());
 
         // then
         assertThat(member.getStatus()).isEqualTo(MemberStatus.LEAVED);

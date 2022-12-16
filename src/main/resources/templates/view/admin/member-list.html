@@ -26,7 +26,9 @@
       </td>
       <td th:text="${m.email}">abc@email.com</td>
       <td th:text="${#temporals.format(m.joinDate, 'yyyy-MM-dd HH:mm:ss')}">2022-10-10</td>
-      <td th:text="${m.status}">normal</td>
+      <td th:if="${m.status == 'NORMAL'}" th:text="#{member.status.normal}">normal</td>
+      <td th:if="${m.status == 'DORMANCY'}" th:text="#{member.status.dormancy}">normal</td>
+      <td th:if="${m.status == 'BLOCKED'}" th:text="#{member.status.blocked}">normal</td>
       <td th:if="${m.role == 'ADMIN'}" th:text="#{member.role.admin}">관리자</td>
       <td th:unless="${m.role == 'ADMIN'}" th:text="#{member.role.user}">회원</td>
       <td>
