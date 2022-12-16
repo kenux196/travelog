@@ -1,6 +1,7 @@
 package me.kenux.travelog.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.global.exception.CustomException;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -44,10 +46,12 @@ public class MemberService {
     }
 
     @Transactional
-    public void leaveMember(Long memberId) {
+    public void removeMember(Long memberId) {
+        log.info("Remove Member: {}", memberId);
         final Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        member.leave();
+        passwordRepository.delete(member.getUserPassword());
+        memberRepository.delete(member);
     }
 
     public List<MemberInfoResponse> getMemberInfoResponse() {

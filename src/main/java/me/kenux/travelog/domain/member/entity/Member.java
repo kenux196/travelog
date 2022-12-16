@@ -37,18 +37,14 @@ public class Member extends BaseTimeEntity implements UserDetails {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "password_id")
-    private UserPassword password;
+    private UserPassword userPassword;
 
     @Builder
     public Member(String name, String email, UserPassword password, UserRole userRole) {
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.userPassword = password;
         this.userRole = userRole;
-    }
-
-    public void leave() {
-        status = MemberStatus.LEAVED;
     }
 
     public void block() {
@@ -71,9 +67,8 @@ public class Member extends BaseTimeEntity implements UserDetails {
         return roles;
     }
 
-    @Override
     public String getPassword() {
-        return password.getPassword();
+        return userPassword.getPassword();
     }
 
     @Override
