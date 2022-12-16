@@ -88,6 +88,7 @@ class MemberServiceTest {
         memberService.removeMember(any());
 
         // then
-        assertThat(member.getStatus()).isEqualTo(MemberStatus.LEAVED);
+        then(memberRepository).should(times(1)).delete(any());
+        then(passwordRepository).should(times(1)).delete(any());
     }
 }

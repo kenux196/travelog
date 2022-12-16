@@ -21,19 +21,6 @@ class MemberTest {
     }
 
     @Test
-    @DisplayName("탈퇴한 멤버의 상태는 LEAVED")
-    void leaveMemberTest() {
-        // given
-        final Member member = getMember();
-
-        // when
-        member.leave();
-
-        // then
-        assertThat(member.getStatus()).isEqualTo(MemberStatus.LEAVED);
-    }
-
-    @Test
     @DisplayName("불량 회원의 상태는 BLOCKED")
     void blockedMemberTest() {
         // given
