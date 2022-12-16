@@ -2,6 +2,7 @@ package me.kenux.travelog.service.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
+import me.kenux.travelog.domain.Member;
 
 import java.time.LocalDateTime;
 
@@ -17,4 +18,15 @@ public class MemberInfoResponse {
     private LocalDateTime joinDate;
     private String status;
     private String role;
+
+    public static MemberInfoResponse from(Member member) {
+        return MemberInfoResponse.builder()
+            .id(member.getId())
+            .name(member.getName())
+            .email(member.getEmail())
+            .joinDate(member.getCreatedDate().toLocalDateTime())
+            .status(member.getStatus().name())
+            .role(member.getUserRole().toString())
+            .build();
+    }
 }

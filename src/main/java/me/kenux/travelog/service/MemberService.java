@@ -5,7 +5,6 @@ import me.kenux.travelog.domain.Member;
 import me.kenux.travelog.domain.UserPassword;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
-import me.kenux.travelog.global.utils.MessageSourceUtil;
 import me.kenux.travelog.repository.MemberRepository;
 import me.kenux.travelog.repository.PasswordRepository;
 import me.kenux.travelog.service.dto.request.MemberJoinRequest;
@@ -25,7 +24,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordRepository passwordRepository;
     private final PasswordEncoder passwordEncoder;
-    private final MessageSourceUtil messageSourceUtil;
 
     @Transactional
     public void joinMember(MemberJoinRequest joinRequest) {
@@ -54,24 +52,13 @@ public class MemberService {
 
     public List<MemberInfoResponse> getMemberInfoResponse() {
         return memberRepository.findAll().stream()
-            .map(this::toResponse)
+            .map(MemberInfoResponse::from)
             .collect(Collectors.toList());
     }
 
     public MemberInfoResponse getMemberDetail(Long id) {
         return memberRepository.findById(id)
-            .map(this::toResponse)
+            .map(MemberInfoResponse::from)
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-    }
-
-    private MemberInfoResponse toResponse(Member member) {
-        return MemberInfoResponse.builder()
-            .id(member.getId())
-            .name(member.getName())
-            .email(member.getEmail())
-            .joinDate(member.getCreatedDate().toLocalDateTime())
-            .status(member.getStatus().name())
-            .role(messageSourceUtil.getRoleMessage(member.getUserRole()))
-            .build();
     }
 }
