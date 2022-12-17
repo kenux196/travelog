@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +36,8 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private MemberStatus status = MemberStatus.NORMAL;
 
+    private OffsetDateTime lastAccessDate;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "password_id")
     private UserPassword userPassword;
@@ -47,8 +50,12 @@ public class Member extends BaseTimeEntity implements UserDetails {
         this.userRole = userRole;
     }
 
-    public void block() {
+    public void doBlock() {
         status = MemberStatus.BLOCKED;
+    }
+
+    public void successLogin() {
+        this.lastAccessDate = OffsetDateTime.now();
     }
 
     public static Member createNewMember(String name, String email, UserPassword password) {

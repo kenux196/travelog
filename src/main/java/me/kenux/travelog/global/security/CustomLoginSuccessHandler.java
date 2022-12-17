@@ -15,8 +15,8 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        log.info("인증 성공 ~~~ 메인페이지로 redirect 한다.");
+        log.info("인증 성공 ~~~ ==>  redirect: /login/success");
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        response.sendRedirect("/");
+        response.sendRedirect("/login/success");
     }
 }
