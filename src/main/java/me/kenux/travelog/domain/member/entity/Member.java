@@ -38,7 +38,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
 
     private OffsetDateTime lastAccessDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "password_id")
     private UserPassword userPassword;
 
