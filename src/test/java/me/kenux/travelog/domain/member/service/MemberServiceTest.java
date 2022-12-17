@@ -32,50 +32,12 @@ class MemberServiceTest {
     MemberRepository memberRepository;
     @Mock
     PasswordRepository passwordRepository;
-    @Mock
-    PasswordEncoder passwordEncoder;
+
     @InjectMocks
     MemberService memberService;
 
     @Test
-    @DisplayName("회원 중복인 경우 예외 발생해야 한다.")
-    void duplicated_member_test() {
-        // given
-        MemberJoinRequest request = new MemberJoinRequest();
-        request.setName("testUser1");
-        request.setEmail("testUser1@email.com");
-        request.setPassword("password");
-        given(memberRepository.existsByEmail(any())).willReturn(true);
-
-        assertThatThrownBy(() -> memberService.joinMember(request))
-            .isInstanceOf(CustomException.class)
-            .hasMessage(ErrorCode.EMAIL_DUPLICATION.getMessage());
-    }
-
-    @Test
-    @DisplayName("회원 가입 성공")
-    void save_password_success_join_member() {
-        // given
-        MemberJoinRequest request = new MemberJoinRequest();
-        request.setName("testUser1");
-        request.setEmail("testUser1@email.com");
-        request.setPassword("password");
-        given(memberRepository.existsByEmail(any())).willReturn(false);
-        given(passwordEncoder.encode(any())).willReturn(any());
-
-        // when
-        memberService.joinMember(request);
-
-        // then
-//        verify(memberRepository, times(1)).save(any());
-//        verify(passwordRepository, times(1)).save(any());
-        then(passwordEncoder).should(times(1)).encode(any());
-        then(memberRepository).should(times(1)).save(any());
-        then(passwordRepository).should(times(1)).save(any());
-    }
-
-    @Test
-    @DisplayName("회원 탈퇴 처리가 되면 회원의 상태는 LEAVED이다.")
+    @DisplayName("회원이 탈퇴하면 회원의 개인정보는 삭제되어야 한다.")
     void leave_member_test() {
         // given
         Member member = Member.builder()

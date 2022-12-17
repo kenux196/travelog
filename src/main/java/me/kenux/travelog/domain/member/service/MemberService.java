@@ -25,21 +25,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordRepository passwordRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    @Transactional
-    public void joinMember(MemberJoinRequest joinRequest) {
-        if (memberRepository.existsByEmail(joinRequest.getEmail())) {
-            throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
-        }
-
-        final String encodedPassword = passwordEncoder.encode(joinRequest.getPassword());
-        final UserPassword password = new UserPassword(encodedPassword);
-        passwordRepository.save(password);
-
-        final Member newMember = Member.createNewMember(joinRequest.getName(), joinRequest.getEmail(), password);
-        memberRepository.save(newMember);
-    }
 
     public List<Member> getMembers() {
         return memberRepository.findAll();

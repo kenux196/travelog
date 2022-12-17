@@ -1,7 +1,7 @@
 package me.kenux.travelog.domain.member.web;
 
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.domain.member.service.MemberService;
+import me.kenux.travelog.domain.member.service.MemberJoinService;
 import me.kenux.travelog.domain.member.dto.request.MemberJoinRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class JoinController {
 
-    private final MemberService memberService;
+    private final MemberJoinService memberJoinService;
 
     @GetMapping
     public ModelAndView joinForm() {
@@ -23,7 +23,7 @@ public class JoinController {
 
     @PostMapping
     public String join(@ModelAttribute MemberJoinRequest request) {
-        memberService.joinMember(request);
+        memberJoinService.join(request);
         return "redirect:/join/success";
     }
 
