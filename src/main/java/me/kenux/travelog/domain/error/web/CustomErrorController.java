@@ -1,4 +1,4 @@
-package me.kenux.travelog.global.controller;
+package me.kenux.travelog.domain.error.web;
 
 import me.kenux.travelog.global.exception.CustomException;
 import org.springframework.boot.web.servlet.error.ErrorController;

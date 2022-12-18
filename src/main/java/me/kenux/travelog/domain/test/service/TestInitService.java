@@ -1,4 +1,4 @@
-package me.kenux.travelog.global.service;
+package me.kenux.travelog.domain.test.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
