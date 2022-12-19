@@ -35,8 +35,8 @@ public class MemberService {
         log.info("Remove Member: {}", memberId);
         final Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        passwordRepository.delete(member.getUserPassword());
         memberRepository.delete(member);
+        passwordRepository.delete(member.getUserPassword());
     }
 
     public List<MemberInfoResponse> getMemberInfoResponse() {

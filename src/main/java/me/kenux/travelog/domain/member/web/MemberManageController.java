@@ -26,6 +26,7 @@ public class MemberManageController {
     @GetMapping("/delete")
     public String deleteMember(@RequestParam("id") Long id) {
         log.info("will delete member id = {}", id);
+        memberService.removeMember(id);
         return "redirect:/admin/members";
     }
 }
