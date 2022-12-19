@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -52,5 +53,23 @@ class MemberServiceTest {
         // then
         then(memberRepository).should(times(1)).delete(any());
         then(passwordRepository).should(times(1)).delete(any());
+    }
+
+    @Test
+    @DisplayName("회원상태 정보를 블럭 상태로 변경한다.")
+    void change_member_block() {
+        // given
+        Member member = Member.builder()
+            .name("member1")
+            .email("member1@email.com")
+            .build();
+        ReflectionTestUtils.setField(member, "id", 1L);
+        given(memberRepository.findById(any())).willReturn(Optional.of(member));
+
+        // when
+        memberService.blockMember(1L);
+
+        // then
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.BLOCKED);
     }
 }

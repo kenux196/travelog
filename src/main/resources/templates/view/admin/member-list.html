@@ -14,6 +14,7 @@
       <th scope="col" th:text="#{member.status}">상태</th>
       <th scope="col" th:text="#{member.role}">Role</th>
       <th scope="col" th:text="#{delete}">삭제</th>
+      <th scope="col" th:text="#{block}">블럭킹</th>
     </tr>
     </thead>
     <tbody>
@@ -34,6 +35,10 @@
       <td>
         <button type="button" th:onclick="|location.href='@{/admin/members/delete(id=${m.id})}'|" th:text="#{delete}">삭제</button>
       </td>
+      <td>
+        <button type="button" th:onclick="|location.href='@{/admin/members/{id}/block(id=${m.id})}'|" th:text="#{block}">블럭하기</button>
+      </td>
+
     </tr>
     </tbody>
   </table>

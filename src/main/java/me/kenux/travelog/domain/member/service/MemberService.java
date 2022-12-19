@@ -33,8 +33,7 @@ public class MemberService {
     @Transactional
     public void removeMember(Long memberId) {
         log.info("Remove Member: {}", memberId);
-        final Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        final Member member = getMember(memberId);
         memberRepository.delete(member);
         passwordRepository.delete(member.getUserPassword());
     }
@@ -48,6 +47,18 @@ public class MemberService {
     public MemberInfoResponse getMemberDetail(Long id) {
         return memberRepository.findById(id)
             .map(MemberInfoResponse::from)
+            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+    }
+
+    @Transactional
+    public void blockMember(Long memberId) {
+        final Member member = getMember(memberId);
+        log.info("Block Member: {}", member.getId());
+        member.doBlock();
+    }
+
+    private Member getMember(Long memberId) {
+        return memberRepository.findById(memberId)
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
     }
 }

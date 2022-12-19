@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin/members")
@@ -27,6 +25,13 @@ public class MemberManageController {
     public String deleteMember(@RequestParam("id") Long id) {
         log.info("will delete member id = {}", id);
         memberService.removeMember(id);
+        return "redirect:/admin/members";
+    }
+
+    @GetMapping("/{id}/block")
+    public String blockMember(@PathVariable("id") Long id) {
+        log.info("member {} will blocked.", id);
+        memberService.blockMember(id);
         return "redirect:/admin/members";
     }
 }
