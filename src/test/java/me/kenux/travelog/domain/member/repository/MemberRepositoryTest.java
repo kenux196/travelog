@@ -1,20 +1,17 @@
 package me.kenux.travelog.domain.member.repository;
 
+import me.kenux.travelog.BaseRepositoryConfig;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.UserPassword;
-import me.kenux.travelog.domain.member.entity.enums.MemberStatus;
-import me.kenux.travelog.base.BaseRepositoryTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.persistence.EntityManager;
-
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MemberBaseRepositoryTest extends BaseRepositoryTest {
+class MemberRepositoryTest extends BaseRepositoryConfig {
 
     @Autowired
     EntityManager em;
