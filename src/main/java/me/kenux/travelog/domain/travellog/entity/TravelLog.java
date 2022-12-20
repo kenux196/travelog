@@ -1,8 +1,8 @@
 package me.kenux.travelog.domain.travellog.entity;
 
 import lombok.*;
-import me.kenux.travelog.domain.destination.entity.Destination;
 import me.kenux.travelog.domain.common.BaseEntity;
+import me.kenux.travelog.domain.destination.entity.Destination;
 import me.kenux.travelog.domain.travellog.entity.enums.TravelType;
 
 import javax.persistence.*;

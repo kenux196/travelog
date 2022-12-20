@@ -1,10 +1,13 @@
-package me.kenux.travelog.domain.member.web;
+package me.kenux.travelog.web;
 
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.domain.member.service.MemberJoinService;
 import me.kenux.travelog.domain.member.dto.request.MemberJoinRequest;
+import me.kenux.travelog.domain.member.service.MemberJoinService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller

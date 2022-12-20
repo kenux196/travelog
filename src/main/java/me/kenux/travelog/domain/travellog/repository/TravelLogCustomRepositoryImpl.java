@@ -3,7 +3,6 @@ package me.kenux.travelog.domain.travellog.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.domain.travellog.entity.QTravelLog;
 import me.kenux.travelog.domain.travellog.entity.TravelLog;
 import me.kenux.travelog.domain.travellog.repository.dto.TravelLogSearchCond;
 

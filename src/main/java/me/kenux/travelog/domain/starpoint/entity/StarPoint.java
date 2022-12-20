@@ -1,6 +1,8 @@
 package me.kenux.travelog.domain.starpoint.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import me.kenux.travelog.domain.destination.entity.Destination;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package me.kenux.travelog.domain.travellog.web.api;
+package me.kenux.travelog.web.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

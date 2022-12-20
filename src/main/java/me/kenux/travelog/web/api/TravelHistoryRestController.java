@@ -1,11 +1,11 @@
-package me.kenux.travelog.domain.travellog.web.api;
+package me.kenux.travelog.web.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.global.exception.CustomException;
-import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.domain.travellog.service.TravelLogService;
 import me.kenux.travelog.domain.travellog.service.dto.request.TravelLogSaveRequest;
+import me.kenux.travelog.global.exception.CustomException;
+import me.kenux.travelog.global.exception.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
