@@ -1,4 +1,4 @@
-package me.kenux.travelog.domain.test.web;
+package me.kenux.travelog.web.test;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/test")
 @Slf4j
-public class HomeController {
+public class TestController {
 
     @GetMapping
     public String test(Model model) {

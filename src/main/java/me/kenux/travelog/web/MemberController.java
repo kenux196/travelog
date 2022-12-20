@@ -1,4 +1,4 @@
-package me.kenux.travelog.domain.member.web;
+package me.kenux.travelog.web;
 
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.domain.member.service.MemberService;

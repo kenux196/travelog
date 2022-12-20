@@ -1,4 +1,4 @@
-package me.kenux.travelog.domain.board.web;
+package me.kenux.travelog.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

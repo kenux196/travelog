@@ -8,7 +8,7 @@
   <div class="d-flex justify-content-center">
     <div class="mb-3">
       <h3 class="mb-3" th:text="#{signup}">회원 가입</h3>
-      <form th:action="@{/join}" th:object="${joinRequest}" action="#" method="post">
+      <form th:action="@{/admin/join}" th:object="${joinRequest}" action="#" method="post">
         <div class="mb-3">
           <label for="inputName" class="form-label" th:text="#{member.name}">Name</label>
           <input type="text" class="form-control" id="inputName" required th:field="*{name}">
