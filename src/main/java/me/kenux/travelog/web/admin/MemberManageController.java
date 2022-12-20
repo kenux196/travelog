@@ -21,7 +21,7 @@ public class MemberManageController {
     @GetMapping
     public String getMembers(Model model) {
         model.addAttribute("memberInfo", memberService.getMemberInfoResponse());
-        return "view/admin/member-list";
+        return "view/member/member-list";
     }
 
     @GetMapping("/delete")

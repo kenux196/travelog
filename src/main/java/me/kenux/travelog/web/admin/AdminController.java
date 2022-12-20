@@ -13,6 +13,6 @@ public class AdminController {
     @GetMapping
     public String adminMain() {
         log.info("Admin Home!!!!!!!!!!!");
-        return "view/admin/admin-main";
+        return "admin";
     }
 }
