@@ -29,17 +29,17 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div style="float: left; width: 70%;">
           <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
-            <a class="nav-link" href="/board" th:text="#{menu.board}">Board</a>
+            <a class="nav-link active" aria-current="page" href="/admin">Home</a>
+            <a class="nav-link" href="/admin/board" th:text="#{menu.board}">Board</a>
             <a class="nav-link" href="/test" th:text="#{menu.test}">테스트</a>
             <a class="nav-link" href="/admin/members" th:text="#{menu.member_management}" sec:authorize="hasRole('ADMIN')">회원관리</a>
           </div>
         </div>
         <div style="float: right; width: 30%;">
           <div class="navbar-nav">
-            <a class="btn btn-primary" href="/login" th:text="#{login}" sec:authorize="isAnonymous()">Login</a>
-            <a class="btn btn-primary" href="/join" th:text="#{signup}" sec:authorize="isAnonymous()">회원가입</a>
-            <form id="logout" action="/logout" method="post" sec:authorize="isAuthenticated()">
+            <a class="btn btn-primary" href="/admin/login" th:text="#{login}" sec:authorize="isAnonymous()">Login</a>
+            <a class="btn btn-primary" href="/admin/join" th:text="#{signup}" sec:authorize="isAnonymous()">회원가입</a>
+            <form id="logout" action="/admin/logout" method="post" sec:authorize="isAuthenticated()">
               <input class="btn btn-primary" type="submit" th:value="#{logout}" value="로그아웃">
               <input type="hidden" name="_csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             </form>
