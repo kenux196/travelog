@@ -14,7 +14,9 @@ import java.io.IOException;
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws ServletException, IOException {
         log.info("인증 성공 ~~~ ==>  redirect: /admin/login/success");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         response.sendRedirect("/admin/login/success");

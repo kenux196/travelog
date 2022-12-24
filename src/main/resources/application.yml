@@ -109,6 +109,8 @@ logging:
           descriptor:
             sql: trace
       springframework:
+        security: debug
+        web: debug
         transaction:
           interceptor: TRACE
         orm:
