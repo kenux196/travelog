@@ -24,6 +24,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Create the Mattermost Message
+    - uses: mattermost/action-mattermost-notify@master
+      env:
+        MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+        MATTERMOST_CHANNEL: ${{ secrets.MATTERMOST_CHANNEL }}
+        message: "Start build ~~~ ${{ github.repository }}"
+    
     - uses: actions/checkout@v3
 
     - name: Set up JDK 11
