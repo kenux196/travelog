@@ -1,8 +1,8 @@
 node {
-  def build_result = false
+
   stage('checkout') {
-    mattermostSend color: '#2A42EE', message: 'BUILD STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)'
     checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/kenux196/travelog.git']]])
+    mattermostSend color: '#2A42EE', message: 'BUILD STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)'
   }
 
   stage('build') {
