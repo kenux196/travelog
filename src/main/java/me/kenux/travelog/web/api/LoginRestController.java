@@ -1,8 +1,10 @@
 package me.kenux.travelog.web.api;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.dto.request.LoginRequest;
 import me.kenux.travelog.domain.member.entity.Member;
+import me.kenux.travelog.domain.member.service.MemberLoginService;
 import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -11,17 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 @Slf4j
 public class LoginRestController {
 
+    private final MemberLoginService memberLoginService;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(Authentication authentication) {
-        final Member member = (Member) authentication.getPrincipal();
-        log.info("로그인 성공한 경우이다. : username={}, roles={} ", member.getUsername(), member.getAuthorities());
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        final String jwtToken = JwtTokenProvider.generateJwtToken(authentication);
-        return ResponseEntity.ok(jwtToken);
+        return ResponseEntity.ok(memberLoginService.login(authentication));
     }
 
     @GetMapping("/test")

@@ -4,8 +4,10 @@ import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.entity.Member;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class JwtTokenProvider {
@@ -14,19 +16,36 @@ public class JwtTokenProvider {
     private static final String JWT_SECRET = "kenux";
 
 //    @Value("${app.jwtExpirationMs:5000}")
-    private static final int JWT_EXPIRATION_MS = (int) (1000L * 60 * 60); // 1시간
+    private static final int JWT_EXPIRATION_MS = (int) (1000L * 60 * 5); // 5분
+    private static final int JWT_REFRESH_EXPIRATION_MS = (int) (1000L * 60 * 60); // 1시간
 
-    public static String generateJwtToken(Authentication authentication) {
+    public static TokenInfo generateJwtToken(Authentication authentication) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
 
         final Member principal = (Member) authentication.getPrincipal();
-        return Jwts.builder()
+        final String authorities = authentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(","));
+
+        final String accessToken = Jwts.builder()
             .setSubject(principal.getUsername())
+            .claim("auth", authorities)
             .setIssuedAt(now)
             .setExpiration(expiryDate)
             .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
             .compact();
+
+        final String refreshToken = Jwts.builder()
+            .setExpiration(new Date(now.getTime() + JWT_REFRESH_EXPIRATION_MS))
+            .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+            .compact();
+
+        return TokenInfo.builder()
+            .accessToken(accessToken)
+            .refreshToken(refreshToken)
+            .grantType("Bearer")
+            .build();
     }
 
     public static String getUserNameFromJWT(String token) {
