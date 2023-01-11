@@ -2,10 +2,16 @@ package me.kenux.travelog.global.security.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.member.entity.Member;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -23,13 +29,12 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
 
-        final Member principal = (Member) authentication.getPrincipal();
         final String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
 
         final String accessToken = Jwts.builder()
-            .setSubject(principal.getUsername())
+            .setSubject(authentication.getName())
             .claim("auth", authorities)
             .setIssuedAt(now)
             .setExpiration(expiryDate)
@@ -49,11 +54,31 @@ public class JwtTokenProvider {
     }
 
     public static String getUserNameFromJWT(String token) {
-        final Claims claims = Jwts.parser()
+        final Claims claims = getClaims(token);
+        return claims.getSubject();
+    }
+
+    public static Authentication getAuthentication(String token) {
+        final Claims claims = getClaims(token);
+
+        if (claims.get("auth") == null) {
+            throw new BadCredentialsException("The token has not roles");
+        }
+
+        Collection<? extends GrantedAuthority> authorities =
+            Arrays.stream(claims.get("auth").toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        final UserDetails principal = new User(claims.getSubject(), "", authorities);
+        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+    }
+
+    private static Claims getClaims(String token) {
+        return Jwts.parser()
             .setSigningKey(JWT_SECRET)
             .parseClaimsJws(token)
             .getBody();
-        return claims.getSubject();
     }
 
     public static boolean validateToken(String token) {
