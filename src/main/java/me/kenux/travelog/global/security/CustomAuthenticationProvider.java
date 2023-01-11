@@ -30,7 +30,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         final Member member = (Member) userDetailsService.loadUserByUsername(userEmail);
         if (!passwordEncoder.matches(password, member.getPassword())) {
             log.error("{} 비밀번호 오류", member.getUsername());
-            throw new BadCredentialsException(member.getUsername() + " 비밀번호를 확인해 주세요.");
+            throw new BadCredentialsException("Wrong password for [" + member.getUsername() + "]");
         }
         log.info("{}, 인증 확인됨", member.getUsername());
         return new UsernamePasswordAuthenticationToken(member, password, member.getAuthorities());
