@@ -3,6 +3,8 @@ package me.kenux.travelog.global.config;
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.global.security.CustomAuthenticationProvider;
 import me.kenux.travelog.global.security.CustomLoginSuccessHandler;
+import me.kenux.travelog.global.security.jwt.JwtAuthenticationEntryPoint;
+import me.kenux.travelog.global.security.jwt.JwtAuthenticationFilter;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +26,12 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    @Bean
+    public JwtAuthenticationFilter authenticationJwtTokenFilter() {
+        return new JwtAuthenticationFilter(userDetailsService);
+    }
 
     @Override
     public void configure(WebSecurity web) {
@@ -42,12 +51,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/", "/join", "/login", "/test").permitAll()
             .antMatchers("/api/login", "/api/join").permitAll()
             .antMatchers("/admin/join", "/admin/login").permitAll()
-            .antMatchers("/admin/**").hasRole("ADMIN")
+            .antMatchers("/admin/**", "/api/test").hasRole("ADMIN")
             .anyRequest().authenticated();
         http
+            .httpBasic()
+            .and()
+            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+            .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
-            .httpBasic();
+            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 //        http
 //            .formLogin()
 //            .loginPage("/admin/login")
