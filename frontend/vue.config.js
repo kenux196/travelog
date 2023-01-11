@@ -10,9 +10,9 @@ module.exports = {
     port: 3000,
     // proxy: 'http://localhost:8080/',
     proxy: {
-      '/': {
+      '/api': {
         target: 'http://localhost:8080/',
-        pathRewrite: { '^/': '' },
+        pathRewrite: { '^/api': '' },
         changeOrigin: true,
         logLevel: 'debug',
       },
