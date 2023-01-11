@@ -10,7 +10,6 @@
           <b-form-input id="password" type="password" placeholder="Enter password" v-model="password" />
         </p>
         <b-button variant="primary" type="submit" @click="loginPost()">로그인:Post</b-button>
-        <b-button variant="primary" type="submit" @click="loginGet()">로그인:Get</b-button>
         <p v-if="error" class="error">Bad login information.</p>
       </b-form>
     </div>
@@ -40,28 +39,6 @@ export default {
     };
   },
   methods: {
-    async loginGet() {
-      axios
-        .get('/api/login', {
-          username: this.user,
-          password: this.password,
-        })
-        .then(response => {
-          console.log(response.data);
-          if (response.status === 200) {
-            this.loginSuccess = true;
-            this.loginError = false;
-            this.error = false;
-          } else {
-            this.loginSuccess = false;
-            this.loginError = true;
-            this.error = true;
-          }
-        })
-        .catch(e => {
-          console.error('error : ', e);
-        });
-    },
     async loginPost() {
       axios
         .post('/api/login', {
