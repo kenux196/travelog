@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,23 +35,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
-//            .csrf().disable();
+        http
+            .csrf().disable();
         http
             .authorizeRequests()
             .antMatchers("/", "/join", "/login", "/test").permitAll()
+            .antMatchers("/api/login", "/api/join").permitAll()
             .antMatchers("/admin/join", "/admin/login").permitAll()
             .antMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated();
         http
-            .formLogin()
-            .loginPage("/admin/login")
-            .successHandler(customLoginSuccessHandler());
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
-            .logout()
-            .logoutUrl("/admin/logout")
-            .logoutSuccessUrl("/admin")
-            .deleteCookies("JSESSIONID")
+            .httpBasic();
+//        http
+//            .formLogin()
+//            .loginPage("/admin/login")
+//            .successHandler(customLoginSuccessHandler());
+//        http
+//            .logout()
+//            .logoutUrl("/admin/logout")
+//            .logoutSuccessUrl("/admin")
+//            .deleteCookies("JSESSIONID")
         ;
     }
 
