@@ -90,8 +90,8 @@ jasypt:
 app:
   jwt:
     secret: ENC(wZqaCD+uA0Zrk7MM9EQGoxXmiZSIo8JIQqsey/602vU=)
-    tokenExpiration: 43800
-    refreshTokenExpiration: 87600
+    tokenExpiration: 5
+    refreshTokenExpiration: 30
 server:
   error:
     whitelabel:

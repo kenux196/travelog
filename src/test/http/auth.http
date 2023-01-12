@@ -1,0 +1,30 @@
+### Admin login
+POST {{host}}/api/login
+Content-Type: Application/json
+
+{
+    "username": "{{username-admin}}",
+    "password": "{{password}}"
+}
+
+> {%
+    client.global.set("accessToken-admin", response.body.accessToken);
+    client.global.set("refreshToken-admin", response.body.refreshToken);
+    client.log(client.global.get("accessToken-admin"));
+%}
+
+### member login
+POST {{host}}/api/login
+Content-Type: Application/json
+
+{
+    "username": "{{username-user}}",
+    "password": "{{password}}"
+}
+
+> {%
+    client.global.set("accessToken-user", response.body.accessToken);
+    client.global.set("refreshToken-user", response.body.refreshToken);
+ %}
+
+
