@@ -23,12 +23,16 @@ public class JwtTokenProvider {
 
     @Value("${app.jwt.secret}")
     private String secretKey;
-    private static final int JWT_EXPIRATION_MS = (int) (1000L * 60 * 5); // 5분
-    private static final int JWT_REFRESH_EXPIRATION_MS = (int) (1000L * 60 * 60); // 1시간
+
+    @Value("${app.jwt.tokenExpiration}")
+    private int tokenExpirationMinute;
+
+    @Value("${app.jwt.refreshTokenExpiration}")
+    private int refreshTokenExpirationMinute;
 
     public TokenInfo generateJwtToken(Authentication authentication) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
+        Date expiryDate = new Date(now.getTime() + (tokenExpirationMinute * 60 * 1000L));
 
         final String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
@@ -43,7 +47,7 @@ public class JwtTokenProvider {
             .compact();
 
         final String refreshToken = Jwts.builder()
-            .setExpiration(new Date(now.getTime() + JWT_REFRESH_EXPIRATION_MS))
+            .setExpiration(new Date(now.getTime() + (refreshTokenExpirationMinute * 60 * 1000L)))
             .signWith(SignatureAlgorithm.HS512, secretKey)
             .compact();
 

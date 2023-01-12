@@ -87,7 +87,11 @@ spring:
 jasypt:
   encryptor:
     bean: encryptorBean
-app.jwt.secret: ENC(wZqaCD+uA0Zrk7MM9EQGoxXmiZSIo8JIQqsey/602vU=)
+app:
+  jwt:
+    secret: ENC(wZqaCD+uA0Zrk7MM9EQGoxXmiZSIo8JIQqsey/602vU=)
+    tokenExpiration: 43800
+    refreshTokenExpiration: 87600
 server:
   error:
     whitelabel:
