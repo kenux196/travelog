@@ -31,9 +31,6 @@ public class JwtTokenProvider {
     private int refreshTokenExpirationMinute;
 
     public TokenInfo generateJwtToken(Authentication authentication) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + (tokenExpirationMinute * 60 * 1000L));
-
         final String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
@@ -41,13 +38,12 @@ public class JwtTokenProvider {
         final String accessToken = Jwts.builder()
             .setSubject(authentication.getName())
             .claim("auth", authorities)
-            .setIssuedAt(now)
-            .setExpiration(expiryDate)
+            .setExpiration(getExpiration(tokenExpirationMinute))
             .signWith(SignatureAlgorithm.HS512, secretKey)
             .compact();
 
         final String refreshToken = Jwts.builder()
-            .setExpiration(new Date(now.getTime() + (refreshTokenExpirationMinute * 60 * 1000L)))
+            .setExpiration(getExpiration(refreshTokenExpirationMinute))
             .signWith(SignatureAlgorithm.HS512, secretKey)
             .compact();
 
@@ -56,6 +52,11 @@ public class JwtTokenProvider {
             .refreshToken(refreshToken)
             .grantType("Bearer")
             .build();
+    }
+
+    private Date getExpiration(int time) {
+        Date now = new Date();
+        return new Date(now.getTime() + (time * 60 * 1000L));
     }
 
     public Authentication getAuthentication(String token) {
