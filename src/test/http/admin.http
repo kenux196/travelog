@@ -8,6 +8,13 @@ Content-Type: Application/json
 }
 
 > {%
+    client.test("Validate", function() { // Validate라는 이름의 테스트를 수행
+        client.assert(response.status === 200, "Response status is not 200"); // 응답값이 200이면 통과
+        client.assert(response.contentType.mimeType === "application/json", "Expected 'application/json'"); // 응답값이 application/json이면 통과
+        client.assert(response.body.accessToken.trim().length > 0); // 토큰 길이가 0보다 크면 통과
+        client.assert(response.body.refreshToken.trim().length > 0);
+    });
+
     client.global.set("accessToken", response.body.accessToken);
     client.global.set("refreshToken", response.body.refreshToken);
     // client.log(client.global.get("accessToken"));
