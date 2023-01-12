@@ -25,8 +25,16 @@ Content-Type: Application/json
 GET {{host}}/admin/member
 Authorization: Bearer {{accessToken}}
 
-### 회원 조건 검색 : 상태에 따라
-GET {{host}}/admin/member?status=blocked
+### 회원 조건 검색 : 이메일
+GET {{host}}/admin/member?email=user1000@test.com
+Authorization: Bearer {{accessToken}}
+
+### 회원 조건 검색 : 이름
+GET {{host}}/admin/member?name=user1001
+Authorization: Bearer {{accessToken}}
+
+### 회원 조건 검색 : 상태
+GET {{host}}/admin/member?status=BLOCKED
 Authorization: Bearer {{accessToken}}
 
 ### 회원 삭제

@@ -3,6 +3,7 @@ package me.kenux.travelog.web.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.dto.response.MemberInfoResponse;
+import me.kenux.travelog.domain.member.repository.dto.MemberSearchCond;
 import me.kenux.travelog.domain.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,8 @@ public class MemberManageController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<?> getMembers() {
-        final List<MemberInfoResponse> memberInfos = memberService.getMemberInfoResponse();
+    public ResponseEntity<?> getMembers(MemberSearchCond cond) {
+        final List<MemberInfoResponse> memberInfos = memberService.getMembers(cond);
         return ResponseEntity.ok(memberInfos);
     }
 

@@ -6,6 +6,7 @@ import me.kenux.travelog.domain.member.dto.response.MemberInfoResponse;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
+import me.kenux.travelog.domain.member.repository.dto.MemberSearchCond;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordRepository passwordRepository;
 
-    public List<Member> getMembers() {
-        return memberRepository.findAll();
-    }
-
     @Transactional
     public void removeMember(Long memberId) {
         log.info("Remove Member: {}", memberId);
@@ -35,8 +32,8 @@ public class MemberService {
         passwordRepository.delete(member.getUserPassword());
     }
 
-    public List<MemberInfoResponse> getMemberInfoResponse() {
-        return memberRepository.findAll().stream()
+    public List<MemberInfoResponse> getMembers(MemberSearchCond cond) {
+        return memberRepository.findMemberByCondition(cond).stream()
             .map(MemberInfoResponse::from)
             .collect(Collectors.toList());
     }
