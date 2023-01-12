@@ -1,10 +1,10 @@
 spring:
   profiles:
     group:
-      "test": "common, logging, h2DB"
+      "local": "common, logging, h2DB"
       "dev": "common, logging, mariaDB-test"
       "prd": "common, mariaDB"
-    active: test
+    active: local
 ---
 spring:
   config:
@@ -92,10 +92,6 @@ app:
     secret: ENC(wZqaCD+uA0Zrk7MM9EQGoxXmiZSIo8JIQqsey/602vU=)
     tokenExpiration: 5
     refreshTokenExpiration: 30
-server:
-  error:
-    whitelabel:
-      enabled: false
 ---
 spring:
   config:

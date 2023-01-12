@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Profile("test")
+@Profile("local")
 @Slf4j
 public class TestInitService implements ApplicationListener<ApplicationStartedEvent> {
 
@@ -26,24 +26,30 @@ public class TestInitService implements ApplicationListener<ApplicationStartedEv
     @Override
     @Transactional
     public void onApplicationEvent(ApplicationStartedEvent event) {
-        log.info("로컬 개발 환경 : 멤버 추가 ");
+        log.info("로컬 개발 환경 : 테스트 멤버 추가 ");
         insertAdmin();
         insertMember();
     }
 
     private void insertAdmin() {
-        final String encodedPassword = passwordEncoder.encode("1");
-        UserPassword password = new UserPassword(encodedPassword);
-        passwordRepository.save(password);
+        UserPassword password = new UserPassword(getEncodedPassword());
         final Member admin = Member.createAdmin("관리자", "admin@test.com", password);
+        passwordRepository.save(password);
         memberRepository.save(admin);
     }
 
     private void insertMember() {
-        final String encodedPassword = passwordEncoder.encode("1");
-        UserPassword password = new UserPassword(encodedPassword);
-        passwordRepository.save(password);
-        final Member admin = Member.createNewMember("사용자", "user@test.com", password);
-        memberRepository.save(admin);
+        for (int i = 0; i < 10; i++) {
+            UserPassword password = new UserPassword(getEncodedPassword());
+            passwordRepository.save(password);
+            String username = "user" + 100 + i;
+            String email = username + "@test.com";
+            final Member admin = Member.createNewMember(username, email, password);
+            memberRepository.save(admin);
+        }
+    }
+
+    private String getEncodedPassword() {
+        return passwordEncoder.encode("1");
     }
 }
