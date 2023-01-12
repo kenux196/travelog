@@ -51,9 +51,6 @@ spring:
     enabled: false
 #    baseline-on-migrate: true
 #    baseline-version: 0
-jasypt:
-  encryptor:
-    bean: encryptorBean
 ---
 spring:
   config:
@@ -75,9 +72,6 @@ spring:
     enabled: false
 #    baseline-on-migrate: true
 #    baseline-version: 0
-jasypt:
-  encryptor:
-    bean: encryptorBean
 ---
 spring:
   config:
@@ -90,6 +84,10 @@ spring:
   output:
     ansi:
       enabled: always
+jasypt:
+  encryptor:
+    bean: encryptorBean
+app.jwt.secret: ENC(wZqaCD+uA0Zrk7MM9EQGoxXmiZSIo8JIQqsey/602vU=)
 server:
   error:
     whitelabel:

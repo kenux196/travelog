@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.global.security.CustomLoginSuccessHandler;
 import me.kenux.travelog.global.security.jwt.JwtAuthenticationEntryPoint;
 import me.kenux.travelog.global.security.jwt.JwtAuthenticationFilter;
+import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,10 +24,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public JwtAuthenticationFilter authenticationJwtTokenFilter() {
-        return new JwtAuthenticationFilter();
+        return new JwtAuthenticationFilter(jwtTokenProvider);
     }
 
     @Override

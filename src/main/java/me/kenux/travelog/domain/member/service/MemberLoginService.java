@@ -21,14 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 @Transactional(readOnly = true)
+@Slf4j
 public class MemberLoginService {
 
     private final MemberRepository memberRepository;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public void loginSuccessProcess(Long memberId) {
         final Member member = memberRepository.findById(memberId)
@@ -47,6 +48,6 @@ public class MemberLoginService {
             new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
 
         final Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        return JwtTokenProvider.generateJwtToken(authentication);
+        return jwtTokenProvider.generateJwtToken(authentication);
     }
 }

@@ -1,5 +1,6 @@
 package me.kenux.travelog.global.security.jwt;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,8 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -23,8 +27,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             final String token = parseJwt(request);
-            if (StringUtils.hasText(token) && JwtTokenProvider.validateToken(token)) {
-                final Authentication authentication = JwtTokenProvider.getAuthentication(token);
+            if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
+                final Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
