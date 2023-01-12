@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/members")
+@RequestMapping("/admin/member")
 @RequiredArgsConstructor
 @Slf4j
 public class MemberManageController {
@@ -25,17 +25,17 @@ public class MemberManageController {
         return ResponseEntity.ok(memberInfos);
     }
 
-    @GetMapping("/delete")
-    public String deleteMember(@RequestParam("id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteMember(@PathVariable("id") Long id) {
         log.info("will delete member id = {}", id);
         memberService.removeMember(id);
-        return "redirect:/admin/members";
+        return ResponseEntity.ok(id + " 회원을 삭제하였습니다.");
     }
 
-    @GetMapping("/{id}/block")
-    public String blockMember(@PathVariable("id") Long id) {
+    @PatchMapping("/{id}/block")
+    public ResponseEntity<?> blockMember(@PathVariable("id") Long id) {
         log.info("member {} will blocked.", id);
         memberService.blockMember(id);
-        return "redirect:/admin/members";
+        return ResponseEntity.ok(id + " 회원을 블랙으로 변경했습니다.");
     }
 }
