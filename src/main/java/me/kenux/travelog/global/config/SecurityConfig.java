@@ -44,11 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable();
         http
             .authorizeRequests()
-            .antMatchers("/", "/join", "/login", "/test").permitAll()
-            .antMatchers("/api/login", "/api/join").permitAll()
-            .antMatchers("/admin/join", "/admin/login").permitAll()
+//            .antMatchers("/", "/join", "/login", "/test").permitAll()
+            .antMatchers("/", "/api/login", "/api/join").permitAll()
+//            .antMatchers("/admin/join", "/admin/login").permitAll()
             .antMatchers("/admin/**", "/api/test/admin").hasRole("ADMIN")
-            .antMatchers("/admin/**", "/api/test/user").hasRole("USER")
+            .antMatchers("/api/**").hasRole("USER")
             .anyRequest().authenticated();
         http
             .formLogin().disable()
