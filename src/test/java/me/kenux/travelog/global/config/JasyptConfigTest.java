@@ -37,7 +37,7 @@ class JasyptConfigTest {
 
     @Test
     void makeEncryptedPassword() {
-        String password = "rotkfrn";
+        String password = "pass";
 
         final String enc = encryptor.encrypt(password);
 

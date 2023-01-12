@@ -1,9 +1,9 @@
 package me.kenux.travelog.global.config;
 
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.global.security.CustomLoginSuccessHandler;
 import me.kenux.travelog.global.security.jwt.JwtAuthenticationEntryPoint;
 import me.kenux.travelog.global.security.jwt.JwtAuthenticationFilter;
+import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -23,10 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public JwtAuthenticationFilter authenticationJwtTokenFilter() {
-        return new JwtAuthenticationFilter();
+        return new JwtAuthenticationFilter(jwtTokenProvider);
     }
 
     @Override
@@ -58,42 +58,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
             .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-//        http
-//            .formLogin()
-//            .loginPage("/admin/login")
-//            .successHandler(customLoginSuccessHandler());
-//        http
-//            .logout()
-//            .logoutUrl("/admin/logout")
-//            .logoutSuccessUrl("/admin")
-//            .deleteCookies("JSESSIONID")
-        ;
     }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//            .withUser("kenux")
-//            .password("{bcrypt}$2a$10$wPqb10jDmQakOP0kaw/tS.y5261/E/RwIVOY8vaesPiWFXCqLKn5K")
-//            .roles("ADMIN", "USER");
-        // 커스텀한 AuthenticationProvider 를 AuthenticationManager에 등록
-//        auth.authenticationProvider(customAuthenticationProvider());
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
-    @Bean
-    public AuthenticationSuccessHandler customLoginSuccessHandler() {
-        // 로그인 성공 시 실행되는 CustomLoginSuccessHandler 를 빈으로 등록
-        return new CustomLoginSuccessHandler();
-    }
-
-//    @Bean
-//    public CustomAuthenticationProvider customAuthenticationProvider() {
-//         실제 인증 담당 객체를 빈으로 등록
-//        return new CustomAuthenticationProvider(userDetailsService, passwordEncoder());
-//    }
 }

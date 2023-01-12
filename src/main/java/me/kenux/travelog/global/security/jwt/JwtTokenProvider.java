@@ -2,6 +2,7 @@ package me.kenux.travelog.global.security.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,23 +10,23 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+@Component
 @Slf4j
 public class JwtTokenProvider {
 
-//    @Value("${app.jwtSecret default kenux}")
-    private static final String JWT_SECRET = "kenux";
-
-//    @Value("${app.jwtExpirationMs:5000}")
+    @Value("${app.jwt.secret}")
+    private String secretKey;
     private static final int JWT_EXPIRATION_MS = (int) (1000L * 60 * 5); // 5분
     private static final int JWT_REFRESH_EXPIRATION_MS = (int) (1000L * 60 * 60); // 1시간
 
-    public static TokenInfo generateJwtToken(Authentication authentication) {
+    public TokenInfo generateJwtToken(Authentication authentication) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
 
@@ -38,12 +39,12 @@ public class JwtTokenProvider {
             .claim("auth", authorities)
             .setIssuedAt(now)
             .setExpiration(expiryDate)
-            .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+            .signWith(SignatureAlgorithm.HS512, secretKey)
             .compact();
 
         final String refreshToken = Jwts.builder()
             .setExpiration(new Date(now.getTime() + JWT_REFRESH_EXPIRATION_MS))
-            .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+            .signWith(SignatureAlgorithm.HS512, secretKey)
             .compact();
 
         return TokenInfo.builder()
@@ -53,12 +54,7 @@ public class JwtTokenProvider {
             .build();
     }
 
-    public static String getUserNameFromJWT(String token) {
-        final Claims claims = getClaims(token);
-        return claims.getSubject();
-    }
-
-    public static Authentication getAuthentication(String token) {
+    public Authentication getAuthentication(String token) {
         final Claims claims = getClaims(token);
 
         if (claims.get("auth") == null) {
@@ -74,16 +70,16 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
-    private static Claims getClaims(String token) {
+    private Claims getClaims(String token) {
         return Jwts.parser()
-            .setSigningKey(JWT_SECRET)
+            .setSigningKey(secretKey)
             .parseClaimsJws(token)
             .getBody();
     }
 
-    public static boolean validateToken(String token) {
+    public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (SignatureException e) {
             log.error("Invalid JWT Signature");

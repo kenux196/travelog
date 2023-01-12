@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
+@Deprecated
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
