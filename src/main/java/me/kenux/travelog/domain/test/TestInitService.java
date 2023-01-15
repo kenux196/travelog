@@ -39,14 +39,19 @@ public class TestInitService implements ApplicationListener<ApplicationStartedEv
     }
 
     private void insertMember() {
+        createMember("user");
         for (int i = 0; i < 10; i++) {
-            UserPassword password = new UserPassword(getEncodedPassword());
-            passwordRepository.save(password);
             String username = "user" + 100 + i;
-            String email = username + "@test.com";
-            final Member admin = Member.createNewMember(username, email, password);
-            memberRepository.save(admin);
+            createMember(username);
         }
+    }
+
+    private void createMember(String username) {
+        UserPassword password = new UserPassword(getEncodedPassword());
+        passwordRepository.save(password);
+        String email = username + "@test.com";
+        final Member admin = Member.createNewMember(username, email, password);
+        memberRepository.save(admin);
     }
 
     private String getEncodedPassword() {

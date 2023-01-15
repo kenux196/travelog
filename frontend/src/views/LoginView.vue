@@ -9,7 +9,7 @@
         <p>
           <b-form-input id="password" type="password" placeholder="Enter password" v-model="password" />
         </p>
-        <b-button variant="primary" type="submit" @click="loginPost()">로그인:Post</b-button>
+        <b-button variant="primary" type="submit" @click="login()">로그인t</b-button>
         <p v-if="error" class="error">Bad login information.</p>
       </b-form>
     </div>
@@ -39,15 +39,19 @@ export default {
     };
   },
   methods: {
-    async loginPost() {
+    async login() {
       axios
         .post('/api/login', {
           username: this.user,
           password: this.password,
         })
         .then(response => {
-          console.log(response.data);
           if (response.status === 200) {
+            console.log(response.data);
+            console.log('accessToken: ' + response.data.accessToken);
+            this.$store.dispatch('setToken', response.data.accessToken);
+            this.$store.dispatch('setRefreshToken', response.data.refreshToken);
+            this.$store.dispatch('setRole', 'user');
             this.loginSuccess = true;
             this.loginError = false;
             this.error = false;
