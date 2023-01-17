@@ -10,6 +10,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @AllArgsConstructor
 @Getter
 public enum ErrorCode {
+
     EMAIL_DUPLICATION(BAD_REQUEST, "M001","이미 가입된 이메일 주소입니다."),
     PASSWORD_SHORT(BAD_REQUEST, "M002", "패스워드는 8자 이상이어야 합니다."),
     PASSWORD_WRONG(BAD_REQUEST, "M003","패스워드가 틀립니다."),
