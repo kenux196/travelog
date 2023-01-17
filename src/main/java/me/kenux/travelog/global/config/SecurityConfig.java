@@ -28,8 +28,8 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-            .antMatchers("/h2-console/**")
-            .antMatchers("/h2/**");
+            .mvcMatchers("/h2-console/**")
+            .mvcMatchers("/h2/**");
     }
 
     @Bean
@@ -38,9 +38,9 @@ public class SecurityConfig {
             .csrf().disable();
         http
             .authorizeRequests()
-            .antMatchers("/", "/api/login", "/api/join").permitAll()
-            .antMatchers("/admin/**", "/api/test/admin").hasRole("ADMIN")
-            .antMatchers("/api/**").hasRole("USER")
+            .mvcMatchers("/", "/api/login", "/api/join").permitAll()
+            .mvcMatchers("/admin/**", "/api/test/admin").hasRole("ADMIN")
+            .mvcMatchers("/api/**").hasRole("USER")
             .anyRequest().authenticated();
         http
             .formLogin().disable()
