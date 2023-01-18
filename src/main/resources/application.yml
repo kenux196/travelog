@@ -84,6 +84,8 @@ spring:
   output:
     ansi:
       enabled: always
+  mvc:
+    log-request-details: true
 jasypt:
   encryptor:
     bean: encryptorBean

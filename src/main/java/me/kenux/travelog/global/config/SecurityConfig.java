@@ -28,27 +28,24 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-            .mvcMatchers("/h2-console/**")
-            .mvcMatchers("/h2/**");
+            .antMatchers("/h2-console/**", "/h2/**");
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().disable();
-        http
-            .authorizeRequests()
-            .mvcMatchers("/", "/api/login", "/api/join").permitAll()
-            .mvcMatchers("/admin/**", "/api/test/admin").hasRole("ADMIN")
-            .mvcMatchers("/api/**").hasRole("USER")
-            .anyRequest().authenticated();
-        http
+            .authorizeHttpRequests(request -> request
+                .mvcMatchers("/", "/api/login", "/api/join").permitAll()
+                .mvcMatchers("/admin/**", "/api/test/admin").hasRole("ADMIN")
+                .mvcMatchers("/api/**").hasRole("USER")
+                .anyRequest().authenticated())
             .formLogin().disable()
             .httpBasic().disable()
+            .csrf().disable()
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
             .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
             .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
