@@ -1,11 +1,17 @@
 package me.kenux.travelog.global.config;
 
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Encoders;
+import io.jsonwebtoken.security.Keys;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.crypto.SecretKey;
+import java.security.KeyFactorySpi;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,5 +48,13 @@ class JasyptConfigTest {
         final String enc = encryptor.encrypt(password);
 
         System.out.println("enc = " + enc);
+    }
+
+    @Test
+    void generateJwtToken() {
+        final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        final String secretString = Encoders.BASE64.encode(secretKey.getEncoded());
+        final String encrypt = encryptor.encrypt(secretString);
+        System.out.println("encrypt = " + encrypt);
     }
 }
