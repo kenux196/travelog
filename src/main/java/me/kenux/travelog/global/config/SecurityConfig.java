@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -24,20 +26,24 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtTokenProvider jwtTokenProvider;
 
+    private static final String[] AUTH_WHITE_LIST = {
+        "/", "/api/login", "/api/join"
+    };
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-            .antMatchers("/h2-console/**", "/h2/**");
+            .requestMatchers(AUTH_WHITE_LIST)
+            .requestMatchers(toH2Console());
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(request -> request
-                .mvcMatchers("/", "/api/login", "/api/join").permitAll()
-                .mvcMatchers("/admin/**", "/api/test/admin").hasRole("ADMIN")
-                .mvcMatchers("/api/**").hasRole("USER")
+                .requestMatchers("/admin/**", "/api/test/admin").hasRole("ADMIN")
+                .requestMatchers("/api/**").hasRole("USER")
                 .anyRequest().authenticated())
             .formLogin().disable()
             .httpBasic().disable()

@@ -9,6 +9,8 @@ group = 'me.kenux'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+ext['spring-security.version']='5.8.1' // spring security for spring 2.7.x
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -37,7 +39,7 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
-    // Querydsl
+    // Querydsl for spring boot 2.x
     implementation 'com.querydsl:querydsl-jpa'
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jpa"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
