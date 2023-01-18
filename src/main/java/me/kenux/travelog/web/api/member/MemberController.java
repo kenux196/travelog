@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.domain.member.dto.response.MemberInfoResponse;
 import me.kenux.travelog.domain.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

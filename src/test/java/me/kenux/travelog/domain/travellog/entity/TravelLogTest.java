@@ -1,7 +1,6 @@
 package me.kenux.travelog.domain.travellog.entity;
 
 import me.kenux.travelog.domain.travellog.entity.enums.TravelType;
-import me.kenux.travelog.domain.travellog.entity.TravelLog;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

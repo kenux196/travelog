@@ -4,10 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.domain.member.entity.Member;
-import me.kenux.travelog.domain.member.entity.QMember;
 import me.kenux.travelog.domain.member.repository.dto.MemberSearchCond;
-import me.kenux.travelog.domain.member.service.MemberService;
-import org.codehaus.groovy.util.StringUtil;
 import org.springframework.util.StringUtils;
 
 import java.util.List;

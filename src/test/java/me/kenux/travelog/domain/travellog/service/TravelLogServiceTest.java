@@ -1,10 +1,9 @@
 package me.kenux.travelog.domain.travellog.service;
 
-import me.kenux.travelog.domain.travellog.service.TravelLogService;
-import me.kenux.travelog.global.exception.CustomException;
-import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.travellog.service.dto.request.TravelLogSaveRequest;
+import me.kenux.travelog.global.exception.CustomException;
+import me.kenux.travelog.global.exception.ErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
