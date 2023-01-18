@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.crypto.SecretKey;
-import java.security.KeyFactorySpi;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +42,7 @@ class JasyptConfigTest {
 
     @Test
     void makeEncryptedPassword() {
-        String password = "pass";
+        String password = "dbstkdrbdbswldnjsdbsdkwns";
 
         final String enc = encryptor.encrypt(password);
 
