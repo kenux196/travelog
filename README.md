@@ -1,11 +1,18 @@
 # Travelog
 
-토이프로젝트
+스프링 및 웹 애플리케이션 기술 학습용 프로젝트
 
-spring boot + vue.js
+* Back-End
+  * Spring Boot 2.7 or Spring Boot 3.0
+  * Spring Security 5.8.1 or 6.0
+  * Spring Data JPA
+  * DataBase: h2 db, MariaDB
+* Front-End
+  * vue.js 3
+  * Thymeleaf
 
-h2, postgresql, mariadb
-
+* Cloud
+  * Oracle Cloud Infra
 
 * [thymeleaf layout dialrect 사용](https://dev-jwblog.tistory.com/34#3.%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%8B%A4%ED%96%89)
 * [springboot & markdown parsing](https://devocean.sk.com/blog/techBoardDetail.do?ID=163499)
