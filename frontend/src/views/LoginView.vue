@@ -9,7 +9,7 @@
         <p>
           <b-form-input id="password" type="password" placeholder="Enter password" v-model="password" />
         </p>
-        <b-button variant="primary" type="submit" @click="login()">로그인t</b-button>
+        <b-button variant="primary" type="submit" @click="login()">로그인</b-button>
         <p v-if="error" class="error">Bad login information.</p>
       </b-form>
     </div>
@@ -51,7 +51,7 @@ export default {
             console.log('accessToken: ' + response.data.accessToken);
             this.$store.dispatch('setToken', response.data.accessToken);
             this.$store.dispatch('setRefreshToken', response.data.refreshToken);
-            this.$store.dispatch('setRole', 'user');
+            this.$store.dispatch('setRole', response.data.role);
             this.loginSuccess = true;
             this.loginError = false;
             this.error = false;

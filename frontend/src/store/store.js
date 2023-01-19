@@ -12,7 +12,7 @@ export default createStore({
       return state.accessToken == null ? false : true;
     },
     isAdmin(state) {
-      return state.role == 'admin' ? true : false;
+      return state.role.split(',').includes('ROLE_ADMIN');
     },
     getAccessToken(state) {
       return state.accessToken;

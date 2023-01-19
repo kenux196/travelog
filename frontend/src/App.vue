@@ -3,6 +3,10 @@
     <router-link to="/">Home</router-link> | <router-link to="/login">Login</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
+  <nav>
+    <router-link to="#">관리자</router-link> | <router-link to="/admin">메인</router-link> |
+    <router-link to="/admin/member">관리자 - 회원관리</router-link>
+  </nav>
   <router-view />
 </template>
 
