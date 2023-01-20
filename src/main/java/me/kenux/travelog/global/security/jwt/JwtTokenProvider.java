@@ -1,6 +1,10 @@
 package me.kenux.travelog.global.security.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,6 +16,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -39,12 +45,12 @@ public class JwtTokenProvider {
             .setSubject(authentication.getName())
             .claim("auth", authorities)
             .setExpiration(getExpiration(tokenExpirationMinute))
-            .signWith(SignatureAlgorithm.HS512, secretKey)
+            .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
             .compact();
 
         final String refreshToken = Jwts.builder()
             .setExpiration(getExpiration(refreshTokenExpirationMinute))
-            .signWith(SignatureAlgorithm.HS512, secretKey)
+            .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
             .compact();
 
         return TokenInfo.builder()
@@ -53,6 +59,11 @@ public class JwtTokenProvider {
             .grantType("Bearer")
             .role(authorities)
             .build();
+    }
+
+    private Key getSigningKey(String secretKey) {
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     private Date getExpiration(int time) {
@@ -70,34 +81,31 @@ public class JwtTokenProvider {
         Collection<? extends GrantedAuthority> authorities =
             Arrays.stream(claims.get("auth").toString().split(","))
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .toList();
 
         final UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
     private Claims getClaims(String token) {
-        return Jwts.parser()
-            .setSigningKey(secretKey)
+        return jwtParser()
             .parseClaimsJws(token)
             .getBody();
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            jwtParser().parseClaimsJws(token);
             return true;
-        } catch (SignatureException e) {
-            log.error("Invalid JWT Signature");
-        } catch (MalformedJwtException e) {
-            log.error("Invalid JWT Token");
-        } catch (ExpiredJwtException e) {
-            log.error("Expired JWT Token");
-        } catch (UnsupportedJwtException e) {
-            log.error("Unsupported JWT Token");
-        } catch (IllegalArgumentException e) {
-            log.error("JWT claims string is empty");
+        } catch (Exception e) {
+            log.error("Failed validateToken : {}", e.getMessage());
         }
         return false;
+    }
+
+    private JwtParser jwtParser() {
+        return Jwts.parserBuilder()
+            .setSigningKey(getSigningKey(secretKey))
+            .build();
     }
 }
