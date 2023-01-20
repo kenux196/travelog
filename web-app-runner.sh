@@ -13,4 +13,5 @@ then
     active=$1
 fi
 echo "Run web app => active: $active"
+rm nohup.out
 nohup java -jar app.jar --spring.profiles.active="$active" &
