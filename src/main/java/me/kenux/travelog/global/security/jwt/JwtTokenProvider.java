@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import me.kenux.travelog.global.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -78,8 +79,9 @@ public class JwtTokenProvider {
             throw new BadCredentialsException("The token has not roles");
         }
 
+        final String auth = claims.get("auth").toString();
         Collection<? extends GrantedAuthority> authorities =
-            Arrays.stream(claims.get("auth").toString().split(","))
+            Arrays.stream(auth.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .toList();
 

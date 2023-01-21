@@ -35,7 +35,7 @@ public class MemberService {
     public List<MemberInfoResponse> getMembers(MemberSearchCond cond) {
         return memberRepository.findMemberByCondition(cond).stream()
             .map(MemberInfoResponse::from)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public MemberInfoResponse getMemberDetail(Long id) {

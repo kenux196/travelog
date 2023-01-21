@@ -1,4 +1,4 @@
-package me.kenux.travelog.domain.member.service;
+package me.kenux.travelog.global.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +27,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private UserDetails createUserDetails(Member member) {
-        return User.builder()
-            .username(member.getUsername())
-            .password(member.getPassword())
-            .roles(member.getUserRole().toString())
-            .build();
+        return new CustomUserDetails(member);
     }
 }

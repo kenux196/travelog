@@ -1,25 +1,19 @@
 package me.kenux.travelog.domain.member.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 import me.kenux.travelog.domain.common.BaseTimeEntity;
 import me.kenux.travelog.domain.member.entity.enums.MemberStatus;
 import me.kenux.travelog.domain.member.entity.enums.UserRole;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "member")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Member extends BaseTimeEntity implements UserDetails {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,40 +60,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
         return new Member(name, email, password, UserRole.ADMIN);
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 계정의 권한 목록을 리턴
-        Set<GrantedAuthority> roles = new HashSet<>();
-        roles.add(new SimpleGrantedAuthority(userRole.getValue()));
-        return roles;
-    }
-
     public String getPassword() {
         return userPassword.getPassword();
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
     }
 }

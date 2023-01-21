@@ -1,10 +1,10 @@
 package me.kenux.travelog.domain.member.entity;
 
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 
 @Entity
