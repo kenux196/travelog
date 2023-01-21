@@ -8,9 +8,8 @@ Content-Type: Application/json
 }
 
 > {%
-    client.global.set("accessToken-admin", response.body.accessToken);
-    client.global.set("refreshToken-admin", response.body.refreshToken);
-    client.log(client.global.get("accessToken-admin"));
+    client.global.set("accessToken", response.body.accessToken);
+    client.global.set("refreshToken", response.body.refreshToken);
 %}
 
 ### member login
@@ -23,8 +22,18 @@ Content-Type: Application/json
 }
 
 > {%
-    client.global.set("accessToken-user", response.body.accessToken);
-    client.global.set("refreshToken-user", response.body.refreshToken);
+    client.global.set("accessToken", response.body.accessToken);
+    client.global.set("refreshToken", response.body.refreshToken);
  %}
 
+### test admin
+GET {{host}}/api/test/admin
+Authorization: Bearer {{accessToken}}
 
+### test admin 2
+GET {{host}}/api/test/admin2
+Authorization: Bearer {{accessToken}}
+
+### test admin 3
+GET {{host}}/api/test/admin3
+Authorization: Bearer {{accessToken}}
