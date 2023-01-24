@@ -16,12 +16,15 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,13 +57,23 @@ public class AuthService {
             new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
 
         final Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        final TokenInfo tokenInfo = jwtTokenProvider.generateJwtToken(authentication);
-        saveRefreshToken(tokenInfo, authentication);
-        return tokenInfo;
+        final String authorities = authentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(","));
+        final String accessToken = jwtTokenProvider.createAccessToken(authentication, authorities);
+        final String refreshToken = jwtTokenProvider.createRefreshToken();
+        saveRefreshToken(refreshToken, authentication);
+
+        return TokenInfo.builder()
+            .accessToken(accessToken)
+            .refreshToken(refreshToken)
+            .grantType("Bearer")
+            .role(authorities)
+            .build();
     }
 
-    private void saveRefreshToken(TokenInfo tokenInfo, Authentication authentication) {
-        final RefreshTokenEntity entity = new RefreshTokenEntity(tokenInfo.getRefreshToken(), authentication.getName());
+    private void saveRefreshToken(String refreshToken, Authentication authentication) {
+        final RefreshTokenEntity entity = new RefreshTokenEntity(refreshToken, authentication.getName());
         refreshTokenRepository.save(entity);
     }
 
@@ -73,5 +86,13 @@ public class AuthService {
         final RefreshTokenEntity refreshToken = refreshTokenRepository.findByUsername(details.getUsername())
             .orElseThrow(() -> new BadCredentialsException("Not founded refresh token for " + details.getUsername()));
         refreshTokenRepository.delete(refreshToken);
+    }
+
+    public TokenInfo refresh(String refreshToken) {
+        // TODO - refresh token 2023-01-24 sky
+        // 1. refresh token 기간 만료 검증 -> 만료 시 exception -> 다시 로그인해야 한다.
+        // 2. refresh token 기간 유효 -> access token 재발급
+        return TokenInfo.builder().build();
+
     }
 }

@@ -38,23 +38,7 @@ public class JwtTokenProvider {
     @Value("${app.jwt.refreshTokenExpiration}")
     private int refreshTokenExpirationMinute;
 
-    public TokenInfo generateJwtToken(Authentication authentication) {
-        final String authorities = authentication.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.joining(","));
-
-        final String accessToken = createAccessToken(authentication, authorities);
-        final String refreshToken = createRefreshToken(authentication);
-
-        return TokenInfo.builder()
-            .accessToken(accessToken)
-            .refreshToken(refreshToken)
-            .grantType("Bearer")
-            .role(authorities)
-            .build();
-    }
-
-    private String createAccessToken(Authentication authentication, String authorities) {
+    public String createAccessToken(Authentication authentication, String authorities) {
         return Jwts.builder()
             .setSubject(authentication.getName())
             .claim("auth", authorities)
@@ -63,7 +47,7 @@ public class JwtTokenProvider {
             .compact();
     }
 
-    private String createRefreshToken(Authentication authentication) {
+    public String createRefreshToken() {
         return Jwts.builder()
             .setExpiration(getExpiration(refreshTokenExpirationMinute))
             .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
