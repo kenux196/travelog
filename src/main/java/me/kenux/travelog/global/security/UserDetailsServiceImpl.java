@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +26,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private UserDetails createUserDetails(Member member) {
-        return new CustomUserDetails(member);
+        return UserDetailsImpl.from(member);
     }
 }

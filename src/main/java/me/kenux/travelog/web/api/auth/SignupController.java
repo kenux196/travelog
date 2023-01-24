@@ -1,8 +1,8 @@
-package me.kenux.travelog.web.api.member;
+package me.kenux.travelog.web.api.auth;
 
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.domain.member.dto.request.MemberJoinRequest;
-import me.kenux.travelog.domain.member.service.MemberJoinService;
+import me.kenux.travelog.domain.member.dto.request.SignupRequest;
+import me.kenux.travelog.domain.member.service.SignupService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/join")
+@RequestMapping("/api/signup")
 @RequiredArgsConstructor
-public class MemberJoinController {
+public class SignupController {
 
-    private final MemberJoinService memberJoinService;
+    private final SignupService signupService;
 
     @PostMapping
-    public ResponseEntity<?> join(@RequestBody MemberJoinRequest request) {
-        memberJoinService.join(request);
+    public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
+        signupService.signup(request);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,5 +1,5 @@
 ### admin login
-POST {{host}}/api/login
+POST {{host}}/api/auth/login
 Content-Type: Application/json
 
 {
@@ -46,7 +46,7 @@ PATCH {{host}}/admin/member/10/block
 Authorization: Bearer {{accessToken}}
 
 ### 로그아웃
-POST {{host}}/api/logout
+POST {{host}}/api/auth/logout
 Content-Type: Application/json
 Authorization: Bearer {{accessToken}}
 

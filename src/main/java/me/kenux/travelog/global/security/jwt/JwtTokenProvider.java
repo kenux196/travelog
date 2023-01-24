@@ -118,4 +118,8 @@ public class JwtTokenProvider {
             .setSigningKey(getSigningKey(secretKey))
             .build();
     }
+
+    public String getUserNameFromJwtToken(String token) {
+        return getClaims(token).getSubject();
+    }
 }
