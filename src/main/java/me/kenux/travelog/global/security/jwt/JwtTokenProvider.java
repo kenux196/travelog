@@ -5,8 +5,8 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.global.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class JwtTokenProvider {
 
@@ -42,17 +43,8 @@ public class JwtTokenProvider {
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
 
-        final String accessToken = Jwts.builder()
-            .setSubject(authentication.getName())
-            .claim("auth", authorities)
-            .setExpiration(getExpiration(tokenExpirationMinute))
-            .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
-            .compact();
-
-        final String refreshToken = Jwts.builder()
-            .setExpiration(getExpiration(refreshTokenExpirationMinute))
-            .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
-            .compact();
+        final String accessToken = createAccessToken(authentication, authorities);
+        final String refreshToken = createRefreshToken(authentication);
 
         return TokenInfo.builder()
             .accessToken(accessToken)
@@ -60,6 +52,22 @@ public class JwtTokenProvider {
             .grantType("Bearer")
             .role(authorities)
             .build();
+    }
+
+    private String createAccessToken(Authentication authentication, String authorities) {
+        return Jwts.builder()
+            .setSubject(authentication.getName())
+            .claim("auth", authorities)
+            .setExpiration(getExpiration(tokenExpirationMinute))
+            .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
+            .compact();
+    }
+
+    private String createRefreshToken(Authentication authentication) {
+        return Jwts.builder()
+            .setExpiration(getExpiration(refreshTokenExpirationMinute))
+            .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
+            .compact();
     }
 
     private Key getSigningKey(String secretKey) {

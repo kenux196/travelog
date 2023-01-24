@@ -43,6 +43,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(request -> request
                 .requestMatchers("/admin/**", "/api/test/admin").hasRole("ADMIN")
+                .requestMatchers("/api/logout").hasAnyRole("ADMIN", "USER")
                 .requestMatchers("/api/**").hasRole("USER")
                 .anyRequest().authenticated())
             .formLogin().disable()

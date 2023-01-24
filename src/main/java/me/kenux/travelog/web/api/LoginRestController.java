@@ -3,6 +3,7 @@ package me.kenux.travelog.web.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.dto.request.LoginRequest;
+import me.kenux.travelog.domain.member.dto.request.LogoutRequest;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.service.MemberLoginService;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,12 @@ public class LoginRestController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(memberLoginService.login(request));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody LogoutRequest request) {
+        memberLoginService.logout(request);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/test/admin")
