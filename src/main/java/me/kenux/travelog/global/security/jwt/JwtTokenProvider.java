@@ -5,8 +5,8 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.global.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class JwtTokenProvider {
 
@@ -37,29 +38,20 @@ public class JwtTokenProvider {
     @Value("${app.jwt.refreshTokenExpiration}")
     private int refreshTokenExpirationMinute;
 
-    public TokenInfo generateJwtToken(Authentication authentication) {
-        final String authorities = authentication.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.joining(","));
-
-        final String accessToken = Jwts.builder()
+    public String createAccessToken(Authentication authentication, String authorities) {
+        return Jwts.builder()
             .setSubject(authentication.getName())
             .claim("auth", authorities)
             .setExpiration(getExpiration(tokenExpirationMinute))
             .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
             .compact();
+    }
 
-        final String refreshToken = Jwts.builder()
+    public String createRefreshToken() {
+        return Jwts.builder()
             .setExpiration(getExpiration(refreshTokenExpirationMinute))
             .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
             .compact();
-
-        return TokenInfo.builder()
-            .accessToken(accessToken)
-            .refreshToken(refreshToken)
-            .grantType("Bearer")
-            .role(authorities)
-            .build();
     }
 
     private Key getSigningKey(String secretKey) {
@@ -109,5 +101,9 @@ public class JwtTokenProvider {
         return Jwts.parserBuilder()
             .setSigningKey(getSigningKey(secretKey))
             .build();
+    }
+
+    public String getUserNameFromJwtToken(String token) {
+        return getClaims(token).getSubject();
     }
 }

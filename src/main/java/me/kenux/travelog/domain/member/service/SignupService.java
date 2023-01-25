@@ -2,7 +2,7 @@ package me.kenux.travelog.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.member.dto.request.MemberJoinRequest;
+import me.kenux.travelog.domain.member.dto.request.SignupRequest;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
@@ -16,14 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class MemberJoinService {
+public class SignupService {
 
     private final MemberRepository memberRepository;
     private final PasswordRepository passwordRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void join(MemberJoinRequest joinRequest) {
+    public void signup(SignupRequest joinRequest) {
         if (memberRepository.existsByEmail(joinRequest.getEmail())) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
         }

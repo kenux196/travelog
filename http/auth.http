@@ -1,5 +1,5 @@
 ### Admin login
-POST {{host}}/api/login
+POST {{host}}/api/auth/login
 Content-Type: Application/json
 
 {
@@ -13,7 +13,7 @@ Content-Type: Application/json
 %}
 
 ### member login
-POST {{host}}/api/login
+POST {{host}}/api/auth/login
 Content-Type: Application/json
 
 {
@@ -25,15 +25,3 @@ Content-Type: Application/json
     client.global.set("accessToken", response.body.accessToken);
     client.global.set("refreshToken", response.body.refreshToken);
  %}
-
-### test admin
-GET {{host}}/api/test/admin
-Authorization: Bearer {{accessToken}}
-
-### test admin 2
-GET {{host}}/api/test/admin2
-Authorization: Bearer {{accessToken}}
-
-### test admin 3
-GET {{host}}/api/test/admin3
-Authorization: Bearer {{accessToken}}

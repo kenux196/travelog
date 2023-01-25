@@ -1,5 +1,5 @@
 ### Join Member
-POST {{host}}/api/join
+POST {{host}}/api/signup
 Content-Type: Application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: Application/json
 }
 
 ### member login
-POST {{host}}/api/login
+POST {{host}}/api/auth/login
 Content-Type: Application/json
 
 {

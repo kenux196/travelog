@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.entity.Member;
-import me.kenux.travelog.domain.member.service.MemberLoginService;
+import me.kenux.travelog.domain.member.service.AuthService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class AdminLoginController {
 
-    private final MemberLoginService memberLoginService;
+    private final AuthService authService;
 
     @GetMapping
     public String loginForm(Model model) {
@@ -29,7 +29,7 @@ public class AdminLoginController {
     public String login(Authentication authentication) {
         Member member = (Member) authentication.getPrincipal();
         log.info("{}, 로그인 성공", member.getEmail());
-        memberLoginService.loginSuccessProcess(member.getId());
+        authService.loginSuccessProcess(member.getId());
         return "redirect:/admin";
     }
 

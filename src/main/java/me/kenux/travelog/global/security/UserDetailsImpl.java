@@ -1,7 +1,9 @@
 package me.kenux.travelog.global.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import me.kenux.travelog.domain.member.entity.Member;
-import me.kenux.travelog.domain.member.entity.enums.MemberStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,39 +12,63 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public record CustomUserDetails(Member member) implements UserDetails {
+@AllArgsConstructor
+@Builder
+public class UserDetailsImpl implements UserDetails {
+
+    private Long id;
+
+    private String username;
+
+    private String email;
+
+    @JsonIgnore
+    private String password;
+
+    private Collection<? extends GrantedAuthority> authorities;
+
+    public static UserDetailsImpl from(Member member) {
+        Set<GrantedAuthority> roles = new HashSet<>();
+        roles.add(new SimpleGrantedAuthority(member.getUserRole().getValue()));
+
+        return UserDetailsImpl.builder()
+            .id(member.getId())
+            .username(member.getEmail())
+            .email(member.getEmail())
+            .password(member.getPassword())
+            .authorities(roles)
+            .build();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> roles = new HashSet<>();
-        roles.add(new SimpleGrantedAuthority(member.getUserRole().getValue()));
-        return roles;
+        return authorities;
     }
 
     public Long getId() {
-        return member.getId();
+        return id;
     }
 
     @Override
     public String getPassword() {
-        return member.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return member.getEmail();
+        return username;
     }
 
     // 계정 만료 여부
     @Override
     public boolean isAccountNonExpired() {
-        return member.getStatus() != MemberStatus.DORMANCY;
+        return true;
     }
 
     // 계정 잠김 여부
     @Override
     public boolean isAccountNonLocked() {
-        return member.getStatus() != MemberStatus.BLOCKED;
+        return true;
     }
 
     // password 만료 여부
