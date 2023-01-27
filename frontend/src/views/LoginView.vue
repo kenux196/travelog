@@ -41,7 +41,7 @@ export default {
   methods: {
     async login() {
       axios
-        .post('/api/login', {
+        .post('/api/auth/login', {
           username: this.user,
           password: this.password,
         })
