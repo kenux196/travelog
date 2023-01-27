@@ -26,6 +26,11 @@ Content-Type: Application/json
     client.global.set("refreshToken", response.body.refreshToken);
  %}
 
+### 로그아웃
+POST {{host}}/api/auth/logout
+Content-Type: Application/json
+Authorization: Bearer {{accessToken}}
+
 ### login failed - member not exist
 POST {{host}}/api/auth/login
 Content-Type: application/json
