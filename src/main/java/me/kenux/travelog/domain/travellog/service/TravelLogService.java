@@ -18,7 +18,7 @@ public class TravelLogService {
 
     public void saveTravelLog(TravelLogSaveRequest request) {
         if (!memberRepository.existsById(request.getMemberId())) {
-            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+            throw new CustomException(ErrorCode.MEMBER_NOT_EXIST);
         }
 
         final TravelLog travelLog = request.toEntity();

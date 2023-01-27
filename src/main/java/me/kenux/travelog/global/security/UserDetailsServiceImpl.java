@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
+import me.kenux.travelog.global.exception.CustomException;
+import me.kenux.travelog.global.exception.ErrorCode;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByEmail(username)
             .map(this::createUserDetails)
-            .orElseThrow(() -> new BadCredentialsException("Member not founded : " + username));
+            .orElseThrow(() -> new CustomException("Member not founded : " + username, ErrorCode.AUTH_MEMBER_NOT_EXIST));
     }
 
     private UserDetails createUserDetails(Member member) {

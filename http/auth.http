@@ -25,3 +25,25 @@ Content-Type: Application/json
     client.global.set("accessToken", response.body.accessToken);
     client.global.set("refreshToken", response.body.refreshToken);
  %}
+
+### login failed - member not exist
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "ghost@test.com",
+    "password": "123123"
+}
+
+### login failed - wrong password
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "{{username-user}}",
+    "password": "123123"
+}
+
+### 미인증 접근
+GET {{host}}/admin/member
+Authorization: Bearer {{accessToken}}
