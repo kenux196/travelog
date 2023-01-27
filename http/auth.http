@@ -4,7 +4,7 @@ Content-Type: Application/json
 
 {
     "username": "{{username-admin}}",
-    "password": "{{password}}"
+    "password": "{{password-admin}}"
 }
 
 > {%
@@ -18,7 +18,7 @@ Content-Type: Application/json
 
 {
     "username": "{{username-user}}",
-    "password": "{{password}}"
+    "password": "{{password-user}}"
 }
 
 > {%
