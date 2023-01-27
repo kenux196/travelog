@@ -44,7 +44,7 @@ class SignupServiceTest {
 
         assertThatThrownBy(() -> signupService.signup(request))
             .isInstanceOf(CustomException.class)
-            .hasMessage(ErrorCode.EMAIL_DUPLICATION.getMessage());
+            .hasMessage(ErrorCode.MEMBER_ALREADY_EXIST.getMessage());
     }
 
     @Test

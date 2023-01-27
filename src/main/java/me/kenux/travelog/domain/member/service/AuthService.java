@@ -39,18 +39,12 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public void loginSuccessProcess(Long memberId) {
-        final Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        member.successLogin();
-    }
-
     @Transactional
     public TokenInfo login(LoginRequest request) {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         if (!passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             log.error("{} 비밀번호 오류", request.getUsername());
-            throw new BadCredentialsException("Wrong password for [" + request.getUsername() + "]");
+            throw new CustomException(ErrorCode.AUTH_WRONG_PASSWORD);
         }
         log.info("{}, 인증 확인됨", request.getUsername());
         final UsernamePasswordAuthenticationToken authenticationToken =

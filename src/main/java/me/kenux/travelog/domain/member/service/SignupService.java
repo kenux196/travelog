@@ -25,7 +25,7 @@ public class SignupService {
     @Transactional
     public void signup(SignupRequest joinRequest) {
         if (memberRepository.existsByEmail(joinRequest.getEmail())) {
-            throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
+            throw new CustomException(ErrorCode.MEMBER_ALREADY_EXIST);
         }
 
         final String encodedPassword = passwordEncoder.encode(joinRequest.getPassword());

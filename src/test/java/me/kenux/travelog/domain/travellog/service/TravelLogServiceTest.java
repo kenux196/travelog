@@ -34,7 +34,7 @@ class TravelLogServiceTest {
         // when then
         assertThatThrownBy(() -> travelLogService.saveTravelLog(request))
             .isInstanceOf(CustomException.class)
-            .hasMessage(ErrorCode.MEMBER_NOT_FOUND.getMessage());
+            .hasMessage(ErrorCode.MEMBER_NOT_EXIST.getMessage());
     }
 
 
