@@ -3,7 +3,6 @@ package me.kenux.travelog.domain.member.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.dto.request.LoginRequest;
-import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.RefreshTokenEntity;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.global.exception.CustomException;
@@ -56,7 +55,7 @@ public class AuthService {
             .collect(Collectors.joining(","));
         final String accessToken = jwtTokenProvider.createAccessToken(authentication, authorities);
         final String refreshToken = jwtTokenProvider.createRefreshToken();
-        saveRefreshToken(refreshToken, authentication);
+        saveRefreshToken(refreshToken, ((UserDetailsImpl) userDetails).getId());
 
         return TokenInfo.builder()
             .accessToken(accessToken)
@@ -66,8 +65,8 @@ public class AuthService {
             .build();
     }
 
-    private void saveRefreshToken(String refreshToken, Authentication authentication) {
-        final RefreshTokenEntity entity = new RefreshTokenEntity(refreshToken, authentication.getName());
+    private void saveRefreshToken(String refreshToken, Long memberId) {
+        final RefreshTokenEntity entity = new RefreshTokenEntity(refreshToken, memberId);
         refreshTokenRepository.save(entity);
     }
 
@@ -77,8 +76,8 @@ public class AuthService {
         final UserDetailsImpl details = (UserDetailsImpl) authentication.getPrincipal();
 
         // remove refresh token
-        final RefreshTokenEntity refreshToken = refreshTokenRepository.findByUsername(details.getUsername())
-            .orElseThrow(() -> new BadCredentialsException("Not founded refresh token for " + details.getUsername()));
+        final RefreshTokenEntity refreshToken = refreshTokenRepository.findByMemberId(details.getId())
+            .orElseThrow(() -> new BadCredentialsException("Not founded refresh token for " + details.getId()));
         refreshTokenRepository.delete(refreshToken);
     }
 
