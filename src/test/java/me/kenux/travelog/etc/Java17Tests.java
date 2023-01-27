@@ -1,9 +1,8 @@
-package me.kenux.travelog.java17;
+package me.kenux.travelog.etc;
 
 import me.kenux.travelog.domain.member.entity.enums.MemberStatus;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class Java17Tests {

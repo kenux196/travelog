@@ -1,5 +1,6 @@
 package me.kenux.travelog.domain.member.repository;
 
+import jakarta.persistence.PersistenceContext;
 import me.kenux.travelog.BaseRepositoryConfig;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.UserPassword;
@@ -17,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class MemberRepositoryTest extends BaseRepositoryConfig {
 
-    @Autowired
+    @PersistenceContext
     EntityManager em;
 
     @Autowired
