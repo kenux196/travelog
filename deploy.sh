@@ -1,9 +1,13 @@
 #!/bin/bash
 
-echo "Build Front-End"
-cd frontend
-npm run build
-cd ..
+all='all'
+if [ -n "$1" ]
+then
+    echo "Build Front-End"
+    cd frontend
+    npm run build
+    cd ..
+fi
 
 echo "Build Back-End"
 ./gradlew build -x test
