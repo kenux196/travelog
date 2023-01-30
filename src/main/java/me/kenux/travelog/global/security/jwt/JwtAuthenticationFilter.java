@@ -31,13 +31,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             final String token = parseJwt(request);
-            if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
+            JwtValidationResult result = JwtValidationResult.INVALID;
+            if (StringUtils.hasText(token)) {
+                result = jwtTokenProvider.validateToken(token);
+            }
+
+            if (result == JwtValidationResult.VALID) {
                 String username = jwtTokenProvider.getUserNameFromJwtToken(token);
                 final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else if (result == JwtValidationResult.EXPIRED) {
+                // TODO - expired 시 응답 내보내기. 2023-01-30 skyun
+                log.info("Access Token was expired.");
             }
         } catch (Exception e) {
             log.error("Cannot set user authentication: {}", e.getMessage());

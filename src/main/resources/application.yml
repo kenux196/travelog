@@ -96,8 +96,8 @@ jasypt:
 app:
   jwt:
     secret: ENC(9lN6TSY60ahFOftfOVIQ3oOVa20379X5pmDFXlTlPM9QE6gQhFKxEAfdvEw5WvmieXu/JoBS0zZ/BBTBckJmHwmwWFUzU6iDLh1u4HS+RYS1DGpXbcqoymzy0wI+4yl5tVM9DH0tV9cvpdS2Z0+Sbw==)
-    tokenExpiration: 5
-    refreshTokenExpiration: 30
+    tokenExpiration:  300000 # 5min
+    refreshTokenExpiration: 1800000 # 30min
 ---
 spring:
   config:

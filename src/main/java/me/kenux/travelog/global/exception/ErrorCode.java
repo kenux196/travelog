@@ -19,6 +19,7 @@ public enum ErrorCode {
     // Token
     AUTH_ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, "A004", "Access token expired."),
     AUTH_REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, "A005", "Refresh token expired."),
+    AUTH_REFRESH_TOKEN_NOT_EXIST(UNAUTHORIZED, "A006", "Refresh token not founded."),
 
     // member
     MEMBER_ALREADY_EXIST(BAD_REQUEST, "M001","이미 가입된 이메일 주소입니다."),

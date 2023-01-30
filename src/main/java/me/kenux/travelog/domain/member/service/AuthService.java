@@ -3,12 +3,15 @@ package me.kenux.travelog.domain.member.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.dto.request.LoginRequest;
+import me.kenux.travelog.domain.member.dto.request.RefreshTokenRequest;
+import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.RefreshTokenEntity;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.global.security.UserDetailsImpl;
 import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
+import me.kenux.travelog.global.security.jwt.JwtValidationResult;
 import me.kenux.travelog.global.security.jwt.TokenInfo;
 import me.kenux.travelog.global.security.repository.RefreshTokenRepository;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,7 +57,7 @@ public class AuthService {
         final String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
-        final String accessToken = jwtTokenProvider.createAccessToken(authentication, authorities);
+        final String accessToken = jwtTokenProvider.createAccessToken(authentication.getName(), authorities);
         final String refreshToken = jwtTokenProvider.createRefreshToken();
         saveRefreshToken(refreshToken, ((UserDetailsImpl) userDetails).getId());
 
@@ -65,8 +69,31 @@ public class AuthService {
             .build();
     }
 
+    public TokenInfo refreshAccessToken(RefreshTokenRequest request) {
+        final RefreshTokenEntity refreshToken = refreshTokenRepository.findByToken(request.getToken())
+            .orElseThrow(() -> new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST));
+
+        final JwtValidationResult result = jwtTokenProvider.validateToken(refreshToken.getToken());
+
+        if (JwtValidationResult.VALID.equals(result)) {
+            final Member member = refreshToken.getMember();
+            final String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getUserRole().toString());
+            return TokenInfo.builder()
+                .accessToken(accessToken)
+                .build();
+        } else if (JwtValidationResult.EXPIRED.equals(result)) {
+            // TODO - neet relogin 2023-01-30 skyun
+            throw new RuntimeException("Need re-login");
+        } else {
+            // TODO - error 2023-01-30 skyun
+            throw new RuntimeException("error");
+        }
+    }
+
     private void saveRefreshToken(String refreshToken, Long memberId) {
-        final RefreshTokenEntity entity = new RefreshTokenEntity(refreshToken, memberId);
+        final Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> new CustomException(ErrorCode.AUTH_MEMBER_NOT_EXIST));
+        final RefreshTokenEntity entity = new RefreshTokenEntity(refreshToken, member);
         refreshTokenRepository.save(entity);
     }
 
@@ -79,13 +106,5 @@ public class AuthService {
         final RefreshTokenEntity refreshToken = refreshTokenRepository.findByMemberId(details.getId())
             .orElseThrow(() -> new BadCredentialsException("Not founded refresh token for " + details.getId()));
         refreshTokenRepository.delete(refreshToken);
-    }
-
-    public TokenInfo refresh(String refreshToken) {
-        // TODO - refresh token 2023-01-24 sky
-        // 1. refresh token 기간 만료 검증 -> 만료 시 exception -> 다시 로그인해야 한다.
-        // 2. refresh token 기간 유효 -> access token 재발급
-        return TokenInfo.builder().build();
-
     }
 }
