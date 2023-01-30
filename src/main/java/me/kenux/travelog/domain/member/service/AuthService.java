@@ -106,5 +106,7 @@ public class AuthService {
         final RefreshTokenEntity refreshToken = refreshTokenRepository.findByMemberId(details.getId())
             .orElseThrow(() -> new BadCredentialsException("Not founded refresh token for " + details.getId()));
         refreshTokenRepository.delete(refreshToken);
+
+        // TODO - redis cache 이용하여 로그아웃된 토큰에 대한 처리 필요. 혹은 스프링 자체 캐싱 사용? 2023-01-30 skyun
     }
 }
