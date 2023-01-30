@@ -52,3 +52,11 @@ Content-Type: application/json
 ### 미인증 접근
 GET {{host}}/admin/member
 Authorization: Bearer {{accessToken}}
+
+### refresh access token
+POST {{host}}/api/auth/refreshToken
+Content-Type: application/json
+
+{
+    "token": "{{refreshToken}}"
+}
