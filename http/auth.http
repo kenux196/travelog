@@ -55,7 +55,7 @@ Authorization: Bearer {{accessToken}}
 
 ### expired access token
 GET {{host}}/admin/member
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0ZXN0LmNvbSIsImF1dGgiOiJST0xFX0FETUlOIiwiZXhwIjoxNjc1MDc5NjM1fQ.Dh7-mAaVLe6jS94AdnVKdwnzMuhvIPGBWZATeykc-_V7ib-sAwXCqy1MMBjWKIzontQpkPzfjI7MpmmJGn238A
+Authorization: Bearer {{expiredAccessToken}}
 
 ### refresh access token
 POST {{host}}/api/auth/refreshToken
