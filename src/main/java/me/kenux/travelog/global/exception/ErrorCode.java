@@ -12,14 +12,15 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 public enum ErrorCode {
 
     // auth
-    AUTH_UNAUTHORIZED(UNAUTHORIZED, "A001","인증되지 않은 사용자입니다."),
+    AUTH_UNAUTHORIZED(UNAUTHORIZED, "A001","UnAuthorized user"),
     AUTH_WRONG_PASSWORD(BAD_REQUEST, "A002","패스워드가 일치하지 않습니다."),
     AUTH_MEMBER_NOT_EXIST(NOT_FOUND, "A003", "회원 정보를 찾을 수 없습니다."),
+    AUTH_ACCESS_DENIED(FORBIDDEN, "A004", "Access denied"),
 
     // Token
-    AUTH_ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, "A004", "Access token expired."),
-    AUTH_REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, "A005", "Refresh token expired."),
-    AUTH_REFRESH_TOKEN_NOT_EXIST(UNAUTHORIZED, "A006", "Refresh token not founded."),
+    AUTH_ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, "A101", "Access token expired."),
+    AUTH_REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, "A102", "Refresh token expired."),
+    AUTH_REFRESH_TOKEN_NOT_EXIST(UNAUTHORIZED, "A103", "Refresh token not founded."),
 
     // member
     MEMBER_ALREADY_EXIST(BAD_REQUEST, "M001","이미 가입된 이메일 주소입니다."),
