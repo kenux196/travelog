@@ -23,4 +23,13 @@ public class ErrorResponse {
                 .code(errorCode.getCode())
                 .build());
     }
+
+    public static ErrorResponse getErrorResponse(ErrorCode errorCode) {
+        return ErrorResponse.builder()
+            .status(errorCode.getHttpStatus().value())
+            .type(errorCode.name())
+            .message(errorCode.getMessage())
+            .code(errorCode.getCode())
+            .build();
+    }
 }

@@ -1,6 +1,7 @@
 package me.kenux.travelog.global.config;
 
 import lombok.RequiredArgsConstructor;
+import me.kenux.travelog.global.security.jwt.JwtAccessDeniedHandler;
 import me.kenux.travelog.global.security.jwt.JwtAuthenticationEntryPoint;
 import me.kenux.travelog.global.security.jwt.JwtAuthenticationFilter;
 import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
@@ -25,9 +26,10 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     @Profile("!local")
@@ -57,6 +59,7 @@ public class SecurityConfig {
             .httpBasic().disable()
             .csrf().disable()
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+            .accessDeniedHandler(jwtAccessDeniedHandler)
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
