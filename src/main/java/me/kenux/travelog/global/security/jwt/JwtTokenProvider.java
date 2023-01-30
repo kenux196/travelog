@@ -21,18 +21,20 @@ import java.util.Collection;
 import java.util.Date;
 
 @Component
-@AllArgsConstructor
 @Slf4j
 public class JwtTokenProvider {
 
-    @Value("${app.jwt.secret}")
-    private String secretKey;
+    private final String secretKey;
+    private final int tokenExpirationMinute;
+    private final int refreshTokenExpirationMinute;
 
-    @Value("${app.jwt.tokenExpiration}")
-    private int tokenExpirationMinute;
-
-    @Value("${app.jwt.refreshTokenExpiration}")
-    private int refreshTokenExpirationMinute;
+    public JwtTokenProvider(@Value("${app.jwt.secret}") String secretKey,
+                            @Value("${app.jwt.tokenExpiration}") int tokenExpirationMinute,
+                            @Value("${app.jwt.refreshTokenExpiration}") int refreshTokenExpirationMinute) {
+        this.secretKey = secretKey;
+        this.tokenExpirationMinute = tokenExpirationMinute;
+        this.refreshTokenExpirationMinute = refreshTokenExpirationMinute;
+    }
 
     public String createAccessToken(String username, String authorities) {
         return Jwts.builder()

@@ -18,11 +18,12 @@ public class RefreshTokenEntity {
     @Column(name = "token")
     private String token;
 
-    @Column(name = "member_id")
-    private Long memberId;
+    @OneToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    public RefreshTokenEntity(String token, Long memberId) {
+    public RefreshTokenEntity(String token, Member member) {
         this.token = token;
-        this.memberId = memberId;
+        this.member = member;
     }
 }
