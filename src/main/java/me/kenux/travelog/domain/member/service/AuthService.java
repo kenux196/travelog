@@ -53,7 +53,7 @@ public class AuthService {
         final String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
-        final String accessToken = jwtTokenProvider.createAccessToken(authentication, authorities);
+        final String accessToken = jwtTokenProvider.createAccessToken(authentication.getName(), authorities);
         final String refreshToken = jwtTokenProvider.createRefreshToken();
         saveRefreshToken(refreshToken, ((UserDetailsImpl) userDetails).getId());
 

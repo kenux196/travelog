@@ -1,11 +1,8 @@
 package me.kenux.travelog.global.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,10 +19,9 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class JwtTokenProvider {
 
@@ -38,9 +34,9 @@ public class JwtTokenProvider {
     @Value("${app.jwt.refreshTokenExpiration}")
     private int refreshTokenExpirationMinute;
 
-    public String createAccessToken(Authentication authentication, String authorities) {
+    public String createAccessToken(String username, String authorities) {
         return Jwts.builder()
-            .setSubject(authentication.getName())
+            .setSubject(username)
             .claim("auth", authorities)
             .setExpiration(getExpiration(tokenExpirationMinute))
             .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
@@ -61,7 +57,7 @@ public class JwtTokenProvider {
 
     private Date getExpiration(int time) {
         Date now = new Date();
-        return new Date(now.getTime() + (time * 60 * 1000L));
+        return new Date(now.getTime() + (time));
     }
 
     public Authentication getAuthentication(String token) {
@@ -87,14 +83,17 @@ public class JwtTokenProvider {
             .getBody();
     }
 
-    public boolean validateToken(String token) {
+    public JwtValidationResult validateToken(String token) {
         try {
             jwtParser().parseClaimsJws(token);
-            return true;
+            return JwtValidationResult.VALID;
+        } catch (ExpiredJwtException e) {
+            log.error("Failed validateToken : {}", e.getMessage());
+            return JwtValidationResult.EXPIRED;
         } catch (Exception e) {
             log.error("Failed validateToken : {}", e.getMessage());
+            return JwtValidationResult.INVALID;
         }
-        return false;
     }
 
     private JwtParser jwtParser() {
