@@ -25,30 +25,6 @@ class TransactionalTest {
 //    }
 
     @Test
-    void save_item_not_transactional() {
-        log.info("create data");
-        final Item item1 = createItem("item1");
-        final Item item2 = createItem("item2");
-        log.info("will save...");
-        itemRepository.save(item1);
-        log.info("saved item1");
-        itemRepository.save(item2);
-        log.info("saved item2");
-    }
-
-    @Test
-    void save_item_on_service_each_transaction() {
-        log.info("create data");
-        final Item item1 = createItem("item1");
-        final Item item2 = createItem("item2");
-        log.info("will save...");
-        itemService.save(item1);
-        log.info("saved item1");
-        itemService.save(item2);
-        log.info("saved item2");
-    }
-
-    @Test
 //    @Transactional
     void save_item_on_service_propagation_transaction() {
         log.info("ItemService = {}", itemService.getClass());
