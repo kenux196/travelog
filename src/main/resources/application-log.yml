@@ -1,0 +1,26 @@
+spring:
+  config:
+    activate:
+      on-profile: log
+logging:
+  level:
+    org:
+      hibernate:
+        resource:
+          transaction: DEBUG
+        type:
+          descriptor:
+            sql: trace
+      springframework:
+        security: debug
+        web: debug
+        transaction:
+          interceptor: TRACE
+        orm:
+          jpa:
+            JpaTransactionManager: DEBUG
+        jdbc:
+          datasource:
+            DataSourceTransactionManager: DEBUG
+    com.zaxxer.hikari: TRACE
+    com.zaxxer.hikari.HikariConfig: DEBUG
