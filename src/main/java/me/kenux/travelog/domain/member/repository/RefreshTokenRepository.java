@@ -1,4 +1,4 @@
-package me.kenux.travelog.global.security.repository;
+package me.kenux.travelog.domain.member.repository;
 
 import me.kenux.travelog.domain.member.entity.RefreshTokenEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

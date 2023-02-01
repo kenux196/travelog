@@ -1,4 +1,4 @@
-package me.kenux.travelog.domain.member.dto.response;
+package me.kenux.travelog.domain.member.service.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

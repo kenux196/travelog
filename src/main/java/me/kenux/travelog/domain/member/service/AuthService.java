@@ -2,18 +2,18 @@ package me.kenux.travelog.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.member.dto.request.LoginRequest;
-import me.kenux.travelog.domain.member.dto.request.RefreshTokenRequest;
+import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
+import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.RefreshTokenEntity;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
-import me.kenux.travelog.global.security.UserDetailsImpl;
+import me.kenux.travelog.domain.member.service.dto.UserDetailsImpl;
 import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
 import me.kenux.travelog.global.security.jwt.JwtValidationResult;
-import me.kenux.travelog.global.security.jwt.TokenInfo;
-import me.kenux.travelog.global.security.repository.RefreshTokenRepository;
+import me.kenux.travelog.domain.member.service.dto.TokenInfo;
+import me.kenux.travelog.domain.member.repository.RefreshTokenRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,7 +26,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service

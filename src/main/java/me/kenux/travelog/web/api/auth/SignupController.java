@@ -1,7 +1,7 @@
 package me.kenux.travelog.web.api.auth;
 
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.domain.member.dto.request.SignupRequest;
+import me.kenux.travelog.domain.member.service.dto.request.SignupRequest;
 import me.kenux.travelog.domain.member.service.SignupService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
