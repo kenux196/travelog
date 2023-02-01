@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.kenux.travelog.domain.member.entity.Member;
 
 @Entity
 @Table(name = "refresh_token")

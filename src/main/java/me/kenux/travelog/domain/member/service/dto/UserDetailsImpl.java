@@ -1,4 +1,4 @@
-package me.kenux.travelog.global.security;
+package me.kenux.travelog.domain.member.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

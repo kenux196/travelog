@@ -2,7 +2,7 @@ package me.kenux.travelog.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.member.dto.response.MemberInfoResponse;
+import me.kenux.travelog.domain.member.service.dto.response.MemberInfoResponse;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;

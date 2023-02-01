@@ -1,6 +1,6 @@
 package me.kenux.travelog.domain.member.service;
 
-import me.kenux.travelog.domain.member.dto.request.SignupRequest;
+import me.kenux.travelog.domain.member.service.dto.request.SignupRequest;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
 import me.kenux.travelog.global.exception.CustomException;

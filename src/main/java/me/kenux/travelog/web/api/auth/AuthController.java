@@ -2,9 +2,8 @@ package me.kenux.travelog.web.api.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.member.dto.request.LoginRequest;
-import me.kenux.travelog.domain.member.dto.request.LogoutRequest;
-import me.kenux.travelog.domain.member.dto.request.RefreshTokenRequest;
+import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
+import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
 import me.kenux.travelog.domain.member.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

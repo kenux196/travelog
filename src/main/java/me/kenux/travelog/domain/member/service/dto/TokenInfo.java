@@ -1,4 +1,4 @@
-package me.kenux.travelog.global.security.jwt;
+package me.kenux.travelog.domain.member.service.dto;
 
 import lombok.Builder;
 import lombok.Data;
