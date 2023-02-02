@@ -1,34 +1,30 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> | <router-link to="/login">Login</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <nav>
-    <router-link to="#">관리자</router-link> | <router-link to="/admin">메인</router-link> |
-    <router-link to="/admin/member">관리자 - 회원관리</router-link>
-  </nav>
+  <b-navbar type="light" variant="light">
+    <b-navbar-nav>
+      <b-nav-item to="/">Home</b-nav-item>
+      <b-nav-item to="/login">Login</b-nav-item>
+      <b-nav-item to="/about">About</b-nav-item>
+      <b-nav-item to="/vue-test">Vue.js Test</b-nav-item>
+      <br />
+      <b-nav-item to="#">관리자</b-nav-item>
+      <b-nav-item to="/admin">메인</b-nav-item>
+      <b-nav-item to="/admin/member">관리자 - 회원관리</b-nav-item>
+      <b-nav-item @click="logout">Logout</b-nav-item>
+    </b-navbar-nav>
+  </b-navbar>
   <router-view />
 </template>
+<script>
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    logout() {
+      alert('logout api 호출 연결');
+    },
+  },
+};
+</script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<style></style>

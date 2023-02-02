@@ -41,6 +41,11 @@ const routes = [
     beforeEnter: requireAuth(),
   },
   {
+    path: '/vue-test',
+    name: 'vue test',
+    component: () => import('../views/VueTestView.vue'),
+  },
+  {
     path: '/admin',
     name: 'admin main',
     component: () => import('../views/admin/AdminMain.vue'),
