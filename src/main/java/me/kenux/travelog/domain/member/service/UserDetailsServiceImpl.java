@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByEmail(username)
             .map(this::createUserDetails)
-            .orElseThrow(() -> new CustomException("Member not founded : " + username, ErrorCode.AUTH_MEMBER_NOT_EXIST));
+            .orElseThrow(() -> new CustomException("Member not founded : " + username, ErrorCode.AUTH_UNREGISTERED_MEMBER));
     }
 
     private UserDetails createUserDetails(Member member) {

@@ -46,7 +46,7 @@ public class MemberService {
     public MemberInfo.SimpleResponse getMemberSimpleInfo(Long id) {
         return memberRepository.findById(id)
             .map(MemberInfo.SimpleResponse::of)
-            .orElseThrow(() -> new CustomException(ErrorCode.AUTH_MEMBER_NOT_EXIST));
+            .orElseThrow(() -> new CustomException(ErrorCode.AUTH_UNREGISTERED_MEMBER));
     }
 
     @Transactional

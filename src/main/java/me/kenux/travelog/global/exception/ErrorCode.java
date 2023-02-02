@@ -14,7 +14,7 @@ public enum ErrorCode {
     // auth
     AUTH_UNAUTHORIZED(UNAUTHORIZED, "A001","UnAuthorized user"),
     AUTH_WRONG_PASSWORD(BAD_REQUEST, "A002","패스워드가 일치하지 않습니다."),
-    AUTH_MEMBER_NOT_EXIST(NOT_FOUND, "A003", "회원 정보를 찾을 수 없습니다."),
+    AUTH_UNREGISTERED_MEMBER(BAD_REQUEST, "A003", "미가입된 회원입니다."),
     AUTH_ACCESS_DENIED(FORBIDDEN, "A004", "Access denied"),
 
     // Token
