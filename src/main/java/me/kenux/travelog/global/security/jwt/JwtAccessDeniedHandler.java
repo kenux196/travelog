@@ -20,7 +20,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        ErrorResponse fail = ErrorResponse.getErrorResponse(ErrorCode.AUTH_ACCESS_DENIED);
+        ErrorResponse fail = ErrorResponse.of(ErrorCode.AUTH_ACCESS_DENIED);
         response.setStatus(HttpStatus.FORBIDDEN.value());
         final ObjectMapper objectMapper = new ObjectMapper();
 //        objectMapper.getFactory().configure(JsonWriteFeature.ESCAPE_NON_ASCII.mappedFeature(), true);

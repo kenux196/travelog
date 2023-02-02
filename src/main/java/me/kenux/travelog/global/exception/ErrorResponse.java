@@ -16,15 +16,10 @@ public class ErrorResponse {
     public static ResponseEntity<ErrorResponse> toResponseEntity(ErrorCode errorCode) {
         return ResponseEntity
             .status(errorCode.getHttpStatus())
-            .body(ErrorResponse.builder()
-                .status(errorCode.getHttpStatus().value())
-                .type(errorCode.name())
-                .message(errorCode.getMessage())
-                .code(errorCode.getCode())
-                .build());
+            .body(ErrorResponse.of(errorCode));
     }
 
-    public static ErrorResponse getErrorResponse(ErrorCode errorCode) {
+    public static ErrorResponse of(ErrorCode errorCode) {
         return ErrorResponse.builder()
             .status(errorCode.getHttpStatus().value())
             .type(errorCode.name())

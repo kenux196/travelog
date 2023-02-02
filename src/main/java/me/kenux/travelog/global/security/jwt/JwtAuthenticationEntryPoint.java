@@ -23,7 +23,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
         throws IOException, ServletException {
         log.error("Responding with unauthorized error. Message - {}", authException.getMessage());
-        ErrorResponse fail = ErrorResponse.getErrorResponse(ErrorCode.AUTH_UNAUTHORIZED);
+        ErrorResponse fail = ErrorResponse.of(ErrorCode.AUTH_UNAUTHORIZED);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         final ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(fail);
