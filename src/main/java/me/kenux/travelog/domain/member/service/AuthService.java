@@ -2,18 +2,18 @@ package me.kenux.travelog.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
-import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.RefreshTokenEntity;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
+import me.kenux.travelog.domain.member.repository.RefreshTokenRepository;
+import me.kenux.travelog.domain.member.service.dto.TokenInfo;
+import me.kenux.travelog.domain.member.service.dto.UserDetailsImpl;
+import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
+import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
-import me.kenux.travelog.domain.member.service.dto.UserDetailsImpl;
 import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
 import me.kenux.travelog.global.security.jwt.JwtValidationResult;
-import me.kenux.travelog.domain.member.service.dto.TokenInfo;
-import me.kenux.travelog.domain.member.repository.RefreshTokenRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -42,7 +42,7 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public TokenInfo login(LoginRequest request) {
+    public TokenInfo.Full login(LoginRequest request) {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         if (!passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             log.error("{} 비밀번호 오류", request.getUsername());
@@ -60,7 +60,7 @@ public class AuthService {
         final String refreshToken = jwtTokenProvider.createRefreshToken();
         saveRefreshToken(refreshToken, ((UserDetailsImpl) userDetails).getId());
 
-        return TokenInfo.builder()
+        return TokenInfo.Full.builder()
             .accessToken(accessToken)
             .refreshToken(refreshToken)
             .grantType("Bearer")
@@ -68,7 +68,7 @@ public class AuthService {
             .build();
     }
 
-    public TokenInfo refreshAccessToken(RefreshTokenRequest request) {
+    public TokenInfo.AccessToken refreshAccessToken(RefreshTokenRequest request) {
         final RefreshTokenEntity refreshToken = refreshTokenRepository.findByToken(request.getToken())
             .orElseThrow(() -> new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST));
 
@@ -77,7 +77,7 @@ public class AuthService {
         if (JwtValidationResult.VALID.equals(result)) {
             final Member member = refreshToken.getMember();
             final String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getUserRole().toString());
-            return TokenInfo.builder()
+            return TokenInfo.AccessToken.builder()
                 .accessToken(accessToken)
                 .build();
         } else if (JwtValidationResult.EXPIRED.equals(result)) {
