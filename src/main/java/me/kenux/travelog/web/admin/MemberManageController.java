@@ -2,7 +2,7 @@ package me.kenux.travelog.web.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.member.service.dto.response.MemberInfoResponse;
+import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
 import me.kenux.travelog.domain.member.repository.dto.MemberSearchCond;
 import me.kenux.travelog.domain.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,14 @@ public class MemberManageController {
 
     @GetMapping
     public ResponseEntity<?> getMembers(MemberSearchCond cond) {
-        final List<MemberInfoResponse> memberInfos = memberService.getMembers(cond);
+        final List<MemberInfo.DetailResponse> memberInfos = memberService.getMembers(cond);
         return ResponseEntity.ok(memberInfos);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getMemberDetail(@PathVariable("id") Long id) {
+        final MemberInfo.DetailResponse memberDetail = memberService.getMemberDetail(id);
+        return ResponseEntity.ok(memberDetail);
     }
 
     @DeleteMapping("/{id}")

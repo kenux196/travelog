@@ -2,11 +2,11 @@ package me.kenux.travelog.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.member.service.dto.response.MemberInfoResponse;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
 import me.kenux.travelog.domain.member.repository.dto.MemberSearchCond;
+import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
@@ -31,16 +31,22 @@ public class MemberService {
         passwordRepository.delete(member.getUserPassword());
     }
 
-    public List<MemberInfoResponse> getMembers(MemberSearchCond cond) {
+    public List<MemberInfo.DetailResponse> getMembers(MemberSearchCond cond) {
         return memberRepository.findMemberByCondition(cond).stream()
-            .map(MemberInfoResponse::from)
+            .map(MemberInfo.DetailResponse::of)
             .toList();
     }
 
-    public MemberInfoResponse getMemberDetail(Long id) {
+    public MemberInfo.DetailResponse getMemberDetail(Long id) {
         return memberRepository.findById(id)
-            .map(MemberInfoResponse::from)
+            .map(MemberInfo.DetailResponse::of)
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+    }
+
+    public MemberInfo.SimpleResponse getMemberSimpleInfo(Long id) {
+        return memberRepository.findById(id)
+            .map(MemberInfo.SimpleResponse::of)
+            .orElseThrow(() -> new CustomException(ErrorCode.AUTH_MEMBER_NOT_EXIST));
     }
 
     @Transactional

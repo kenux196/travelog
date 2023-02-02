@@ -1,8 +1,8 @@
 package me.kenux.travelog.web.api.member;
 
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.domain.member.service.dto.response.MemberInfoResponse;
 import me.kenux.travelog.domain.member.service.MemberService;
+import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +17,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getMemberDetail(@PathVariable("id") Long id) {
-        final MemberInfoResponse memberDetail = memberService.getMemberDetail(id);
-        return ResponseEntity.ok(memberDetail);
+    public ResponseEntity<?> getMyInfo(@PathVariable("id") Long id) {
+        final MemberInfo.SimpleResponse memberInfo = memberService.getMemberSimpleInfo(id);
+        return ResponseEntity.ok(memberInfo);
     }
 }

@@ -25,6 +25,10 @@ Content-Type: Application/json
 GET {{host}}/admin/member
 Authorization: Bearer {{accessToken}}
 
+### 회원 지정 조회
+GET{{host}}/admin/member/2
+Authorization: Bearer {{accessToken}}
+
 ### 회원 조건 검색 : 이메일
 GET {{host}}/admin/member?email=user1000@test.com
 Authorization: Bearer {{accessToken}}
