@@ -56,7 +56,7 @@ export default {
             this.loginSuccess = true;
             this.loginError = false;
             this.error = false;
-            // this.moveToHome();
+            this.moveToHome();
           } else {
             this.loginSuccess = false;
             this.loginError = true;
@@ -69,9 +69,10 @@ export default {
     },
     moveToHome() {
       if (store.getters.isAdmin) {
-        location.href = '/admin';
+        this.$router.push('/admin');
+      } else {
+        this.$router.push('/');
       }
-      location.href = '/';
     },
   },
 };
