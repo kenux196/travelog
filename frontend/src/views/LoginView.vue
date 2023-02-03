@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="outer">
     <h1>로그인 화면</h1>
     <div id="loginForm">
       <b-form>
@@ -70,7 +70,7 @@ export default {
 </script>
 <style>
 .outer {
-  text-align: center;
   width: 400px;
+  margin: auto;
 }
 </style>
