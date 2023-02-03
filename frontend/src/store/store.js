@@ -1,3 +1,4 @@
+import createdPersistedState from 'vuex-persistedstate';
 import { createStore } from 'vuex';
 
 export default createStore({
@@ -46,4 +47,5 @@ export default createStore({
     },
   },
   modules: {},
+  plugins: [createdPersistedState()],
 });
