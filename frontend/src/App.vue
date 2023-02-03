@@ -25,20 +25,42 @@
 </template>
 <script>
 import store from '@/store/store';
+import axios from 'axios';
 export default {
   data() {
     return {};
   },
   methods: {
-    logout() {
-      alert('logout api 호출 연결');
-      this.$router.push('/vue-test');
-    },
     isLoggedIn() {
       return store.getters.isLogin;
     },
     isAdmin() {
       return store.getters.isAdmin;
+    },
+    async logout() {
+      axios
+        .post(
+          '/api/auth/logout',
+          {},
+          {
+            headers: {
+              Authorization: 'Bearer ' + store.getters.getAccessToken,
+            },
+          },
+        )
+        .then(response => {
+          if (response.status === 200) {
+            store.dispatch('setToken', null);
+            store.dispatch('setRefreshToken', null);
+            store.dispatch('setRole', 'anonymouse');
+            this.$router.push('/login');
+          } else {
+            alert(response.status);
+          }
+        })
+        .catch(e => {
+          console.error('error : ', e);
+        });
     },
   },
 };
