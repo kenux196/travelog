@@ -26,6 +26,7 @@
 </template>
 <script>
 import axios from 'axios';
+import store from '@/store/store';
 
 export default {
   name: 'loginView',
@@ -36,7 +37,6 @@ export default {
       user: '',
       password: '',
       error: false,
-      userRole: '',
     };
   },
   methods: {
@@ -50,13 +50,13 @@ export default {
           if (response.status === 200) {
             console.log(response.data);
             console.log('accessToken: ' + response.data.accessToken);
-            this.$store.dispatch('setToken', response.data.accessToken);
-            this.$store.dispatch('setRefreshToken', response.data.refreshToken);
-            this.$store.dispatch('setRole', response.data.role);
+            store.dispatch('setToken', response.data.accessToken);
+            store.dispatch('setRefreshToken', response.data.refreshToken);
+            store.dispatch('setRole', response.data.role);
             this.loginSuccess = true;
             this.loginError = false;
             this.error = false;
-            this.userRole = response.data.role;
+            // this.moveToHome();
           } else {
             this.loginSuccess = false;
             this.loginError = true;
@@ -66,6 +66,12 @@ export default {
         .catch(e => {
           console.error('error : ', e);
         });
+    },
+    moveToHome() {
+      if (store.getters.isAdmin) {
+        location.href = '/admin';
+      }
+      location.href = '/';
     },
   },
 };
