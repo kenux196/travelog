@@ -32,6 +32,7 @@ export default {
   methods: {
     logout() {
       alert('logout api 호출 연결');
+      this.$router.push('/vue-test');
     },
     isLoggedIn() {
       return store.getters.isLogin;
