@@ -14,7 +14,7 @@
       </b-form>
     </div>
     <div class="protected" v-if="loginSuccess">
-      <h5>로그인 성공!</h5>
+      <h5>{{ userRole }}로그인 성공!</h5>
     </div>
     <div class="unprotected" v-else-if="loginError">
       <h5>로그인 실패!</h5>
@@ -36,6 +36,7 @@ export default {
       user: '',
       password: '',
       error: false,
+      userRole: '',
     };
   },
   methods: {
@@ -55,6 +56,7 @@ export default {
             this.loginSuccess = true;
             this.loginError = false;
             this.error = false;
+            this.userRole = response.data.role;
           } else {
             this.loginSuccess = false;
             this.loginError = true;
