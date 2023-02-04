@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>나이계산기</title>
+  </head>
+  <body>
+    <p id="year"></p>
+    <div>
+      <button onclick="clac()">나이계산하기</button>
+      <br />
+      <p>-------------------------------------------------</p>
+    </div>
+    <div>
+      <p id="result"></p>
+    </div>
+    <script>
+      const today = new Date();
+      document.querySelector("#year").innerHTML = "지금 시간은 " + today.toString();
+      displayDataType();
+
+      function clac() {
+        const currentYear = today.getFullYear();
+        let birthYear = prompt("태어난 년도를 입력하세요.", "YYYY");
+        let age = currentYear - birthYear + 1;
+        document.querySelector("#result").innerHTML = "당신의 나이는 " + age + "세 입니다.";
+      }
+
+      function displayDataType() {
+        const num = 123;
+        console.log(num + " is " + typeof num);
+
+        const str = "123";
+        console.log(str + " is " + typeof str);
+
+        const bool = false;
+        console.log(bool + " is " + typeof bool);
+
+        let undef;
+        console.log(undef + " is " + typeof undef);
+
+        const nullValue = null;
+        console.log(nullValue + " is " + typeof nullValue);
+
+        const arrA = [1, 2, 3];
+        console.log(arrA + " is " + typeof arrA);
+      }
+    </script>
+  </body>
+</html>

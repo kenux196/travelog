@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calculate Sale</title>
+  </head>
+  <body>
+    <p id="year"></p>
+    <div>
+      <label>원래 가격:</label>
+      <input id="origin" type="text"></input><label>원</label>
+      <br /><br />
+      <label>할인율:</label>
+      <input id="rate" type="text"></input><label>%</label>
+      <br /><br />
+      <button onclick="clac()">Calcuate sale price</button>
+      <br />
+      <p>-------------------------------------------------</p>
+    </div>
+    <div>
+      <p id="result"></p>
+      <p id="result-price"></p>
+    </div>
+    <script>
+      const today = new Date();
+      document.querySelector("#year").innerHTML = "지금 시간은 " + today.toString();
+
+      function clac() {
+        const originPrice = document.querySelector('#origin').value;
+        const rate = document.querySelector('#rate').value;
+        const discountPrice = originPrice * (rate / 100);
+        const saledPrice = originPrice - discountPrice;
+        // document.querySelector("#result").innerHTML = "상품의 원래 가격은 " + originPrice + "원이고, 할인율은 " + rate + "%입니다.";
+        // document.querySelector("#result-price").innerHTML = "할인적용 가격은 " + saledPrice + "원이고, " + discountPrice + "원 할인 받았습니다.";
+        document.querySelector('#result').innerHTML = `상품 가격은 ${originPrice}원이고, 할인율은 ${rate}%입니다.`;
+        document.querySelector("#result-price").innerHTML = `${discountPrice}원을 할인받아서, ${saledPrice}원에 상품을 구입할 수 있습니다.`;
+
+      }
+    </script>
+  </body>
+</html>
