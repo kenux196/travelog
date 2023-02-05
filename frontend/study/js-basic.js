@@ -67,3 +67,6 @@ for (let i = 0; i < 5; i++) {
   bookShelf.push(book);
 }
 console.log(bookShelf);
+
+const bigInt = 123123123123123123123123123123123123123n;
+console.log(typeof bigInt);
