@@ -10,9 +10,11 @@ export default createStore({
   },
   getters: {
     isLogin(state) {
+      console.log('accessToken = ' + state.accessToken);
       return state.accessToken == null ? false : true;
     },
     isAdmin(state) {
+      console.log('role = ' + state.role);
       return state.role.split(',').includes('ROLE_ADMIN');
     },
     getAccessToken(state) {
