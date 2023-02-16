@@ -1,8 +1,10 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="여기는 kenux의 개인 프로젝트 화면입니다." />
-  </div>
+  <main class="container">
+    <div class="home">
+      <img alt="Vue logo" src="../assets/logo.png" />
+      <HelloWorld msg="JAMIRO 만드는 사이트" />
+    </div>
+  </main>
 </template>
 
 <script>
