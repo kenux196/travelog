@@ -92,8 +92,10 @@ public class AuthService {
     private void saveRefreshToken(String refreshToken, Long memberId) {
         final Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new CustomException(ErrorCode.AUTH_UNREGISTERED_MEMBER));
-        final RefreshTokenEntity entity = new RefreshTokenEntity(refreshToken, member);
-        refreshTokenRepository.save(entity);
+
+        final RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByMemberId(memberId)
+                .orElse(new RefreshTokenEntity(refreshToken, member));
+        refreshTokenRepository.save(refreshTokenEntity);
     }
 
     @Transactional
