@@ -1,12 +1,10 @@
 <template>
   <h1>로그인 화면</h1>
   <div class="login">
-    <form>
-      <input type="text" placeholder="email" v-model="user" />
-      <input type="password" v-model="password" />
-      <button type="submit" @click="login()">로그인</button>
-      <p v-if="error" class="error">Bad login information.</p>
-    </form>
+    <input type="text" placeholder="email" v-model="user" />
+    <input type="password" v-model="password" />
+    <button type="submit" @click="login()">로그인</button>
+    <p v-if="error" class="error">Bad login information.</p>
   </div>
   <div class="protected" v-if="loginSuccess">
     <h5>{{ userRole }}로그인 성공!</h5>
