@@ -42,3 +42,4 @@ out/
 
 src/main/resources/static/
 *.private.env.json
+src/main/resources/templates/
