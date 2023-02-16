@@ -40,6 +40,5 @@ out/
 ### ETC ###
 .DS_Store
 
-#src/main/resources/static/
-
+src/main/resources/static/
 *.private.env.json
