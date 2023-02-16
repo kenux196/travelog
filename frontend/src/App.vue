@@ -1,27 +1,35 @@
 <template>
-  <div class="container">
-    <div class="nav-area">
-      <b-navbar type="light" variant="light">
-        <b-navbar-brand tag="h1" class="mb-0">My TEST</b-navbar-brand>
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-            <b-nav-item to="/">Home</b-nav-item>
-            <b-nav-item to="/about">About</b-nav-item>
-            <b-nav-item to="/vue-test">Vue.js Test</b-nav-item>
-          </b-navbar-nav>
-          <b-navbar-nav v-if="isAdmin()" class="ml-auto">
-            <b-nav-item to="/admin">관리자-메인</b-nav-item>
-            <b-nav-item to="/admin/member">관리자-회원관리</b-nav-item>
-          </b-navbar-nav>
-          <b-navbar-nav>
-            <b-nav-item v-if="isLoggedIn()" @click="logout">Logout</b-nav-item>
-            <b-nav-item v-else to="/login">Login</b-nav-item>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
-    </div>
+  <header class="container">
+    <nav>
+      <ul>
+        <li><strong>KENUX JAMIRO</strong></li>
+      </ul>
+      <ul>
+        <li>
+          <router-link to="/">Home</router-link>
+        </li>
+        <li>
+          <router-link to="/about">About</router-link>
+        </li>
+        <li>
+          <router-link to="/vue-test">Vue.js Test</router-link>
+        </li>
+        <li v-if="isAdmin()">
+          <router-link to="/admin">관리자-메인</router-link>
+        </li>
+        <li v-if="isAdmin()">
+          <router-link to="/admin/member">관리자-회원관리</router-link>
+        </li>
+        <li>
+          <a v-if="isLoggedIn()" @click="logout">Logout</a>
+          <router-link v-else to="/login">Login</router-link>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main class="container">
     <router-view />
-  </div>
+  </main>
 </template>
 <script>
 import store from '@/store/store';
@@ -65,18 +73,4 @@ export default {
   },
 };
 </script>
-
-<style>
-#app {
-  width: 100vw;
-  height: 100vh;
-  text-align: center;
-}
-.container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>
+<style></style>
