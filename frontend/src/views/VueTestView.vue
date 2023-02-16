@@ -1,14 +1,39 @@
 <template>
   <div class="test">
-    <h1>This is Vue.js Test Page</h1>
-    <br />
-    <b-button>Button</b-button>
-    <b-button variant="danger" @click="showMessage">Show Message</b-button>
-    <b-button variant="success">Button</b-button>
-    <b-button variant="outline-primary">Button</b-button>
-    <div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
-      Example element with utilities
+    <h1>This is Vue.js & Pico.css Test Page.</h1>
+
+    <h3>buttons</h3>
+    <button>default</button>
+
+    <h3>Table</h3>
+    <div class="grid">
+      <div>
+        <details role="list">
+          <summary aria-haspopup="listbox">장르</summary>
+          <ul role="listbox">
+            <li><a>인문</a></li>
+            <li><a>IT</a></li>
+            <li><a>과학</a></li>
+          </ul>
+        </details>
+      </div>
+      <div><input type="text" placeholder="검색어를 입력하세요" /></div>
+      <button type="submit">검색</button>
     </div>
+    <table>
+      <thead>
+        <th>제목</th>
+        <th>저자</th>
+        <th>등록일</th>
+      </thead>
+      <tbody>
+        <tr v-for="book in books" :key="book.id">
+          <td>{{ book.title }}</td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.createDate }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 <script>
@@ -17,6 +42,26 @@ export default {
   data() {
     return {
       message: '위험',
+      books: [
+        {
+          id: 1,
+          title: '해방전선',
+          author: '윤작가',
+          createDate: '2020-02-04',
+        },
+        {
+          id: 2,
+          title: '시간은 돈이다. 잘 사용해라',
+          author: '윤상규',
+          createDate: '2020-02-04',
+        },
+        {
+          id: 3,
+          title: '오늘만 사는 놈은 서행차선이다.',
+          author: '윤상규',
+          createDate: '2020-02-03',
+        },
+      ],
     };
   },
   methods: {
