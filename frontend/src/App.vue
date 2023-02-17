@@ -11,9 +11,6 @@
         <li>
           <router-link to="/about">About</router-link>
         </li>
-        <li>
-          <router-link to="/vue-test">Vue.js Test</router-link>
-        </li>
         <li v-if="isAdmin()">
           <router-link to="/admin">관리자-메인</router-link>
         </li>
@@ -23,6 +20,9 @@
         <li>
           <a v-if="isLoggedIn()" @click="logout">Logout</a>
           <router-link v-else to="/login">Login</router-link>
+        </li>
+        <li>
+          <router-link to="/learn">learn vue.js</router-link>
         </li>
       </ul>
     </nav>

@@ -35,6 +35,7 @@
       </tbody>
     </table>
   </div>
+  <router-link to="/">home</router-link>
 </template>
 <script>
 export default {
