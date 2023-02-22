@@ -41,11 +41,6 @@ const routes = [
     beforeEnter: requireAuth(),
   },
   {
-    path: '/vue-test',
-    name: 'vue test',
-    component: () => import('../views/VueTestView.vue'),
-  },
-  {
     path: '/admin',
     name: 'admin main',
     component: () => import('../views/admin/AdminMain.vue'),
@@ -56,6 +51,16 @@ const routes = [
     name: 'admin member management',
     component: () => import('../views/admin/AdminMember.vue'),
     beforeEnter: requireAdmin(),
+  },
+  {
+    path: '/learn',
+    name: 'learn main',
+    component: () => import('../views/learn/LearnMain.vue'),
+  },
+  {
+    path: '/learn/test01',
+    name: 'learn test 01',
+    component: () => import('../views/learn/LearnTest01.vue'),
   },
 ];
 

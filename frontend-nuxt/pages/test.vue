@@ -8,6 +8,8 @@
   </div>
   <p>Current color: {{ color }}</p>
   <p>Current user: {{ name }}</p>
+  <p>runtimeConfig: {{ runtimeConfig }}</p>
+<p>appConfig: {{ appConfig }}</p>
 </template>
 
 <script setup>
@@ -15,4 +17,6 @@
 const color = useColor()
 const counter = useCounter()
 const name = useName();
+const runtimeConfig = useRuntimeConfig()
+const appConfig = useAppConfig();
 </script>
