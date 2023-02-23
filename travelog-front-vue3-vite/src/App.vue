@@ -1,85 +1,73 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
+import axios from 'axios';
+import { RouterLink, RouterView, useRouter } from 'vue-router';
+import { useAuthStore } from './stores/auth';
+
+const router = useRouter();
+
+function isLoggedIn() {
+  return useAuthStore.isLoggedIn;
+}
+
+function isAdmin() {
+  return useAuthStore.isAdmin;
+}
+
+async function logout() {
+  axios
+    .post(
+      '/api/auth/logout',
+      {},
+      {
+        headers: {
+          Authorization: 'Bearer ' + useAuthStore.accessToken,
+        },
+      },
+    )
+    .then((response) => {
+      if (response.status === 200) {
+        useAuthStore.setAuthentication(null, null, 'anonymouse');
+        router.push('/login');
+      } else {
+        alert(response.status);
+      }
+    })
+    .catch((e) => {
+      console.error('error : ', e);
+    });
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
+  <header class="container">
+    <nav>
+      <ul>
+        <li><strong>KENUX JAMIRO</strong></li>
+      </ul>
+      <ul>
+        <li>
+          <router-link to="/">Home</router-link>
+        </li>
+        <li>
+          <router-link to="/about">About</router-link>
+        </li>
+        <li v-if="isAdmin()">
+          <router-link to="/admin">관리자메인화면</router-link>
+        </li>
+        <li v-if="isAdmin()">
+          <router-link to="/admin/member">회원관리(관리자)</router-link>
+        </li>
+        <li>
+          <a v-if="isLoggedIn()" @click="logout">Logout</a>
+          <router-link v-else to="/login">Login</router-link>
+        </li>
+        <li>
+          <router-link to="/learn">learn vue.js</router-link>
+        </li>
+      </ul>
+    </nav>
   </header>
-
-  <RouterView />
+  <main class="container">
+    <RouterView />
+  </main>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
