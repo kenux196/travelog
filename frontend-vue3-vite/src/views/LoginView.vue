@@ -7,7 +7,7 @@
     <p v-if="error" class="error">Bad login information.</p>
   </div>
   <div class="protected" v-if="loginSuccess">
-    <h5>{{ userRole }}로그인 성공!</h5>
+    <h5>{{ store.role }} 로그인 성공!</h5>
   </div>
   <div class="unprotected" v-else-if="loginError">
     <h5>로그인 실패!</h5>
@@ -30,6 +30,7 @@ const password = ref('');
 const error = ref(false);
 
 const router = useRouter();
+const store = useAuthStore();
 
 async function login() {
   axios
@@ -41,7 +42,9 @@ async function login() {
       if (response.status === 200) {
         console.log(response.data);
         console.log('accessToken: ' + response.data.accessToken);
-        useAuthStore.setAuthentication(response.data.accessToken, response.data.refreshToken, response.data.role);
+        store.accessToken = response.data.accessToken;
+        store.refreshToken = response.data.refreshToken;
+        store.role = response.data.role;
         loginSuccess.value = true;
         loginError.value = false;
         error.value = false;
@@ -58,7 +61,7 @@ async function login() {
 }
 
 function moveToHome() {
-  if (useAuthStore.isAdmin) {
+  if (store.isAdmin) {
     router.push('/admin');
   } else {
     router.push('/');

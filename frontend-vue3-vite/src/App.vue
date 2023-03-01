@@ -4,14 +4,7 @@ import { RouterLink, RouterView, useRouter } from 'vue-router';
 import { useAuthStore } from './stores/auth';
 
 const router = useRouter();
-
-function isLoggedIn() {
-  return useAuthStore.isLoggedIn;
-}
-
-function isAdmin() {
-  return useAuthStore.isAdmin;
-}
+const authStore = useAuthStore();
 
 async function logout() {
   axios
@@ -20,13 +13,15 @@ async function logout() {
       {},
       {
         headers: {
-          Authorization: 'Bearer ' + useAuthStore.accessToken,
+          Authorization: 'Bearer ' + authStore.accessToken,
         },
       },
     )
     .then((response) => {
       if (response.status === 200) {
-        useAuthStore.setAuthentication(null, null, 'anonymouse');
+        authStore.accessToken = '';
+        authStore.refreshToken = '';
+        authStore.role = 'anonymouse';
         router.push('/login');
       } else {
         alert(response.status);
@@ -51,14 +46,14 @@ async function logout() {
         <li>
           <router-link to="/about">About</router-link>
         </li>
-        <li v-if="isAdmin()">
+        <li v-if="authStore.isAdmin">
           <router-link to="/admin">관리자메인화면</router-link>
         </li>
-        <li v-if="isAdmin()">
+        <li v-if="authStore.isAdmin">
           <router-link to="/admin/member">회원관리(관리자)</router-link>
         </li>
         <li>
-          <a v-if="isLoggedIn()" @click="logout">Logout</a>
+          <a v-if="authStore.isLoggedIn" @click="logout">Logout</a>
           <router-link v-else to="/login">Login</router-link>
         </li>
         <li>

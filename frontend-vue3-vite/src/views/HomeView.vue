@@ -1,3 +1,7 @@
+<script setup>
+import HelloWorld from '../components/HelloWorld.vue';
+</script>
+
 <template>
   <main class="container">
     <div class="home">
@@ -6,10 +10,6 @@
     </div>
   </main>
 </template>
-
-<script setup>
-import HelloWorld from '../components/HelloWorld.vue';
-</script>
 
 <style scoped>
 .logo {

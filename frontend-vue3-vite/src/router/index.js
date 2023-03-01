@@ -3,24 +3,6 @@ import { useAuthStore } from './../stores/auth';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 
-const requireAuth = () => (from, to, next) => {
-  if (useAuthStore.isLoggedIn) {
-    console.log('This user logged in.');
-    return next();
-  }
-  console.log('This user not logged in. need login');
-  next('/login');
-};
-
-const requireAdmin = () => (from, to, next) => {
-  if (useAuthStore.isAdmin) {
-    console.log('This user role is admin!');
-    return next();
-  }
-  console.log('This user role is not admin!~!');
-  next('/login');
-};
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -36,7 +18,9 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
-      beforeEnter: requireAuth(),
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/login',
@@ -46,13 +30,19 @@ const router = createRouter({
       path: '/admin',
       name: 'admin main',
       component: () => import('../views/admin/AdminMain.vue'),
-      beforeEnter: requireAdmin(),
+      meta: {
+        requiresAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/member',
       name: 'admin member management',
       component: () => import('../views/admin/AdminMember.vue'),
-      beforeEnter: requireAdmin(),
+      meta: {
+        requiresAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/learn',
@@ -65,6 +55,26 @@ const router = createRouter({
       component: () => import('../views/learn/LearnTest01.vue'),
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  console.log('router.beforeEach : from =' + from.path);
+  console.log('router.beforeEach : to =' + to.path);
+  console.log('router.beforeEach : to =' + JSON.stringify(to.meta));
+  const authStore = useAuthStore();
+  const isLoggedIn = authStore.isLoggedIn;
+  const isAdmin = authStore.isAdmin;
+
+  if (to.meta.requiresAuth && !isLoggedIn) {
+    console.log('redirect to "/login"');
+    next('/login');
+  } else {
+    if (to.meta.isAdmin && !isAdmin) {
+      alert('관라지 권한이 있어야 합니다. 로그아웃 후 다시 관리자 계정으로 로그인하세요.');
+    } else {
+      next();
+    }
+  }
 });
 
 export default router;
