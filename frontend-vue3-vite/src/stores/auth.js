@@ -1,31 +1,29 @@
-import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 
-export const useAuthStore = defineStore('auth', () => {
-  const accessToken = ref('');
-  const refreshToken = ref('');
-  const role = ref('anonymouse');
-
-  const isLoggedIn = computed(() => (accessToken.value != '' ? true : false));
-  const isAdmin = computed(() => role.value.split(',').includes('ROLE_ADMIN'));
-
-  function setAuthentication(accessToken, refreshToken, role) {
-    accessToken.value = accessToken;
-    refreshToken.value = refreshToken;
-    role.value = role;
-  }
-
-  function updateAccessToken(token) {
-    accessToken.value = token;
-  }
-
-  return {
-    accessToken,
-    refreshToken,
-    role,
-    isLoggedIn,
-    isAdmin,
-    setAuthentication,
-    updateAccessToken,
-  };
+export const useAuthStore = defineStore('auth', {
+  state: () => {
+    return {
+      accessToken: '',
+      refreshToken: '',
+      role: 'anonymouse',
+    };
+  },
+  getters: {
+    isLoggedIn: (state) => (state.accessToken != '' ? true : false),
+    isAdmin: (state) => state.role.split(',').includes('ROLE_ADMIN'),
+  },
+  actions: {
+    setAuthentication(accessToken, refreshToken, role) {
+      this.accessToken = accessToken;
+      this.refreshToken = refreshToken;
+      this.role = role;
+    },
+    updateAccessToken(token) {
+      this.accessToken.value = token;
+    },
+  },
+  persist: {
+    enabled: true,
+    strategies: [{ Storage: localStorage }],
+  },
 });
