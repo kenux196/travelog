@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -35,36 +36,37 @@ public class SecurityConfig {
     @Profile("!local")
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean
     @Profile("local")
     public WebSecurityCustomizer webSecurityCustomizerLocal() {
         return web -> web.ignoring()
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-            .requestMatchers(toH2Console());
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .requestMatchers(toH2Console());
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(request -> request
-                .requestMatchers("/", "/api/signup", "/api/auth/**").permitAll()
-                .requestMatchers("/api/book").permitAll()
-                .requestMatchers("/api/auth/logout").authenticated()
-                .requestMatchers("/admin/**", "/api/test/admin").hasRole("ADMIN")
-                .requestMatchers("/api/**").hasRole("USER")
-                .anyRequest().authenticated())
-            .formLogin().disable()
-            .httpBasic().disable()
-            .csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-            .accessDeniedHandler(jwtAccessDeniedHandler)
-            .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/", "/api/signup", "/api/auth/**").permitAll()
+                        .requestMatchers("/api/book").permitAll()
+                        .requestMatchers("/api/auth/logout").authenticated()
+                        .requestMatchers("/admin/**", "/api/test/admin").hasRole("ADMIN")
+                        .requestMatchers("/api/**").hasRole("USER")
+                        .anyRequest().authenticated())
+                .formLogin().disable()
+                .httpBasic().disable()
+                .csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
