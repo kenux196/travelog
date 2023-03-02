@@ -22,31 +22,31 @@ Content-Type: Application/json
 %}
 
 ### 회원 전체 조회
-GET {{host}}/admin/member
+GET {{host}}/api/admin/member
 Authorization: Bearer {{accessToken}}
 
 ### 회원 지정 조회
-GET{{host}}/admin/member/2
+GET{{host}}/api/admin/member/2
 Authorization: Bearer {{accessToken}}
 
 ### 회원 조건 검색 : 이메일
-GET {{host}}/admin/member?email=user1000@test.com
+GET {{host}}/api/admin/member?email=user1000@test.com
 Authorization: Bearer {{accessToken}}
 
 ### 회원 조건 검색 : 이름
-GET {{host}}/admin/member?name=user1001
+GET {{host}}/api/admin/member?name=user1001
 Authorization: Bearer {{accessToken}}
 
 ### 회원 조건 검색 : 상태
-GET {{host}}/admin/member?status=BLOCKED
+GET {{host}}/api/admin/member?status=BLOCKED
 Authorization: Bearer {{accessToken}}
 
 ### 회원 삭제
-DELETE {{host}}/admin/member/11
+DELETE {{host}}/api/admin/member/11
 Authorization: Bearer {{accessToken}}
 
 ### 회원 블랙 처리
-PATCH {{host}}/admin/member/10/block
+PATCH {{host}}/api/admin/member/10/block
 Authorization: Bearer {{accessToken}}
 
 ### 로그아웃
