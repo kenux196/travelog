@@ -2,7 +2,7 @@
 
 build_frontend () {
     echo "build frontend-vue3-vite"
-    cd frontend
+    cd frontend-vue3-vite
     npm run build
     cd ..
 }
