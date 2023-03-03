@@ -19,6 +19,18 @@ const logout = () => {
       console.error('logout error : ', e);
     });
 };
+
+const refreshToken = () => {
+  auth
+    .refreshToken(authStore.refreshToken)
+    .then((data) => {
+      authStore.accessToken = data.accessToken;
+      console.log(data.accessToken);
+    })
+    .catch((e) => {
+      console.error('logout error : ', e);
+    });
+};
 </script>
 
 <template>
@@ -41,7 +53,8 @@ const logout = () => {
           <router-link to="/admin/member">회원관리(관리자)</router-link>
         </li>
         <li>
-          <a v-if="authStore.isLoggedIn" @click="logout">Logout</a>
+          <a v-if="authStore.isLoggedIn" @click="logout">Logout</a> |
+          <a v-if="authStore.isLoggedIn" @click="refreshToken">RefresToken</a>
           <router-link v-else to="/login">Login</router-link>
         </li>
         <li>

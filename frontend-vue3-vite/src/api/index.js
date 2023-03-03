@@ -32,6 +32,9 @@ const auth = {
     setAuthInHeader(token);
     return request('post', '/api/auth/logout');
   },
+  refreshToken(token) {
+    return request('post', '/api/auth/refreshToken', { token });
+  },
 };
 
 const setAuthInHeader = (token) => {
