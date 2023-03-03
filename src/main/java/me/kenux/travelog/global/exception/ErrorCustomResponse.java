@@ -6,21 +6,21 @@ import org.springframework.http.ResponseEntity;
 
 @Getter
 @Builder
-public class ErrorResponse {
+public class ErrorCustomResponse {
 
     private final int status;
     private final String type;
     private final String message;
     private final String code;
 
-    public static ResponseEntity<ErrorResponse> toResponseEntity(ErrorCode errorCode) {
+    public static ResponseEntity<ErrorCustomResponse> toResponseEntity(ErrorCode errorCode) {
         return ResponseEntity
             .status(errorCode.getHttpStatus())
-            .body(ErrorResponse.of(errorCode));
+            .body(ErrorCustomResponse.of(errorCode));
     }
 
-    public static ErrorResponse of(ErrorCode errorCode) {
-        return ErrorResponse.builder()
+    public static ErrorCustomResponse of(ErrorCode errorCode) {
+        return ErrorCustomResponse.builder()
             .status(errorCode.getHttpStatus().value())
             .type(errorCode.name())
             .message(errorCode.getMessage())
