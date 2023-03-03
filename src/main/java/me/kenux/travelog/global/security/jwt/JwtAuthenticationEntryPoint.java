@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.global.exception.ErrorCode;
-import me.kenux.travelog.global.exception.ErrorResponse;
+import me.kenux.travelog.global.exception.ErrorCustomResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -23,7 +23,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
         throws IOException, ServletException {
         log.error("Responding with unauthorized error. Message - {}", authException.getMessage());
-        ErrorResponse fail = ErrorResponse.of(ErrorCode.AUTH_UNAUTHORIZED);
+        ErrorCustomResponse fail = ErrorCustomResponse.of(ErrorCode.AUTH_UNAUTHORIZED);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         final ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(fail);

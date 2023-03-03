@@ -1,6 +1,7 @@
 package me.kenux.travelog.global.config;
 
 import lombok.RequiredArgsConstructor;
+import me.kenux.travelog.global.exception.ExceptionHandlerFilter;
 import me.kenux.travelog.global.security.jwt.JwtAccessDeniedHandler;
 import me.kenux.travelog.global.security.jwt.JwtAuthenticationEntryPoint;
 import me.kenux.travelog.global.security.jwt.JwtAuthenticationFilter;
@@ -65,9 +66,11 @@ public class SecurityConfig {
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
             .accessDeniedHandler(jwtAccessDeniedHandler)
             .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http
+            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
+
         return http.build();
     }
 

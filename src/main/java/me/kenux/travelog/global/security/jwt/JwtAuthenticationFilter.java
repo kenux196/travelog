@@ -6,12 +6,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.kenux.travelog.global.exception.CustomException;
+import me.kenux.travelog.global.exception.ErrorCode;
+import me.kenux.travelog.global.exception.ErrorCustomResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MimeType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -29,26 +35,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, IOException {
 
-        try {
-            final String token = parseJwt(request);
-            JwtValidationResult result = JwtValidationResult.INVALID;
-            if (StringUtils.hasText(token)) {
-                result = jwtTokenProvider.validateToken(token);
-            }
-
-            if (result == JwtValidationResult.VALID) {
-                String username = jwtTokenProvider.getUserNameFromJwtToken(token);
-                final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication =
+        final String token = parseJwt(request);
+        if (StringUtils.hasText(token)) {
+            jwtTokenProvider.validateToken(token);
+            String username = jwtTokenProvider.getUserNameFromJwtToken(token);
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else if (result == JwtValidationResult.EXPIRED) {
-                // TODO - expired 시 응답 내보내기. 2023-01-30 skyun
-                log.info("Access Token was expired.");
-            }
-        } catch (Exception e) {
-            log.error("Cannot set user authentication: {}", e.getMessage());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }

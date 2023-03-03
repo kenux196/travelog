@@ -1,22 +1,27 @@
 package me.kenux.travelog.global.security.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
+import me.kenux.travelog.global.exception.JwtTokenExpiredException;
+import me.kenux.travelog.global.exception.JwtTokenInvalidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Slf4j
 class JwtTokenProviderTest {
 
-    private String secretKey = "12345678901234567890123456789012345678901234567890123456789012345678901234";
-    private int tokenExpirationMinute = 5000;  // 5 sec
-    private int refreshTokenExpirationMinute = 10; // 10 sec
-
+    private final String secretKey = "12345678901234567890123456789012345678901234567890123456789012345678901234";
+    private final int refreshTokenExpirationMinute = 10; // 10 sec
     private JwtTokenProvider jwtTokenProvider;
 
     @BeforeEach
     void beforeEach() {
+        // 5 sec
+        int tokenExpirationMinute = 5000;
         jwtTokenProvider = new JwtTokenProvider(secretKey, tokenExpirationMinute, refreshTokenExpirationMinute);
     }
 
@@ -41,25 +46,22 @@ class JwtTokenProviderTest {
     @Test
     void validationAccessKey() {
         final String accessToken = createAccessToken();
-        final JwtValidationResult result = jwtTokenProvider.validateToken(accessToken);
-        assertThat(result).isEqualTo(JwtValidationResult.VALID);
+        jwtTokenProvider.validateToken(accessToken);
+        assertThatCode(() -> jwtTokenProvider.validateToken(accessToken))
+                .doesNotThrowAnyException();
     }
 
     @Test
     void ValidationAccessKey_Failed_Expired() throws InterruptedException {
-        jwtTokenProvider = new JwtTokenProvider(secretKey, 1000 , refreshTokenExpirationMinute);
-        final String accessToken = jwtTokenProvider.createAccessToken("admin@test.com", "ADMIN");
-        Thread.sleep(2000);
-
-        final JwtValidationResult result = jwtTokenProvider.validateToken(accessToken);
-        assertThat(result).isEqualTo(JwtValidationResult.EXPIRED);
+        final String expiredToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0ZXN0LmNvbSIsImF1dGgiOiJBRE1JTiIsImV4cCI6MTY3NzgzMzQzOH0.6Rnn5ZUHajuf7LNntUu2a2nxvbfoQ0sl9kfSEb9QevPxMCVrm_BWiOm2LiHemH6Fvz2BFoY7v3xk3yXra7E68A";
+        assertThatThrownBy(() -> jwtTokenProvider.validateToken(expiredToken))
+                .isInstanceOf(JwtTokenExpiredException.class);
     }
 
     @Test
     void ValidationAccessKey_Failed_Invalid() {
-        String accessToken = createAccessToken();
-        accessToken = accessToken.toUpperCase();
-        final JwtValidationResult result = jwtTokenProvider.validateToken(accessToken);
-        assertThat(result).isEqualTo(JwtValidationResult.INVALID);
+        String accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0ZXN0LmNvbSIsImF1dGgiOiJBRE";
+        assertThatThrownBy(() -> jwtTokenProvider.validateToken(accessToken))
+                .isInstanceOf(JwtTokenInvalidException.class);
     }
 }

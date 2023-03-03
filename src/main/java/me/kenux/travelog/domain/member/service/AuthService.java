@@ -72,21 +72,12 @@ public class AuthService {
         final RefreshTokenEntity refreshToken = refreshTokenRepository.findByToken(request.getToken())
             .orElseThrow(() -> new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST));
 
-        final JwtValidationResult result = jwtTokenProvider.validateToken(refreshToken.getToken());
-
-        if (JwtValidationResult.VALID.equals(result)) {
-            final Member member = refreshToken.getMember();
-            final String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getUserRole().toString());
-            return TokenInfo.AccessToken.builder()
-                .accessToken(accessToken)
-                .build();
-        } else if (JwtValidationResult.EXPIRED.equals(result)) {
-            // TODO - neet relogin 2023-01-30 skyun
-            throw new RuntimeException("Need re-login");
-        } else {
-            // TODO - error 2023-01-30 skyun
-            throw new RuntimeException("error");
-        }
+        jwtTokenProvider.validateToken(refreshToken.getToken());
+        final Member member = refreshToken.getMember();
+        final String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getUserRole().toString());
+        return TokenInfo.AccessToken.builder()
+            .accessToken(accessToken)
+            .build();
     }
 
     private void saveRefreshToken(String refreshToken, Long memberId) {

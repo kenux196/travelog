@@ -4,6 +4,10 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.kenux.travelog.global.exception.CustomException;
+import me.kenux.travelog.global.exception.ErrorCode;
+import me.kenux.travelog.global.exception.JwtTokenExpiredException;
+import me.kenux.travelog.global.exception.JwtTokenInvalidException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -85,17 +89,19 @@ public class JwtTokenProvider {
             .getBody();
     }
 
-    public JwtValidationResult validateToken(String token) {
+    public void validateToken(String token) {
         try {
             jwtParser().parseClaimsJws(token);
-            return JwtValidationResult.VALID;
         } catch (ExpiredJwtException e) {
-            log.error("Failed validateToken : {}", e.getMessage());
-            return JwtValidationResult.EXPIRED;
+            throw new JwtTokenExpiredException(e);
         } catch (Exception e) {
-            log.error("Failed validateToken : {}", e.getMessage());
-            return JwtValidationResult.INVALID;
+            throw new JwtTokenInvalidException(e);
         }
+    }
+
+    public boolean validateToken2(String token) {
+        jwtParser().parseClaimsJws(token);
+        return true;
     }
 
     private JwtParser jwtParser() {
