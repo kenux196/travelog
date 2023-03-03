@@ -36,7 +36,7 @@ const options = {
 };
 
 async function getMembers() {
-  axios.get('http://localhost:8080/api/admin/member', options).then((res) => {
+  axios.get('/api/admin/member', options).then((res) => {
     members.value = res.data;
   });
 }

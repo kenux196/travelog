@@ -7,7 +7,7 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
   server: {
     proxy: {
-      '/api': {
+      '/api/*': {
         target: 'http://localhost:8080',
         changeOrigin: true,
       },
@@ -18,5 +18,8 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
+  },
+  build: {
+    outDir: '../src/main/resources/static',
   },
 });

@@ -35,7 +35,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 
     // thymeleaf
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     // Querydsl for spring boot 3.0
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'

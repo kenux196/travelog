@@ -1,7 +1,7 @@
 #!/bin/bash
 
 build_frontend () {
-    echo "build frontend"
+    echo "build frontend-vue3-vite"
     cd frontend
     npm run build
     cd ..
