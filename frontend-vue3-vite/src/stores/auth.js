@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', {
       this.role = role;
     },
     updateAccessToken(token) {
-      this.accessToken.value = token;
+      this.accessToken = token;
     },
   },
   persist: {

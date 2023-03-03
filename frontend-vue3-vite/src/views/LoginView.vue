@@ -3,70 +3,44 @@
   <div class="login">
     <input type="text" placeholder="email" v-model="user" />
     <input type="password" v-model="password" />
-    <button type="submit" @click="login()">로그인</button>
-    <p v-if="error" class="error">Bad login information.</p>
-  </div>
-  <div class="protected" v-if="loginSuccess">
-    <h5>{{ store.role }} 로그인 성공!</h5>
-  </div>
-  <div class="unprotected" v-else-if="loginError">
-    <h5>로그인 실패!</h5>
-  </div>
-  <div class="unprotected" v-else>
-    <h5>로그인 하지 않았습니다. 로그인을 해 주세요.</h5>
+    <button type="submit" @click="login">로그인</button>
   </div>
 </template>
 
 <script setup>
-import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
+import { auth } from '../api';
 
-const loginSuccess = ref(false);
-const loginError = ref(false);
 const user = ref('');
 const password = ref('');
-const error = ref(false);
 
 const router = useRouter();
 const store = useAuthStore();
 
-async function login() {
-  axios
-    .post('/api/auth/login', {
-      username: user.value,
-      password: password.value,
-    })
+const login = () => {
+  auth
+    .login(user.value, password.value)
     .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-        console.log('accessToken: ' + response.data.accessToken);
-        store.accessToken = response.data.accessToken;
-        store.refreshToken = response.data.refreshToken;
-        store.role = response.data.role;
-        loginSuccess.value = true;
-        loginError.value = false;
-        error.value = false;
-        moveToHome();
-      } else {
-        loginSuccess.value = false;
-        loginError.value = true;
-        error.value = true;
-      }
+      console.log('accessToken: ' + response.accessToken);
+      store.accessToken = response.accessToken;
+      store.refreshToken = response.refreshToken;
+      store.role = response.role;
+      goHome();
     })
     .catch((e) => {
       console.error('error : ', e);
     });
-}
+};
 
-function moveToHome() {
+const goHome = () => {
   if (store.isAdmin) {
     router.push('/admin');
   } else {
     router.push('/');
   }
-}
+};
 </script>
 
 <style scoped>
