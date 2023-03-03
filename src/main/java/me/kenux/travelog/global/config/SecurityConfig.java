@@ -53,13 +53,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(request -> request
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/", "/api/signup", "/api/auth/**").permitAll()
                 .requestMatchers("/api/book").permitAll()
                 .requestMatchers("/api/auth/logout").authenticated()
-                .requestMatchers("/api/admin/**", "/api/test/admin").hasRole("ADMIN")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/**").hasRole("USER")
-                .anyRequest().authenticated())
+                .anyRequest().permitAll())
             .formLogin().disable()
             .httpBasic().disable()
             .csrf().disable()

@@ -13,6 +13,14 @@ import java.io.IOException;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+            "classpath:/static/",
+            "classpath:/public/",
+            "classpath:/resources/",
+            "classpath:/META-INF/resources/",
+            "classpath:/META-INF/resources/webjars/",
+    };
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -23,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
-            .addResourceLocations("classpath:/static/")
+            .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS)
             .resourceChain(true)
             .addResolver(new PathResourceResolver() {
                 @Override
