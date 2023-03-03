@@ -1,36 +1,24 @@
 <script setup>
-import axios from 'axios';
 import { RouterLink, RouterView, useRouter } from 'vue-router';
+import { auth } from './api';
 import { useAuthStore } from './stores/auth';
 
 const router = useRouter();
 const authStore = useAuthStore();
 
-async function logout() {
-  axios
-    .post(
-      '/api/auth/logout',
-      {},
-      {
-        headers: {
-          Authorization: 'Bearer ' + authStore.accessToken,
-        },
-      },
-    )
-    .then((response) => {
-      if (response.status === 200) {
-        authStore.accessToken = '';
-        authStore.refreshToken = '';
-        authStore.role = 'anonymouse';
-        router.push('/login');
-      } else {
-        alert(response.status);
-      }
+const logout = () => {
+  auth
+    .logout(authStore.accessToken)
+    .then(() => {
+      authStore.accessToken = '';
+      authStore.refreshToken = '';
+      authStore.role = 'anonymouse';
+      router.push('/login');
     })
     .catch((e) => {
-      console.error('error : ', e);
+      console.error('logout error : ', e);
     });
-}
+};
 </script>
 
 <template>
