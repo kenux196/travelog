@@ -18,7 +18,7 @@ public enum ErrorCode {
     AUTH_ACCESS_DENIED(FORBIDDEN, "A004", "Access denied"),
 
     // Token
-    AUTH_ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, "A101", "Access token expired."),
+    AUTH_TOKEN_EXPIRED(UNAUTHORIZED, "A101", "Token expired."),
     AUTH_REFRESH_TOKEN_EXPIRED(UNAUTHORIZED, "A102", "Refresh token expired."),
     AUTH_REFRESH_TOKEN_NOT_EXIST(UNAUTHORIZED, "A103", "Refresh token not founded."),
 

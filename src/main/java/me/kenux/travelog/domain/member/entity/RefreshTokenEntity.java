@@ -23,8 +23,11 @@ public class RefreshTokenEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public RefreshTokenEntity(String token, Member member) {
-        this.token = token;
+    public RefreshTokenEntity(Member member) {
         this.member = member;
+    }
+
+    public void updateToken(String token) {
+        this.token = token;
     }
 }

@@ -1,7 +1,6 @@
 package me.kenux.travelog.global.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +21,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (JwtTokenExpiredException e) {
-            setErrorResponse(response, ErrorCode.AUTH_ACCESS_TOKEN_EXPIRED);
+            setErrorResponse(response, ErrorCode.AUTH_TOKEN_EXPIRED);
         } catch (JwtTokenInvalidException e) {
             setErrorResponse(response, ErrorCode.AUTH_UNAUTHORIZED);
         }

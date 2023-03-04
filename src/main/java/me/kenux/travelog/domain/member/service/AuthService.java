@@ -12,8 +12,8 @@ import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
 import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
+import me.kenux.travelog.global.exception.JwtTokenExpiredException;
 import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
-import me.kenux.travelog.global.security.jwt.JwtValidationResult;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -72,12 +72,16 @@ public class AuthService {
         final RefreshTokenEntity refreshToken = refreshTokenRepository.findByToken(request.getToken())
             .orElseThrow(() -> new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST));
 
-        jwtTokenProvider.validateToken(refreshToken.getToken());
-        final Member member = refreshToken.getMember();
-        final String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getUserRole().toString());
-        return TokenInfo.AccessToken.builder()
-            .accessToken(accessToken)
-            .build();
+        try {
+            jwtTokenProvider.validateToken(refreshToken.getToken());
+            final Member member = refreshToken.getMember();
+            final String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getUserRole().toString());
+            return TokenInfo.AccessToken.builder()
+                .accessToken(accessToken)
+                .build();
+        } catch (JwtTokenExpiredException e) {
+            throw new CustomException(ErrorCode.AUTH_TOKEN_EXPIRED);
+        }
     }
 
     private void saveRefreshToken(String refreshToken, Long memberId) {
@@ -85,7 +89,8 @@ public class AuthService {
             .orElseThrow(() -> new CustomException(ErrorCode.AUTH_UNREGISTERED_MEMBER));
 
         final RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByMemberId(memberId)
-                .orElse(new RefreshTokenEntity(refreshToken, member));
+                .orElse(new RefreshTokenEntity(member));
+        refreshTokenEntity.updateToken(refreshToken);
         refreshTokenRepository.save(refreshTokenEntity);
     }
 

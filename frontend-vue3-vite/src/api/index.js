@@ -13,8 +13,14 @@ const request = async (method, url, data) => {
     });
     return result.data;
   } catch (error) {
-    const { status } = error.response;
+    const { status, code } = error.response.data;
+    console.log(error.response.data.code);
     if (status === UNAUTHORIZED) {
+      if (code === 'A101' && url !== '/api/auth/logout') {
+        console.error('토큰 만료: need token refresh');
+        return onTokenExpired();
+      }
+      console.error('미인증 사용자의 요청');
       return onUnauthorized();
     }
     throw Error(error);
@@ -29,6 +35,17 @@ const setAuthInHeader = () => {
 
 const onUnauthorized = () => {
   router.push('/login');
+};
+
+const onTokenExpired = () => {
+  auth
+    .refreshToken()
+    .then(() => {
+      router.go(0);
+    })
+    .catch(() => {
+      router.push('/login');
+    });
 };
 
 const auth = {
@@ -59,7 +76,7 @@ const auth = {
       useAuthStore().accessToken = data.accessToken;
       console.log(`refresh token 성공: ${data.accessToken}`);
     } catch (e) {
-      console.error('logout error : ', e);
+      console.error('refresh token error : ', e);
     }
   },
 };
