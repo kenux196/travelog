@@ -1,36 +1,9 @@
 <script setup>
-import { RouterLink, RouterView, useRouter } from 'vue-router';
+import { RouterLink, RouterView } from 'vue-router';
 import { auth } from './api';
 import { useAuthStore } from './stores/auth';
 
-const router = useRouter();
 const authStore = useAuthStore();
-
-const logout = () => {
-  auth
-    .logout(authStore.accessToken)
-    .then(() => {
-      authStore.accessToken = '';
-      authStore.refreshToken = '';
-      authStore.role = 'anonymouse';
-      router.push('/login');
-    })
-    .catch((e) => {
-      console.error('logout error : ', e);
-    });
-};
-
-const refreshToken = () => {
-  auth
-    .refreshToken(authStore.refreshToken)
-    .then((data) => {
-      authStore.accessToken = data.accessToken;
-      console.log(data.accessToken);
-    })
-    .catch((e) => {
-      console.error('logout error : ', e);
-    });
-};
 </script>
 
 <template>
@@ -53,8 +26,8 @@ const refreshToken = () => {
           <router-link to="/admin/member">회원관리(관리자)</router-link>
         </li>
         <li>
-          <a v-if="authStore.isLoggedIn" @click="logout">Logout</a> |
-          <a v-if="authStore.isLoggedIn" @click="refreshToken">RefresToken</a>
+          <a v-if="authStore.isLoggedIn" @click="auth.logout">Logout</a> |
+          <a v-if="authStore.isLoggedIn" @click="auth.refreshToken">RefresToken</a>
           <router-link v-else to="/login">Login</router-link>
         </li>
         <li>

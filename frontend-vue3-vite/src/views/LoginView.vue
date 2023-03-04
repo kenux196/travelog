@@ -9,37 +9,13 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthStore } from '../stores/auth';
 import { auth } from '../api';
 
 const user = ref('');
 const password = ref('');
 
-const router = useRouter();
-const store = useAuthStore();
-
 const login = () => {
-  auth
-    .login(user.value, password.value)
-    .then((response) => {
-      console.log('accessToken: ' + response.accessToken);
-      store.accessToken = response.accessToken;
-      store.refreshToken = response.refreshToken;
-      store.role = response.role;
-      goHome();
-    })
-    .catch((e) => {
-      console.error('error : ', e);
-    });
-};
-
-const goHome = () => {
-  if (store.isAdmin) {
-    router.push('/admin');
-  } else {
-    router.push('/');
-  }
+  auth.login(user.value, password.value);
 };
 </script>
 
