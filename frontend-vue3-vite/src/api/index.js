@@ -6,6 +6,7 @@ const UNAUTHORIZED = 401;
 
 const request = async (method, url, data) => {
   try {
+    setAuthInHeader();
     const result = await axios({
       method,
       url,
@@ -34,13 +35,16 @@ const setAuthInHeader = () => {
 };
 
 const onUnauthorized = () => {
+  setToken(null);
   router.push('/login');
 };
 
 const onTokenExpired = () => {
+  useAuthStore().accessToken = '';
   auth
     .refreshToken()
     .then(() => {
+      console.log('refreshed token');
       router.go(0);
     })
     .catch(() => {
@@ -61,7 +65,6 @@ const auth = {
   },
   async logout() {
     try {
-      setAuthInHeader();
       await request('post', '/api/auth/logout');
       setToken(null);
       router.push('/login');
@@ -104,7 +107,6 @@ const goHome = () => {
 
 const admin = {
   getMembers() {
-    setAuthInHeader();
     return request('get', '/api/admin/member');
   },
 };
