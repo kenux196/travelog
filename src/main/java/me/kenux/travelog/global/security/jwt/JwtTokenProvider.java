@@ -2,7 +2,6 @@ package me.kenux.travelog.global.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
@@ -97,11 +96,6 @@ public class JwtTokenProvider {
         } catch (Exception e) {
             throw new JwtTokenInvalidException(e);
         }
-    }
-
-    public boolean validateToken2(String token) {
-        jwtParser().parseClaimsJws(token);
-        return true;
     }
 
     private JwtParser jwtParser() {

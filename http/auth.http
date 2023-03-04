@@ -68,3 +68,13 @@ Content-Type: application/json
 > {%
     client.global.set("accessToken", response.body.accessToken);
 %}
+
+### refresh token failed -> refresh token expired. will return 401 error
+POST {{host}}/api/auth/refreshToken
+Content-Type: application/json
+
+{
+    "token": "{{expiredRfreshToken}}"
+}
+
+###
