@@ -23,22 +23,12 @@
 </template>
 <script setup>
 import { onMounted, ref } from 'vue';
-import axios from 'axios';
-import { useAuthStore } from '../../stores/auth';
+import { admin } from '../../api';
 
 const members = ref(null);
-const authStore = useAuthStore();
-
-const options = {
-  headers: {
-    Authorization: `Bearer ${authStore.accessToken}`,
-  },
-};
 
 async function getMembers() {
-  axios.get('/api/admin/member', options).then((res) => {
-    members.value = res.data;
-  });
+  admin.getMembers().then((data) => (members.value = data));
 }
 
 onMounted(() => {
