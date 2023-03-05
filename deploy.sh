@@ -2,7 +2,7 @@
 
 build_frontend () {
     echo "build frontend-vue3-vite"
-    rm -rf ./src/main/resources/static
+    rm -rf  src/main/resources/static
     cd frontend-vue3-vite
     npm run build
     cd ..
