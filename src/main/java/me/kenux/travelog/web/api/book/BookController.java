@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/api/books")
 public class BookController {
 
     @GetMapping

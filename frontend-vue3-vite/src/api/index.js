@@ -107,7 +107,7 @@ const goHome = () => {
 
 const admin = {
   getMembers() {
-    return request('get', '/api/admin/member');
+    return request('get', '/api/admin/members');
   },
 };
 

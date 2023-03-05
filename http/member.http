@@ -23,5 +23,5 @@ Content-Type: Application/json
 %}
 
 ### Get member detail
-GET {{host}}/api/member/2
+GET {{host}}/api/members/2
 Authorization: Bearer {{accessToken}}

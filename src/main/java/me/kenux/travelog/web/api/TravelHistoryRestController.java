@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/my-travel")
+@RequestMapping("/api/travels")
 @RequiredArgsConstructor
 @Slf4j
 public class TravelHistoryRestController {

@@ -50,11 +50,11 @@ Content-Type: application/json
 }
 
 ### 접근권한 없는 경우 -> 403
-GET {{host}}/api/admin/member
+GET {{host}}/api/admin/members
 Authorization: Bearer {{accessToken}}
 
 ### expired access token
-GET {{host}}/api/admin/member
+GET {{host}}/api/admin/members
 Authorization: Bearer {{expiredAccessToken}}
 
 ### refresh access token
