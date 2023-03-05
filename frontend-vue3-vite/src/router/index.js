@@ -54,13 +54,18 @@ const router = createRouter({
       name: 'learn test 01',
       component: () => import('../views/learn/LearnTest01.vue'),
     },
+    {
+      path: '/learn/learn-js',
+      name: 'learn to js',
+      component: () => import('../views/learn/LearnJs.vue'),
+    },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  console.log('router.beforeEach : from =' + from.path);
-  console.log('router.beforeEach : to =' + to.path);
-  console.log('router.beforeEach : to =' + JSON.stringify(to.meta));
+  // console.log('router.beforeEach : from =' + from.path);
+  // console.log('router.beforeEach : to =' + to.path);
+  // console.log('router.beforeEach : to =' + JSON.stringify(to.meta));
   const authStore = useAuthStore();
   const isLoggedIn = authStore.isLoggedIn;
   const isAdmin = authStore.isAdmin;
