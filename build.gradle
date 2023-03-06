@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.0.2'
     id 'io.spring.dependency-management' version '1.1.0'
     id "org.flywaydb.flyway" version "8.0.1" // TODO - flyway 버전 업데이트 필요. 2023-01-19 sky
+    id 'jacoco'
 }
 
 group = 'me.kenux'
@@ -17,6 +18,10 @@ configurations {
 
 repositories {
 	mavenCentral()
+}
+
+jacoco {
+    toolVersion = '0.8.7'
 }
 
 dependencies {
@@ -73,4 +78,59 @@ flyway {
 
 tasks.named('test') {
 	useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        html.enabled true
+        xml.enabled false
+        csv.enabled true
+    }
+
+    def Qdomains = []
+    for (qPattern in '**/QA'..'**/QZ') {
+        Qdomains.add(qPattern + '*')
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "**/config/*",
+                    "**/dto/*"
+            ] + Qdomains)
+        }))
+    }
+
+    finalizedBy(tasks.jacocoTestCoverageVerification)
+}
+
+tasks.jacocoTestCoverageVerification {
+    dependsOn(tasks.jacocoTestReport)
+
+    def Qdomains = []
+    for (qPattern in '*.QA'..'*.QZ') {
+        Qdomains.add(qPattern + '*')
+    }
+
+    violationRules {
+        rule {
+            enabled = true
+            element = 'CLASS'
+            // includes = []
+
+            //limit {
+            //	counter = 'LINE'
+            //	value = 'COVEREDRATIO'
+            //	minimum = 0.80
+            //}
+
+            excludes = ["**/config/*",
+                        "**/dto/*",
+                        "TravelLogApplication"
+            ] + Qdomains
+        }
+    }
 }
