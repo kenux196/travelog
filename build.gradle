@@ -86,8 +86,8 @@ tasks.jacocoTestReport {
 
     reports {
         html.enabled true
-        xml.enabled false
-        csv.enabled true
+        xml.enabled true
+        csv.enabled false
     }
 
     def Qdomains = []
