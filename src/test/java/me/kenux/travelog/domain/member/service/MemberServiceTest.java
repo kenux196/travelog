@@ -62,11 +62,10 @@ class MemberServiceTest {
             .name("member1")
             .email("member1@email.com")
             .build();
-        ReflectionTestUtils.setField(member, "id", 1L);
         given(memberRepository.findById(any())).willReturn(Optional.of(member));
 
         // when
-        memberService.blockMember(1L);
+        memberService.blockMember(any());
 
         // then
         assertThat(member.getStatus()).isEqualTo(MemberStatus.BLOCKED);
@@ -81,7 +80,6 @@ class MemberServiceTest {
                 .email("member1@email.com")
                 .userRole(UserRole.ADMIN)
                 .build();
-        ReflectionTestUtils.setField(member, "id", 1L);
         given(memberRepository.findById(any())).willReturn(Optional.of(member));
 
         // when
@@ -89,5 +87,6 @@ class MemberServiceTest {
 
         // then
         assertThat(memberDetail).isNotNull();
+        assertThat(memberDetail.name()).isEqualTo(member.getName());
     }
 }
