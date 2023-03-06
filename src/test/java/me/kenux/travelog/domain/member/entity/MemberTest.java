@@ -8,6 +8,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MemberTest {
@@ -49,6 +50,17 @@ class MemberTest {
 
         // then
         assertThat(member.getLastAccessDate()).isNotEqualTo(before);
+    }
+
+    @Test
+    @DisplayName("회원의 비밀번호는 UserPassword에서 읽어온다.")
+    void getPasswordTest() {
+        final UserPassword userPassword = new UserPassword("password");
+        final Member member = Member.createNewMember("member1", "member1@email.com", userPassword);
+
+        final String memberPassword = member.getPassword();
+
+        assertThat(memberPassword).isEqualTo(userPassword.getPassword());
     }
 
     private static Member getMember() {

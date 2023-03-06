@@ -9,7 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.global.exception.JwtTokenExpiredException;
 import me.kenux.travelog.global.exception.JwtTokenInvalidException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -26,6 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Slf4j
 class JwtTokenProviderTest {
 
+    private final String username = "admin@test.com";
+    private final String authorities = "ADMIN";
     private final String secretKey = "12345678901234567890123456789012345678901234567890123456789012345678901234";
     private final int refreshTokenExpirationMinute = 10; // 10 sec
     private JwtTokenProvider jwtTokenProvider;
@@ -45,7 +51,7 @@ class JwtTokenProviderTest {
     }
 
     private String createAccessToken() {
-        return jwtTokenProvider.createAccessToken("admin@test.com", "ADMIN");
+        return jwtTokenProvider.createAccessToken(username, authorities);
     }
 
     @Test
@@ -75,5 +81,34 @@ class JwtTokenProviderTest {
         String accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0ZXN0LmNvbSIsImF1dGgiOiJBRE";
         assertThatThrownBy(() -> jwtTokenProvider.validateToken(accessToken))
                 .isInstanceOf(JwtTokenInvalidException.class);
+    }
+
+    @Test
+    @DisplayName("JWT 토큰에서 username 가져온다.")
+    void getUserNameFromJwtToken() {
+        final String accessToken = createAccessToken();
+
+        final String result = jwtTokenProvider.getUserNameFromJwtToken(accessToken);
+
+        assertThat(result).isEqualTo(username);
+    }
+
+    @Test
+    @DisplayName("JWT 토큰에서 사용자의 Authetication 정보를 가져온다.")
+    void getAuthentication() {
+        final String accessToken = createAccessToken();
+
+        final Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+
+        assertThat(authentication).isInstanceOf(UsernamePasswordAuthenticationToken.class);
+    }
+
+    @Test
+    @DisplayName("JWT 토큰에 사용자 role 정보가 없으면 예외 발생")
+    void hasNotRole_exception() {
+        final String accessToken = jwtTokenProvider.createAccessToken(username, null);
+
+        assertThatThrownBy(() -> jwtTokenProvider.getAuthentication(accessToken))
+                .isInstanceOf(BadCredentialsException.class);
     }
 }
