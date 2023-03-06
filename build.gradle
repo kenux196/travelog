@@ -1,5 +1,5 @@
 plugins {
-	id 'java'
+    id 'java'
     id 'org.springframework.boot' version '3.0.2'
     id 'io.spring.dependency-management' version '1.1.0'
     id "org.flywaydb.flyway" version "8.0.1" // TODO - flyway 버전 업데이트 필요. 2023-01-19 sky
@@ -11,32 +11,28 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
-}
-
-jacoco {
-    toolVersion = '0.8.7'
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-	compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
     // thymeleaf
@@ -77,8 +73,12 @@ flyway {
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport)
+}
+
+jacoco {
+    toolVersion = '0.8.8'
 }
 
 tasks.jacocoTestReport {
@@ -99,7 +99,11 @@ tasks.jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                     "**/config/*",
-                    "**/dto/*"
+                    "**/dto/*",
+                    "**/*Application*",
+                    "**/*Request*",
+                    "**/*Response*",
+                    "**/*Dto*"
             ] + Qdomains)
         }))
     }
@@ -121,15 +125,25 @@ tasks.jacocoTestCoverageVerification {
             element = 'CLASS'
             // includes = []
 
-            //limit {
-            //	counter = 'LINE'
-            //	value = 'COVEREDRATIO'
-            //	minimum = 0.80
-            //}
+//            limit {
+//            	counter = 'LINE'
+//            	value = 'COVEREDRATIO'
+//            	minimum = 0.10
+//            }
+//
+//            // 브랜치 커버리지 제한을 80%로 설정
+//            limit {
+//                counter = 'BRANCH'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.10
+//            }
 
             excludes = ["**/config/*",
                         "**/dto/*",
-                        "TravelLogApplication"
+                        "**/*Application*",
+                        "**/*Request*",
+                        "**/*Response*",
+                        "**/*Dto*"
             ] + Qdomains
         }
     }
