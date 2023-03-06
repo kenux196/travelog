@@ -6,6 +6,8 @@ import me.kenux.travelog.domain.member.entity.enums.UserRole;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
 import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
+import me.kenux.travelog.global.exception.CustomException;
+import me.kenux.travelog.global.exception.ErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,10 +15,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
@@ -31,6 +37,30 @@ class MemberServiceTest {
 
     @InjectMocks
     MemberService memberService;
+
+    @Test
+    @DisplayName("회원 전체 조회 - 성공")
+    void getMembers_success() {
+        // given
+        List<Member> members = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            String name = "member" + i;
+            Member member = Member.builder()
+                    .name(name)
+                    .email(name + "@email.com")
+                    .userRole(UserRole.USER)
+                    .build();
+            members.add(member);
+        }
+        given(memberRepository.findMemberByCondition(any())).willReturn(members);
+
+        // when
+        final List<MemberInfo.DetailResponse> result = memberService.getMembers(any());
+
+        // then
+        assertThat(result).hasSize(10);
+        then(memberRepository).should(times(1)).findMemberByCondition(any());
+    }
 
     @Test
     @DisplayName("회원이 탈퇴하면 회원의 개인정보는 삭제되어야 한다.")
@@ -84,5 +114,36 @@ class MemberServiceTest {
         // then
         assertThat(memberDetail).isNotNull();
         assertThat(memberDetail.name()).isEqualTo(member.getName());
+    }
+
+    @Test
+    @DisplayName("회원 정보 simple - 성공")
+    void getMemberSimple_success() {
+        // given
+        Member member = Member.builder()
+                .name("member1")
+                .email("member1@email.com")
+                .userRole(UserRole.ADMIN)
+                .build();
+        given(memberRepository.findById(anyLong())).willReturn(Optional.of(member));
+
+        // when
+        final MemberInfo.SimpleResponse memberSimpleInfo = memberService.getMemberSimpleInfo(anyLong());
+
+        // then
+        assertThat(memberSimpleInfo).isNotNull();
+        assertThat(memberSimpleInfo.name()).isEqualTo(member.getName());
+    }
+
+    @Test
+    @DisplayName("회원 상세 조회 - 실패 : Member not exist")
+    void getMemberDetail_MemberNotExist() {
+        // given
+        given(memberRepository.findById(anyLong())).willReturn(Optional.empty());
+
+        // when then
+        assertThatThrownBy(() -> memberService.getMemberDetail(1L))
+                .isInstanceOf(CustomException.class)
+                .hasMessage(ErrorCode.MEMBER_NOT_EXIST.getMessage());
     }
 }
