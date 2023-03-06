@@ -38,15 +38,13 @@ public class MemberService {
     }
 
     public MemberInfo.DetailResponse getMemberDetail(Long id) {
-        return memberRepository.findById(id)
-            .map(MemberInfo.DetailResponse::of)
-            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+        final Member member = getMember(id);
+        return MemberInfo.DetailResponse.of(member);
     }
 
     public MemberInfo.SimpleResponse getMemberSimpleInfo(Long id) {
-        return memberRepository.findById(id)
-            .map(MemberInfo.SimpleResponse::of)
-            .orElseThrow(() -> new CustomException(ErrorCode.AUTH_UNREGISTERED_MEMBER));
+        final Member member = getMember(id);
+        return MemberInfo.SimpleResponse.of(member);
     }
 
     @Transactional
