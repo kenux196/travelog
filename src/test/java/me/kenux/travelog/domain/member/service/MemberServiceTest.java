@@ -5,6 +5,7 @@ import me.kenux.travelog.domain.member.entity.enums.MemberStatus;
 import me.kenux.travelog.domain.member.entity.enums.UserRole;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
+import me.kenux.travelog.domain.member.repository.dto.MemberSearchCond;
 import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
@@ -13,9 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +29,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
@@ -42,34 +46,26 @@ class MemberServiceTest {
     @DisplayName("회원 전체 조회 - 성공")
     void getMembers_success() {
         // given
-        List<Member> members = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            String name = "member" + i;
-            Member member = Member.builder()
-                    .name(name)
-                    .email(name + "@email.com")
-                    .userRole(UserRole.USER)
-                    .build();
-            members.add(member);
-        }
+        MemberSearchCond searchCond = Mockito.mock(MemberSearchCond.class);
+        Member member = Mockito.mock(Member.class);
+        List<Member> members = Collections.singletonList(member);
         given(memberRepository.findMemberByCondition(any())).willReturn(members);
+        given(member.getStatus()).willReturn(MemberStatus.NORMAL);
+        given(member.getUserRole()).willReturn(UserRole.USER);
 
         // when
-        final List<MemberInfo.DetailResponse> result = memberService.getMembers(any());
+        final List<MemberInfo.DetailResponse> result = memberService.getMembers(searchCond);
 
         // then
-        assertThat(result).hasSize(10);
-        then(memberRepository).should(times(1)).findMemberByCondition(any());
+        assertThat(result).hasSize(1);
+        verify(memberRepository, times(1)).findMemberByCondition(searchCond);
     }
 
     @Test
     @DisplayName("회원이 탈퇴하면 회원의 개인정보는 삭제되어야 한다.")
     void leave_member_test() {
         // given
-        Member member = Member.builder()
-            .name("member1")
-            .email("member1@email.com")
-            .build();
+        Member member = Mockito.mock(Member.class);
         given(memberRepository.findById(any())).willReturn(Optional.of(member));
 
         // when
@@ -84,29 +80,24 @@ class MemberServiceTest {
     @DisplayName("회원상태 정보를 블럭 상태로 변경한다.")
     void change_member_block() {
         // given
-        Member member = Member.builder()
-            .name("member1")
-            .email("member1@email.com")
-            .build();
+        Member member = Mockito.mock(Member.class);
         given(memberRepository.findById(any())).willReturn(Optional.of(member));
 
         // when
         memberService.blockMember(any());
 
         // then
-        assertThat(member.getStatus()).isEqualTo(MemberStatus.BLOCKED);
+        verify(member, times(1)).doBlock();
     }
 
     @Test
     @DisplayName("회원 상세 조회 - 성공")
     void getMemberDetail_success() {
         // given
-        Member member = Member.builder()
-                .name("member1")
-                .email("member1@email.com")
-                .userRole(UserRole.ADMIN)
-                .build();
+        Member member = Mockito.mock(Member.class);
         given(memberRepository.findById(any())).willReturn(Optional.of(member));
+        given(member.getStatus()).willReturn(MemberStatus.NORMAL);
+        given(member.getUserRole()).willReturn(UserRole.USER);
 
         // when
         final MemberInfo.DetailResponse memberDetail = memberService.getMemberDetail(any());
@@ -120,11 +111,7 @@ class MemberServiceTest {
     @DisplayName("회원 정보 simple - 성공")
     void getMemberSimple_success() {
         // given
-        Member member = Member.builder()
-                .name("member1")
-                .email("member1@email.com")
-                .userRole(UserRole.ADMIN)
-                .build();
+        Member member = Mockito.mock(Member.class);
         given(memberRepository.findById(anyLong())).willReturn(Optional.of(member));
 
         // when
@@ -142,7 +129,7 @@ class MemberServiceTest {
         given(memberRepository.findById(anyLong())).willReturn(Optional.empty());
 
         // when then
-        assertThatThrownBy(() -> memberService.getMemberDetail(1L))
+        assertThatThrownBy(() -> memberService.getMemberDetail(anyLong()))
                 .isInstanceOf(CustomException.class)
                 .hasMessage(ErrorCode.MEMBER_NOT_EXIST.getMessage());
     }
