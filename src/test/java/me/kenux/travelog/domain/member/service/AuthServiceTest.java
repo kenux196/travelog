@@ -1,22 +1,24 @@
 package me.kenux.travelog.domain.member.service;
 
+import me.kenux.travelog.domain.member.entity.Member;
+import me.kenux.travelog.domain.member.entity.RefreshTokenEntity;
+import me.kenux.travelog.domain.member.entity.enums.UserRole;
+import me.kenux.travelog.domain.member.repository.RefreshTokenRepository;
 import me.kenux.travelog.domain.member.service.dto.TokenInfo;
 import me.kenux.travelog.domain.member.service.dto.UserDetailsImpl;
 import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
+import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
-import org.assertj.core.api.Assertions;
+import me.kenux.travelog.global.exception.JwtTokenExpiredException;
+import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,15 +26,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
@@ -43,6 +47,10 @@ class AuthServiceTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private AuthenticationManagerBuilder authenticationManagerBuilder;
+    @Mock
+    private RefreshTokenRepository refreshTokenRepository;
+    @Mock
+    JwtTokenProvider jwtTokenProvider;
     @InjectMocks
     private AuthService authService;
 
@@ -104,5 +112,64 @@ class AuthServiceTest {
         loginRequest.setUsername("admin@test.com");
         loginRequest.setPassword("1");
         return loginRequest;
+    }
+
+    @Test
+    @DisplayName("refresh accessToken 성공")
+    void refreshAccessToken_success() {
+        // given
+        Member member = Member.builder()
+                .name("user")
+                .email("user@test.com")
+                .userRole(UserRole.USER).build();
+        final RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity(member);
+        RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
+        refreshTokenRequest.setToken("oldToken");
+
+        given(refreshTokenRepository.findByToken(any())).willReturn(Optional.of(refreshTokenEntity));
+        given(jwtTokenProvider.createAccessToken(anyString(), anyString())).willReturn("accessToken");
+
+        // when
+        final TokenInfo.AccessToken accessToken = authService.refreshAccessToken(refreshTokenRequest);
+
+        // then
+        assertThat(accessToken).isNotNull();
+        verify(jwtTokenProvider, times(1)).validateToken(any());
+    }
+
+    @Test
+    @DisplayName("refresh accessToken 실패 - refresh token 없음")
+    void refreshAccessToken_failed_notExistRefreshToken() {
+        // given
+        RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
+        refreshTokenRequest.setToken("oldToken");
+
+        given(refreshTokenRepository.findByToken(any())).willReturn(Optional.empty());
+
+        // when then
+        assertThatThrownBy(() -> authService.refreshAccessToken(refreshTokenRequest))
+                .isInstanceOf(CustomException.class)
+                .hasMessage(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST.getMessage());
+    }
+
+    @Test
+    @DisplayName("refresh accessToken 실패 - refreshToken expired")
+    void refreshAccessToken_failed_expiredRefreshToken() {
+        // given
+        Member member = Member.builder()
+                .name("user")
+                .email("user@test.com")
+                .userRole(UserRole.USER).build();
+        final RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity(member);
+        RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
+        refreshTokenRequest.setToken("oldToken");
+
+        given(refreshTokenRepository.findByToken(any())).willReturn(Optional.of(refreshTokenEntity));
+        willThrow(JwtTokenExpiredException.class).given(jwtTokenProvider).validateToken(refreshTokenEntity.getToken());
+
+        // when then
+        assertThatThrownBy(() -> authService.refreshAccessToken(refreshTokenRequest))
+                .isInstanceOf(CustomException.class)
+                .hasMessage(ErrorCode.AUTH_TOKEN_EXPIRED.getMessage());
     }
 }
