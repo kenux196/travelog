@@ -29,7 +29,7 @@ public class TravelHistoryRestController {
     public ResponseEntity<?> getTravelHistoryByUser(@PathVariable String userId) {
         // TODO - this is for test. will remove. 2022-11-02 skyun
         if (userId.equals("hacker")) {
-            throw new CustomException("불량 사용자입니다.", ErrorCode.MEMBER_NOT_EXIST);
+            throw new CustomException(ErrorCode.MEMBER_NOT_EXIST);
         }
 
         return ResponseEntity.ok(userId + "의 여행지 리스트 전달...");
@@ -40,11 +40,11 @@ public class TravelHistoryRestController {
                                                     @PathVariable Long historyNum) {
         // TODO - this is for test. will remove. 2022-11-02 skyun
         if (userId.equals("hacker")) {
-            throw new CustomException("불량 사용자입니다.", ErrorCode.MEMBER_NOT_EXIST);
+            throw new CustomException(ErrorCode.MEMBER_NOT_EXIST);
         }
 
         if (historyNum == 0) {
-            throw new CustomException("데이터 없음", ErrorCode.DATA_NOT_FOUND);
+            throw new CustomException(ErrorCode.DATA_NOT_FOUND);
         }
 
         return ResponseEntity.ok(userId + "의 " + historyNum + " 게시물 상세보기");
