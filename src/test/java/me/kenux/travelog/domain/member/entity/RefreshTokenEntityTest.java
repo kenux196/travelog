@@ -40,5 +40,4 @@ class RefreshTokenEntityTest {
         // then
         assertThat(refreshTokenEntity.getToken()).isEqualTo("token");
     }
-
 }
