@@ -37,7 +37,9 @@ public class SecurityConfig {
     @Profile("!local")
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+            .requestMatchers("/assets/**")
+            .requestMatchers("/index.html");
     }
 
     @Bean
@@ -55,7 +57,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(request -> request
                 .requestMatchers("/", "/api/signup", "/api/auth/login", "/api/auth/refreshToken").permitAll()
-                .requestMatchers("/api/book").permitAll()
+                .requestMatchers("/api/books").permitAll()
                 .requestMatchers("/api/auth/logout").authenticated()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/**").hasRole("USER")

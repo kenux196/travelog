@@ -104,6 +104,8 @@ tasks.jacocoTestReport {
                     "**/*Request*",
                     "**/*Response*",
                     "**/*Dto*"
+//                    "**/*Filter*",
+//                    "**/*Exception*"
             ] + Qdomains)
         }))
     }
@@ -144,6 +146,8 @@ tasks.jacocoTestCoverageVerification {
                         "**/*Request*",
                         "**/*Response*",
                         "**/*Dto*"
+//                        "**/*Filter*",
+//                        "**/*Exception*"
             ] + Qdomains
         }
     }
