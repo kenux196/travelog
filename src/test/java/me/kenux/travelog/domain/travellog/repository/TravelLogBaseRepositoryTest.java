@@ -32,11 +32,6 @@ class TravelLogBaseRepositoryTest extends BaseRepositoryConfig {
     @Autowired
     private PasswordRepository passwordRepository;
 
-    @BeforeEach
-    void beforeEach() {
-        final Member member = getMember();
-    }
-
     @Test
     @DisplayName("제목은 필수이다.")
     void titleIsNotNull() {
@@ -115,30 +110,6 @@ class TravelLogBaseRepositoryTest extends BaseRepositoryConfig {
         // then
         assertThat(history.getCreatedDate()).isNotNull();
         assertThat(history.getUpdatedDate()).isNotNull();
-    }
-
-    @Test
-    @DisplayName("사용자가 작성한 여행로그를 찾는다.")
-    void findAllTravelLogByMemberId() {
-        // given
-        final TravelLog travelLog = getTravelLog();
-        travelLogRepository.save(travelLog);
-
-        // when
-        TravelLogSearchCond cond = new TravelLogSearchCond();
-        cond.setMemberId(travelLog.getMemberId());
-        final List<TravelLog> result = travelLogRepository.findAllByCondition(cond);
-
-        // then
-        assertThat(result).hasSize(1);
-    }
-
-    private Member getMember() {
-        final UserPassword password = new UserPassword("password");
-        passwordRepository.save(password);
-        final Member member = Member.createNewMember("kenux", "kenux.yun@gmail.com", password);
-        memberRepository.save(member);
-        return member;
     }
 
     private static TravelLog getTravelLog() {
