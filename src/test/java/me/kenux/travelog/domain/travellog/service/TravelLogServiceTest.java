@@ -1,6 +1,8 @@
 package me.kenux.travelog.domain.travellog.service;
 
 import me.kenux.travelog.domain.member.repository.MemberRepository;
+import me.kenux.travelog.domain.travellog.entity.TravelLog;
+import me.kenux.travelog.domain.travellog.repository.TravelLogRepository;
 import me.kenux.travelog.domain.travellog.service.dto.request.TravelLogSaveRequest;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
@@ -14,18 +16,23 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class TravelLogServiceTest {
 
     @Mock
     MemberRepository memberRepository;
+    @Mock
+    TravelLogRepository travelLogRepository;
 
     @InjectMocks
     TravelLogService travelLogService;
 
     @Test
-    @DisplayName("존재하지 않는 회원의 글등록은 예외가 발생한다.")
+    @DisplayName("익명 사용자의 글 등록은 예외가 발생해야 한다.")
     void save_travelLog_exception_member_not_founded() {
         // given
         TravelLogSaveRequest request = new TravelLogSaveRequest();
@@ -35,6 +42,20 @@ class TravelLogServiceTest {
         assertThatThrownBy(() -> travelLogService.saveTravelLog(request))
             .isInstanceOf(CustomException.class)
             .hasMessage(ErrorCode.MEMBER_NOT_EXIST.getMessage());
+    }
+
+    @Test
+    @DisplayName("여행 기록 정상 등록되어야 한다.")
+    void saveTravelLog_success() {
+        // given
+        TravelLogSaveRequest request = mock(TravelLogSaveRequest.class);
+        given(memberRepository.existsById(any())).willReturn(true);
+
+        // when
+        travelLogService.saveTravelLog(request);
+
+        // then
+        then(travelLogRepository).should().save(any());
     }
 
 
