@@ -8,6 +8,7 @@ import java.util.Collection;
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     private String jsonWebToken;
+
     private Object principal;
     private Object credentials;
 

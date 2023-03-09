@@ -25,15 +25,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     public final String KEY_ROLES = "roles";
     private final String secretKey;
-    private final int tokenExpirationMinute;
-    private final int refreshTokenExpirationMinute;
-
-    public JwtAuthenticationProvider(@Value("${app.jwt.secret}") String secretKey,
-                                     @Value("${app.jwt.tokenExpiration}") int tokenExpirationMinute,
-                                     @Value("${app.jwt.refreshTokenExpiration}") int refreshTokenExpirationMinute) {
+    public JwtAuthenticationProvider(@Value("${app.jwt.secret}") String secretKey) {
         this.secretKey = secretKey;
-        this.tokenExpirationMinute = tokenExpirationMinute;
-        this.refreshTokenExpirationMinute = refreshTokenExpirationMinute;
     }
 
     private Collection<? extends GrantedAuthority> createGrantedAuthorities(Claims claims) {

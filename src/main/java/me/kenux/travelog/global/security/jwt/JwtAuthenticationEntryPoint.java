@@ -1,7 +1,6 @@
 package me.kenux.travelog.global.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,7 @@ import java.io.PrintWriter;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-        throws IOException, ServletException {
+        throws IOException {
         log.error("Responding with unauthorized error. Message - {}", authException.getMessage());
         ErrorCustomResponse fail = ErrorCustomResponse.of(ErrorCode.AUTH_UNAUTHORIZED);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());

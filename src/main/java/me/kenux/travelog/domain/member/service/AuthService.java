@@ -15,8 +15,6 @@ import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.global.exception.JwtExpiredException;
 import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,7 +35,6 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenIssuer jwtTokenIssuer;
     private final RefreshTokenRepository refreshTokenRepository;
 
@@ -49,10 +46,6 @@ public class AuthService {
             throw new CustomException(ErrorCode.AUTH_WRONG_PASSWORD);
         }
         log.info("{}, 인증 확인됨", request.getUsername());
-//        final UsernamePasswordAuthenticationToken authenticationToken =
-//            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
-
-//        final Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         final String authorities = userDetails.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
