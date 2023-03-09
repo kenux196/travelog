@@ -29,8 +29,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
 
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenIssuer jwtTokenIssuer;
-    private final UserDetailsService userDetailsService;
+//    private final JwtTokenIssuer jwtTokenIssuer;
+//    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -45,13 +45,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             } catch (AuthenticationException exception) {
                 SecurityContextHolder.clearContext();
             }
-            jwtTokenIssuer.validateToken(jwt);
-            String username = jwtTokenIssuer.getUserNameFromJwtToken(jwt);
-            final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+//            jwtTokenIssuer.validateToken(jwt);
+//            String username = jwtTokenIssuer.getUserNameFromJwtToken(jwt);
+//            final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//            UsernamePasswordAuthenticationToken authentication =
+//                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }
