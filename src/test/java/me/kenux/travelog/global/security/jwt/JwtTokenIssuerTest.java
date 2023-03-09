@@ -42,7 +42,7 @@ class JwtTokenIssuerTest {
 
     @Test
     void createRefreshToken() {
-        final String refreshToken = jwtTokenIssuer.createRefreshToken();
+        final String refreshToken = jwtTokenIssuer.createRefreshToken(username, authorities);
         assertThat(refreshToken).isNotEmpty();
         log.info("refresh_token = {}", refreshToken);
     }

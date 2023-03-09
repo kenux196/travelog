@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 @Component
@@ -38,20 +39,24 @@ public class JwtTokenIssuer {
         this.refreshTokenExpirationMinute = refreshTokenExpirationMinute;
     }
 
-    public String createAccessToken(String username, String authorities) {
-        return Jwts.builder()
-            .setSubject(username)
-            .claim("auth", authorities)
-            .setExpiration(getExpiration(tokenExpirationMinute))
-            .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
-            .compact();
+    public String createAccessToken(String username, String authority) {
+        return createToken(username, authority, tokenExpirationMinute);
     }
 
-    public String createRefreshToken() {
+    public String createRefreshToken(String username, String authority) {
+        return createToken(username, authority, refreshTokenExpirationMinute);
+    }
+
+    private String createToken(String userName, String authority, int expireMin) {
+        Date now = new Date();
+        Claims claims = Jwts.claims().setSubject(userName);
+        claims.put(KEY_ROLES, Collections.singleton(authority));
         return Jwts.builder()
-            .setExpiration(getExpiration(refreshTokenExpirationMinute))
-            .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
-            .compact();
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(getExpiration(expireMin))
+                .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
+                .compact();
     }
 
     private Key getSigningKey(String secretKey) {

@@ -49,15 +49,15 @@ public class AuthService {
             throw new CustomException(ErrorCode.AUTH_WRONG_PASSWORD);
         }
         log.info("{}, 인증 확인됨", request.getUsername());
-        final UsernamePasswordAuthenticationToken authenticationToken =
-            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
+//        final UsernamePasswordAuthenticationToken authenticationToken =
+//            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
 
-        final Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        final String authorities = authentication.getAuthorities().stream()
+//        final Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        final String authorities = userDetails.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
-        final String accessToken = jwtTokenIssuer.createAccessToken(authentication.getName(), authorities);
-        final String refreshToken = jwtTokenIssuer.createRefreshToken();
+        final String accessToken = jwtTokenIssuer.createAccessToken(userDetails.getUsername(), authorities);
+        final String refreshToken = jwtTokenIssuer.createRefreshToken(userDetails.getUsername(), authorities);
         saveRefreshToken(refreshToken, ((UserDetailsImpl) userDetails).getId());
 
         return TokenInfo.Full.builder()
