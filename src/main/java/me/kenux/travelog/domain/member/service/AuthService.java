@@ -12,8 +12,8 @@ import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
 import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
-import me.kenux.travelog.global.exception.JwtTokenExpiredException;
-import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
+import me.kenux.travelog.global.exception.JwtExpiredException;
+import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -38,7 +38,7 @@ public class AuthService {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenIssuer jwtTokenIssuer;
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
@@ -56,8 +56,8 @@ public class AuthService {
         final String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
-        final String accessToken = jwtTokenProvider.createAccessToken(authentication.getName(), authorities);
-        final String refreshToken = jwtTokenProvider.createRefreshToken();
+        final String accessToken = jwtTokenIssuer.createAccessToken(authentication.getName(), authorities);
+        final String refreshToken = jwtTokenIssuer.createRefreshToken();
         saveRefreshToken(refreshToken, ((UserDetailsImpl) userDetails).getId());
 
         return TokenInfo.Full.builder()
@@ -73,13 +73,13 @@ public class AuthService {
             .orElseThrow(() -> new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST));
 
         try {
-            jwtTokenProvider.validateToken(refreshToken.getToken());
+            jwtTokenIssuer.validateToken(refreshToken.getToken());
             final Member member = refreshToken.getMember();
-            final String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getUserRole().toString());
+            final String accessToken = jwtTokenIssuer.createAccessToken(member.getEmail(), member.getUserRole().toString());
             return TokenInfo.AccessToken.builder()
                 .accessToken(accessToken)
                 .build();
-        } catch (JwtTokenExpiredException e) {
+        } catch (JwtExpiredException e) {
             throw new CustomException(ErrorCode.AUTH_TOKEN_EXPIRED);
         }
     }

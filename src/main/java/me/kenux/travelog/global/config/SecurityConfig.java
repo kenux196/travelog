@@ -5,12 +5,11 @@ import me.kenux.travelog.global.exception.ExceptionHandlerFilter;
 import me.kenux.travelog.global.security.jwt.JwtAccessDeniedHandler;
 import me.kenux.travelog.global.security.jwt.JwtAuthenticationEntryPoint;
 import me.kenux.travelog.global.security.jwt.JwtAuthenticationFilter;
-import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
+import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -28,7 +27,7 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenIssuer jwtTokenIssuer;
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
@@ -78,7 +77,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter authenticationJwtTokenFilter() {
-        return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
+        return new JwtAuthenticationFilter(jwtTokenIssuer, userDetailsService);
     }
 
     @Bean

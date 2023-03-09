@@ -3,10 +3,8 @@ package me.kenux.travelog.global.security.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.global.exception.CustomException;
-import me.kenux.travelog.global.exception.ErrorCode;
-import me.kenux.travelog.global.exception.JwtTokenExpiredException;
-import me.kenux.travelog.global.exception.JwtTokenInvalidException;
+import me.kenux.travelog.global.exception.JwtExpiredException;
+import me.kenux.travelog.global.exception.JwtInvalidException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,15 +23,16 @@ import java.util.Date;
 
 @Component
 @Slf4j
-public class JwtTokenProvider {
+public class JwtTokenIssuer {
 
     private final String secretKey;
     private final int tokenExpirationMinute;
     private final int refreshTokenExpirationMinute;
+    private final String KEY_ROLES = "roles";
 
-    public JwtTokenProvider(@Value("${app.jwt.secret}") String secretKey,
-                            @Value("${app.jwt.tokenExpiration}") int tokenExpirationMinute,
-                            @Value("${app.jwt.refreshTokenExpiration}") int refreshTokenExpirationMinute) {
+    public JwtTokenIssuer(@Value("${app.jwt.secret}") String secretKey,
+                          @Value("${app.jwt.tokenExpiration}") int tokenExpirationMinute,
+                          @Value("${app.jwt.refreshTokenExpiration}") int refreshTokenExpirationMinute) {
         this.secretKey = secretKey;
         this.tokenExpirationMinute = tokenExpirationMinute;
         this.refreshTokenExpirationMinute = refreshTokenExpirationMinute;
@@ -92,9 +91,9 @@ public class JwtTokenProvider {
         try {
             jwtParser().parseClaimsJws(token);
         } catch (ExpiredJwtException e) {
-            throw new JwtTokenExpiredException(e);
+            throw new JwtExpiredException(e);
         } catch (Exception e) {
-            throw new JwtTokenInvalidException(e);
+            throw new JwtInvalidException(e);
         }
     }
 

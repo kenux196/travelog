@@ -6,7 +6,7 @@ import me.kenux.travelog.domain.member.service.MemberService;
 import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
-import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
+import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ class MemberManageControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenIssuer jwtTokenIssuer;
     @MockBean
     private UserDetailsService userDetailsService;
     @MockBean

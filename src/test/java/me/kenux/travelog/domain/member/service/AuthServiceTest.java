@@ -10,8 +10,8 @@ import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
 import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
-import me.kenux.travelog.global.exception.JwtTokenExpiredException;
-import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
+import me.kenux.travelog.global.exception.JwtExpiredException;
+import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,7 +50,7 @@ class AuthServiceTest {
     @Mock
     private RefreshTokenRepository refreshTokenRepository;
     @Mock
-    JwtTokenProvider jwtTokenProvider;
+    JwtTokenIssuer jwtTokenIssuer;
     @InjectMocks
     private AuthService authService;
 
@@ -127,14 +127,14 @@ class AuthServiceTest {
         refreshTokenRequest.setToken("oldToken");
 
         given(refreshTokenRepository.findByToken(any())).willReturn(Optional.of(refreshTokenEntity));
-        given(jwtTokenProvider.createAccessToken(anyString(), anyString())).willReturn("accessToken");
+        given(jwtTokenIssuer.createAccessToken(anyString(), anyString())).willReturn("accessToken");
 
         // when
         final TokenInfo.AccessToken accessToken = authService.refreshAccessToken(refreshTokenRequest);
 
         // then
         assertThat(accessToken).isNotNull();
-        verify(jwtTokenProvider, times(1)).validateToken(any());
+        verify(jwtTokenIssuer, times(1)).validateToken(any());
     }
 
     @Test
@@ -165,7 +165,7 @@ class AuthServiceTest {
         refreshTokenRequest.setToken("oldToken");
 
         given(refreshTokenRepository.findByToken(any())).willReturn(Optional.of(refreshTokenEntity));
-        willThrow(JwtTokenExpiredException.class).given(jwtTokenProvider).validateToken(refreshTokenEntity.getToken());
+        willThrow(JwtExpiredException.class).given(jwtTokenIssuer).validateToken(refreshTokenEntity.getToken());
 
         // when then
         assertThatThrownBy(() -> authService.refreshAccessToken(refreshTokenRequest))
