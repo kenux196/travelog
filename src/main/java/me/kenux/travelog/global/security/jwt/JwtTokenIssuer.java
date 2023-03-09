@@ -93,9 +93,9 @@ public class JwtTokenIssuer {
         try {
             jwtParser().parseClaimsJws(token);
         } catch (ExpiredJwtException e) {
-            throw new JwtExpiredException(e);
+            throw new JwtExpiredException("jwt expired exception", e);
         } catch (Exception e) {
-            throw new JwtInvalidException(e);
+            throw new JwtInvalidException("jwt invalid exception", e);
         }
     }
 

@@ -1,8 +1,15 @@
 package me.kenux.travelog.global.exception;
 
-public class JwtInvalidException extends RuntimeException {
+import org.springframework.security.core.AuthenticationException;
 
-    public JwtInvalidException(Throwable cause) {
-        super(cause);
+public class JwtInvalidException extends AuthenticationException {
+
+
+    public JwtInvalidException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+
+    public JwtInvalidException(String msg) {
+        super(msg);
     }
 }

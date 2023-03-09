@@ -1,8 +1,14 @@
 package me.kenux.travelog.global.exception;
 
-public class JwtExpiredException extends RuntimeException {
+import org.springframework.security.core.AuthenticationException;
 
-    public JwtExpiredException(Throwable cause) {
-        super(cause);
+public class JwtExpiredException extends AuthenticationException {
+
+    public JwtExpiredException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
+
+    public JwtExpiredException(String msg) {
+        super(msg);
     }
 }
