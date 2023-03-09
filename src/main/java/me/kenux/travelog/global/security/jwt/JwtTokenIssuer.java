@@ -17,10 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -72,11 +69,11 @@ public class JwtTokenIssuer {
     public Authentication getAuthentication(String token) {
         final Claims claims = getClaims(token);
 
-        if (claims.get("auth") == null) {
+        if (claims.get(KEY_ROLES).toString().equals("[null]")) {
             throw new BadCredentialsException("The token has not roles");
         }
 
-        final String auth = claims.get("auth").toString();
+        final String auth = claims.get(KEY_ROLES).toString();
         Collection<? extends GrantedAuthority> authorities =
             Arrays.stream(auth.split(","))
                 .map(SimpleGrantedAuthority::new)
