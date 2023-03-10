@@ -1,5 +1,6 @@
 package me.kenux.travelog.domain.member.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.entity.Member;
@@ -17,13 +18,16 @@ import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,15 +91,24 @@ public class AuthService {
     }
 
     @Transactional
-    public void logout() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final UserDetailsImpl details = (UserDetailsImpl) authentication.getPrincipal();
+    public void logout(HttpServletRequest request) {
+        final String accessToken = resolveToken(request);
+        final String username = jwtTokenIssuer.getUserNameFromJwtToken(accessToken);
+        final Member member = memberRepository.findByEmail(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_UNAUTHORIZED));
 
-        // remove refresh token
-        final RefreshTokenEntity refreshToken = refreshTokenRepository.findByMemberId(details.getId())
-                .orElseThrow(() -> new BadCredentialsException("Not founded refresh token for " + details.getId()));
-        refreshTokenRepository.delete(refreshToken);
-
+        refreshTokenRepository.deleteByMember(member.getId());
         // TODO - redis cache 이용하여 로그아웃된 토큰에 대한 처리 필요. 혹은 스프링 자체 캐싱 사용? 2023-01-30 skyun
+        SecurityContextHolder.clearContext();
+    }
+
+    private String resolveToken(HttpServletRequest request) {
+        final String AUTHORIZATION_HEADER = "Authorization";
+        final String BEARER_PREFIX = "Bearer ";
+        final String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            return bearerToken.substring(BEARER_PREFIX.length());
+        }
+        return null;
     }
 }

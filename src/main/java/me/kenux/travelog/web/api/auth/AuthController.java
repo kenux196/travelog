@@ -1,5 +1,6 @@
 package me.kenux.travelog.web.api.auth;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
@@ -25,8 +26,8 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout() {
-        authService.logout();
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        authService.logout(request);
         return ResponseEntity.ok().build();
     }
 

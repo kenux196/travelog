@@ -1,5 +1,6 @@
 package me.kenux.travelog.domain.member.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.RefreshTokenEntity;
 import me.kenux.travelog.domain.member.entity.enums.UserRole;
@@ -172,22 +173,35 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName("logout 실패 - BadCredentialsException 발생해야 한다.")
+    @DisplayName("logout 실패 - 존재하지 않는 사용자이면 예외 발생해야 한다.")
     void logoutFailed() {
-        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        given(request.getHeader(any())).willReturn("validAccessToken");
+        given(jwtTokenIssuer.getUserNameFromJwtToken(any())).willReturn("invalid_user");
+        given(memberRepository.findByEmail(any())).willReturn(Optional.empty());
+
+
+        assertThatThrownBy(() -> authService.logout(request))
+                .isInstanceOf(CustomException.class)
+                .hasMessage("UnAuthorized user");
+    }
+
+    @Test
+    @DisplayName("정상적인 토큰과 사용자인 경우, logout 성공한다.")
+    void logout_success() {
+        // given
         try (MockedStatic<SecurityContextHolder> utilities = Mockito.mockStatic(SecurityContextHolder.class)) {
-            utilities.when(SecurityContextHolder::getContext).thenReturn(securityContext);
-            JwtAuthenticationToken authenticatedToken = new JwtAuthenticationToken(
-                    "user1",
-                    "",
-                    Collections.singleton(() -> "ROLE_USER"));
-            given(SecurityContextHolder.getContext().getAuthentication()).willReturn(authenticatedToken);
-            given(refreshTokenRepository.findByMemberId(any())).willReturn(Optional.empty());
+            HttpServletRequest request = mock(HttpServletRequest.class);
+            given(request.getHeader(any())).willReturn("validAccessToken");
+            given(jwtTokenIssuer.getUserNameFromJwtToken(any())).willReturn("valid_user");
+            given(memberRepository.findByEmail(any())).willReturn(Optional.of(mock(Member.class)));
 
+            // when
+            authService.logout(request);
 
-            assertThatThrownBy(() -> authService.logout())
-                    .isInstanceOf(BadCredentialsException.class);
+            // then
+            verify(refreshTokenRepository, times(1)).deleteByMember(any());
+            utilities.verify(SecurityContextHolder::clearContext, times(1));
         }
-        Mockito.clearAllCaches();
     }
 }
