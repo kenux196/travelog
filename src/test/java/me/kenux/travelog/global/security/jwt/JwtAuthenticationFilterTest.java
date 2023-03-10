@@ -96,23 +96,21 @@ class JwtAuthenticationFilterTest {
             throws ServletException, IOException {
         // setup
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-        MockedStatic<SecurityContextHolder> utilities = Mockito.mockStatic(SecurityContextHolder.class);
+        try (MockedStatic<SecurityContextHolder> utilities = Mockito.mockStatic(SecurityContextHolder.class)) {
+            utilities.when(SecurityContextHolder::getContext).thenReturn(securityContext);
 
-        utilities.when(SecurityContextHolder::getContext).thenReturn(securityContext);
+            mockRequest.addHeader("Authorization", "Bearer valid_token");
+            JwtAuthenticationToken token = new JwtAuthenticationToken("valid_token");
 
-        mockRequest.addHeader("Authorization", "Bearer valid_token");
-        JwtAuthenticationToken token = new JwtAuthenticationToken("valid_token");
+            when(mockAuthenticationManager.authenticate(token)).thenThrow(new JwtInvalidException("jwt invalid exception"));
 
-        when(mockAuthenticationManager.authenticate(token)).thenThrow(new JwtInvalidException("jwt invalid exception"));
+            // action
+            filter.doFilterInternal(mockRequest, mockResponse, mockFilterChain);
 
-        // action
-        filter.doFilterInternal(mockRequest, mockResponse, mockFilterChain);
-
-        // verify
-        utilities.verify(SecurityContextHolder::clearContext, times(1));
-        assertThat(SecurityContextHolder.getContext().getAuthentication()).isNull();
-
-        // clear static Mockito
+            // verify
+            utilities.verify(SecurityContextHolder::clearContext, times(1));
+            assertThat(SecurityContextHolder.getContext().getAuthentication()).isNull();
+        }
         Mockito.clearAllCaches();
     }
 

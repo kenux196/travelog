@@ -62,11 +62,10 @@ public class AuthService {
     }
 
     public TokenInfo.AccessToken refreshAccessToken(RefreshTokenRequest request) {
-        final RefreshTokenEntity refreshToken = refreshTokenRepository.findByToken(request.getToken())
-                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST));
-
         try {
-            jwtTokenIssuer.validateToken(refreshToken.getToken());
+            jwtTokenIssuer.validateToken(request.getToken());
+            final RefreshTokenEntity refreshToken = refreshTokenRepository.findByToken(request.getToken())
+                    .orElseThrow(() -> new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST));
             final Member member = refreshToken.getMember();
             final String accessToken = jwtTokenIssuer.createAccessToken(member.getEmail(), member.getUserRole().toString());
             return TokenInfo.AccessToken.builder()

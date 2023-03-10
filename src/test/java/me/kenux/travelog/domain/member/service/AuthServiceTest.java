@@ -12,21 +12,28 @@ import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.global.exception.JwtExpiredException;
+import me.kenux.travelog.global.security.jwt.JwtAuthenticationToken;
 import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -145,26 +152,42 @@ class AuthServiceTest {
         assertThatThrownBy(() -> authService.refreshAccessToken(refreshTokenRequest))
                 .isInstanceOf(CustomException.class)
                 .hasMessage(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST.getMessage());
+
+        then(jwtTokenIssuer).should(times(1)).validateToken(any());
     }
 
     @Test
     @DisplayName("refresh accessToken 실패 - refreshToken expired")
     void refreshAccessToken_failed_expiredRefreshToken() {
         // given
-        Member member = Member.builder()
-                .name("user")
-                .email("user@test.com")
-                .userRole(UserRole.USER).build();
-        final RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity(member);
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
-        refreshTokenRequest.setToken("oldToken");
+        refreshTokenRequest.setToken("expiredRefreshToken");
 
-        given(refreshTokenRepository.findByToken(any())).willReturn(Optional.of(refreshTokenEntity));
-        willThrow(JwtExpiredException.class).given(jwtTokenIssuer).validateToken(refreshTokenEntity.getToken());
+        willThrow(JwtExpiredException.class).given(jwtTokenIssuer).validateToken(any());
 
         // when then
         assertThatThrownBy(() -> authService.refreshAccessToken(refreshTokenRequest))
                 .isInstanceOf(CustomException.class)
                 .hasMessage(ErrorCode.AUTH_TOKEN_EXPIRED.getMessage());
+    }
+
+    @Test
+    @DisplayName("logout 실패 - BadCredentialsException 발생해야 한다.")
+    void logoutFailed() {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        try (MockedStatic<SecurityContextHolder> utilities = Mockito.mockStatic(SecurityContextHolder.class)) {
+            utilities.when(SecurityContextHolder::getContext).thenReturn(securityContext);
+            JwtAuthenticationToken authenticatedToken = new JwtAuthenticationToken(
+                    "user1",
+                    "",
+                    Collections.singleton(() -> "ROLE_USER"));
+            given(SecurityContextHolder.getContext().getAuthentication()).willReturn(authenticatedToken);
+            given(refreshTokenRepository.findByMemberId(any())).willReturn(Optional.empty());
+
+
+            assertThatThrownBy(() -> authService.logout())
+                    .isInstanceOf(BadCredentialsException.class);
+        }
+        Mockito.clearAllCaches();
     }
 }
