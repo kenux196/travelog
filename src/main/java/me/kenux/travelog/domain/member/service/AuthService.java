@@ -3,22 +3,17 @@ package me.kenux.travelog.domain.member.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.RefreshTokenEntity;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.RefreshTokenRepository;
 import me.kenux.travelog.domain.member.service.dto.TokenInfo;
-import me.kenux.travelog.domain.member.service.dto.UserDetailsImpl;
 import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
-import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
+import me.kenux.travelog.domain.member.service.dto.request.ReissueTokenRequest;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import me.kenux.travelog.global.exception.JwtExpiredException;
 import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,7 +59,7 @@ public class AuthService {
                 .build();
     }
 
-    public TokenInfo.AccessToken refreshAccessToken(RefreshTokenRequest request) {
+    public TokenInfo.AccessToken reissueAccessToken(ReissueTokenRequest request) {
         try {
             jwtTokenIssuer.validateToken(request.getToken());
             if (!refreshTokenRepository.existsByToken(request.getToken())) {
