@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,9 +78,12 @@ public class AuthService {
     }
 
     private void saveRefreshToken(String refreshToken, String username) {
-        final RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByEmail(username)
-                .orElse(new RefreshTokenEntity(refreshToken, username));
-        refreshTokenRepository.save(refreshTokenEntity);
+        final Optional<RefreshTokenEntity> refreshTokenEntityOptional = refreshTokenRepository.findByEmail(username);
+        if (refreshTokenEntityOptional.isPresent()) {
+            refreshTokenEntityOptional.get().updateToken(refreshToken);
+        } else {
+            refreshTokenRepository.save(new RefreshTokenEntity(refreshToken, username));
+        }
     }
 
     @Transactional
