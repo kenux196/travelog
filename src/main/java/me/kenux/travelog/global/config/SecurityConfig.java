@@ -2,15 +2,12 @@ package me.kenux.travelog.global.config;
 
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.global.exception.ExceptionHandlerFilter;
-import me.kenux.travelog.global.security.jwt.JwtAccessDeniedHandler;
-import me.kenux.travelog.global.security.jwt.JwtAuthenticationEntryPoint;
-import me.kenux.travelog.global.security.jwt.JwtAuthenticationFilter;
-import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
+import me.kenux.travelog.global.security.jwt.*;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -25,13 +22,25 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final UserDetailsService userDetailsService;
+//    private final JwtTokenIssuer jwtTokenIssuer;
+//    private final UserDetailsService userDetailsService;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    public SecurityConfig(AuthenticationManagerBuilder authenticationManagerBuilder,
+                          JwtAuthenticationProvider jwtAuthenticationProvider,
+                          JwtAuthenticationEntryPoint unauthorizedHandler,
+                          JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.authenticationManagerBuilder.authenticationProvider(jwtAuthenticationProvider);
+        this.unauthorizedHandler = unauthorizedHandler;
+        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+    }
 
     @Bean
     @Profile("!local")
@@ -69,17 +78,17 @@ public class SecurityConfig {
             .accessDeniedHandler(jwtAccessDeniedHandler)
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http
-            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
+        http.apply(new JwtSecurityConfig(authenticationManagerBuilder.getOrBuild()));
+//            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+//            .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
 
         return http.build();
     }
 
-    @Bean
-    public JwtAuthenticationFilter authenticationJwtTokenFilter() {
-        return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
-    }
+//    @Bean
+//    public JwtAuthenticationFilter authenticationJwtTokenFilter() {
+//        return new JwtAuthenticationFilter(jwtTokenIssuer, userDetailsService);
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

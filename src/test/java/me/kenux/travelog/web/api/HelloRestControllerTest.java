@@ -1,6 +1,6 @@
 package me.kenux.travelog.web.api;
 
-import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
+import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ class HelloRestControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenIssuer jwtTokenIssuer;
     @MockBean
     private UserDetailsService userDetailsService;
 

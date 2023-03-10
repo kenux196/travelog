@@ -1,9 +1,10 @@
 package me.kenux.travelog.web.api.auth;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
-import me.kenux.travelog.domain.member.service.dto.request.RefreshTokenRequest;
+import me.kenux.travelog.domain.member.service.dto.request.ReissueTokenRequest;
 import me.kenux.travelog.domain.member.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,13 +26,13 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout() {
-        authService.logout();
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        authService.logout(request);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/refreshToken")
-    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest request) {
-        return ResponseEntity.ok(authService.refreshAccessToken(request));
+    public ResponseEntity<?> refreshToken(@RequestBody ReissueTokenRequest request) {
+        return ResponseEntity.ok(authService.reissueAccessToken(request));
     }
 }

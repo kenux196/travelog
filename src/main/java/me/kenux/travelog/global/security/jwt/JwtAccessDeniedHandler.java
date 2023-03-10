@@ -23,7 +23,6 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
         ErrorCustomResponse fail = ErrorCustomResponse.of(ErrorCode.AUTH_ACCESS_DENIED);
         response.setStatus(HttpStatus.FORBIDDEN.value());
         final ObjectMapper objectMapper = new ObjectMapper();
-//        objectMapper.getFactory().configure(JsonWriteFeature.ESCAPE_NON_ASCII.mappedFeature(), true);
         String json = objectMapper.writeValueAsString(fail);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         PrintWriter writer = response.getWriter();

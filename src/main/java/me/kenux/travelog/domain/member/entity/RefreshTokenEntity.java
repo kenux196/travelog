@@ -19,12 +19,11 @@ public class RefreshTokenEntity {
     @Column(name = "token")
     private String token;
 
-    @OneToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private String email;
 
-    public RefreshTokenEntity(Member member) {
-        this.member = member;
+    public RefreshTokenEntity(String token, String email) {
+        this.token = token;
+        this.email = email;
     }
 
     public void updateToken(String token) {

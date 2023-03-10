@@ -1,15 +1,13 @@
 package me.kenux.travelog.web.api.member;
 
 import me.kenux.travelog.domain.member.service.MemberService;
-import me.kenux.travelog.domain.member.service.UserDetailsServiceImpl;
 import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
-import me.kenux.travelog.global.security.jwt.JwtTokenProvider;
+import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -32,7 +30,7 @@ class MemberControllerTest {
     @MockBean
     private MemberService memberService;
     @MockBean
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenIssuer jwtTokenIssuer;
     @MockBean
     private UserDetailsService userDetailsService;
     @Autowired
@@ -47,7 +45,7 @@ class MemberControllerTest {
                 new MemberInfo.SimpleResponse(1L, "user", "user@test.com", OffsetDateTime.now());
         given(memberService.getMemberSimpleInfo(anyLong())).willReturn(simpleResponse);
         given(userDetailsService.loadUserByUsername(any())).willReturn(mock(UserDetails.class));
-        willDoNothing().given(jwtTokenProvider).validateToken(any());
+        willDoNothing().given(jwtTokenIssuer).validateToken(any());
 
         // when then
         mockMvc.perform(get("/api/members/1")

@@ -3,10 +3,8 @@ package me.kenux.travelog.global.security.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.global.exception.CustomException;
-import me.kenux.travelog.global.exception.ErrorCode;
-import me.kenux.travelog.global.exception.JwtTokenExpiredException;
-import me.kenux.travelog.global.exception.JwtTokenInvalidException;
+import me.kenux.travelog.global.exception.JwtExpiredException;
+import me.kenux.travelog.global.exception.JwtInvalidException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,40 +17,43 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 @Component
 @Slf4j
-public class JwtTokenProvider {
+public class JwtTokenIssuer {
 
     private final String secretKey;
     private final int tokenExpirationMinute;
     private final int refreshTokenExpirationMinute;
+    private final String KEY_ROLES = "roles";
 
-    public JwtTokenProvider(@Value("${app.jwt.secret}") String secretKey,
-                            @Value("${app.jwt.tokenExpiration}") int tokenExpirationMinute,
-                            @Value("${app.jwt.refreshTokenExpiration}") int refreshTokenExpirationMinute) {
+    public JwtTokenIssuer(@Value("${app.jwt.secret}") String secretKey,
+                          @Value("${app.jwt.tokenExpiration}") int tokenExpirationMinute,
+                          @Value("${app.jwt.refreshTokenExpiration}") int refreshTokenExpirationMinute) {
         this.secretKey = secretKey;
         this.tokenExpirationMinute = tokenExpirationMinute;
         this.refreshTokenExpirationMinute = refreshTokenExpirationMinute;
     }
 
-    public String createAccessToken(String username, String authorities) {
-        return Jwts.builder()
-            .setSubject(username)
-            .claim("auth", authorities)
-            .setExpiration(getExpiration(tokenExpirationMinute))
-            .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
-            .compact();
+    public String createAccessToken(String username, String authority) {
+        return createToken(username, authority, tokenExpirationMinute);
     }
 
-    public String createRefreshToken() {
+    public String createRefreshToken(String username, String authority) {
+        return createToken(username, authority, refreshTokenExpirationMinute);
+    }
+
+    private String createToken(String userName, String authority, int expireMin) {
+        Date now = new Date();
+        Claims claims = Jwts.claims().setSubject(userName);
+        claims.put(KEY_ROLES, Collections.singleton(authority));
         return Jwts.builder()
-            .setExpiration(getExpiration(refreshTokenExpirationMinute))
-            .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
-            .compact();
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(getExpiration(expireMin))
+                .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
+                .compact();
     }
 
     private Key getSigningKey(String secretKey) {
@@ -66,19 +67,13 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        final Claims claims = getClaims(token);
-
-        if (claims.get("auth") == null) {
-            throw new BadCredentialsException("The token has not roles");
-        }
-
-        final String auth = claims.get("auth").toString();
+        final String auth = getAuthorities(token);
         Collection<? extends GrantedAuthority> authorities =
             Arrays.stream(auth.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .toList();
 
-        final UserDetails principal = new User(claims.getSubject(), "", authorities);
+        final UserDetails principal = new User(getUserNameFromJwtToken(token), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
@@ -92,9 +87,9 @@ public class JwtTokenProvider {
         try {
             jwtParser().parseClaimsJws(token);
         } catch (ExpiredJwtException e) {
-            throw new JwtTokenExpiredException(e);
+            throw new JwtExpiredException("jwt expired exception", e);
         } catch (Exception e) {
-            throw new JwtTokenInvalidException(e);
+            throw new JwtInvalidException("jwt invalid exception", e);
         }
     }
 
@@ -106,5 +101,14 @@ public class JwtTokenProvider {
 
     public String getUserNameFromJwtToken(String token) {
         return getClaims(token).getSubject();
+    }
+
+    public String getAuthorities(String token) {
+        final Claims claims = getClaims(token);
+
+        if (claims.get(KEY_ROLES).toString().equals("[null]")) {
+            throw new BadCredentialsException("The token has not roles");
+        }
+        return claims.get(KEY_ROLES).toString();
     }
 }

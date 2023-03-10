@@ -20,9 +20,9 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             filterChain.doFilter(request, response);
-        } catch (JwtTokenExpiredException e) {
+        } catch (JwtExpiredException e) {
             setErrorResponse(response, ErrorCode.AUTH_TOKEN_EXPIRED);
-        } catch (JwtTokenInvalidException e) {
+        } catch (JwtInvalidException e) {
             setErrorResponse(response, ErrorCode.AUTH_UNAUTHORIZED);
         }
     }
