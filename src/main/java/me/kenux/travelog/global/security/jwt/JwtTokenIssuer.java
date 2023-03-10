@@ -67,19 +67,13 @@ public class JwtTokenIssuer {
     }
 
     public Authentication getAuthentication(String token) {
-        final Claims claims = getClaims(token);
-
-        if (claims.get(KEY_ROLES).toString().equals("[null]")) {
-            throw new BadCredentialsException("The token has not roles");
-        }
-
-        final String auth = claims.get(KEY_ROLES).toString();
+        final String auth = getAuthorities(token);
         Collection<? extends GrantedAuthority> authorities =
             Arrays.stream(auth.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .toList();
 
-        final UserDetails principal = new User(claims.getSubject(), "", authorities);
+        final UserDetails principal = new User(getUserNameFromJwtToken(token), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
@@ -107,5 +101,14 @@ public class JwtTokenIssuer {
 
     public String getUserNameFromJwtToken(String token) {
         return getClaims(token).getSubject();
+    }
+
+    public String getAuthorities(String token) {
+        final Claims claims = getClaims(token);
+
+        if (claims.get(KEY_ROLES).toString().equals("[null]")) {
+            throw new BadCredentialsException("The token has not roles");
+        }
+        return claims.get(KEY_ROLES).toString();
     }
 }

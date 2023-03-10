@@ -55,7 +55,7 @@ public class AuthService {
                 .collect(Collectors.joining(","));
         final String accessToken = jwtTokenIssuer.createAccessToken(userDetails.getUsername(), authorities);
         final String refreshToken = jwtTokenIssuer.createRefreshToken(userDetails.getUsername(), authorities);
-        saveRefreshToken(refreshToken, ((UserDetailsImpl) userDetails).getId());
+        saveRefreshToken(refreshToken, userDetails.getUsername());
 
         return TokenInfo.Full.builder()
                 .accessToken(accessToken)
@@ -68,10 +68,12 @@ public class AuthService {
     public TokenInfo.AccessToken refreshAccessToken(RefreshTokenRequest request) {
         try {
             jwtTokenIssuer.validateToken(request.getToken());
-            final RefreshTokenEntity refreshToken = refreshTokenRepository.findByToken(request.getToken())
-                    .orElseThrow(() -> new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST));
-            final Member member = refreshToken.getMember();
-            final String accessToken = jwtTokenIssuer.createAccessToken(member.getEmail(), member.getUserRole().toString());
+            if (!refreshTokenRepository.existsByToken(request.getToken())) {
+                throw new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST);
+            }
+            final String username = jwtTokenIssuer.getUserNameFromJwtToken(request.getToken());
+            final String authorities = jwtTokenIssuer.getAuthorities(request.getToken());
+            final String accessToken = jwtTokenIssuer.createAccessToken(username, authorities);
             return TokenInfo.AccessToken.builder()
                     .accessToken(accessToken)
                     .build();
@@ -80,24 +82,17 @@ public class AuthService {
         }
     }
 
-    private void saveRefreshToken(String refreshToken, Long memberId) {
-        memberRepository.findById(memberId)
-                .ifPresent(member -> {
-                    final RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByMemberId(memberId)
-                            .orElse(new RefreshTokenEntity(member));
-                    refreshTokenEntity.updateToken(refreshToken);
-                    refreshTokenRepository.save(refreshTokenEntity);
-                });
+    private void saveRefreshToken(String refreshToken, String username) {
+        final RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByEmail(username)
+                .orElse(new RefreshTokenEntity(refreshToken, username));
+        refreshTokenRepository.save(refreshTokenEntity);
     }
 
     @Transactional
     public void logout(HttpServletRequest request) {
         final String accessToken = resolveToken(request);
         final String username = jwtTokenIssuer.getUserNameFromJwtToken(accessToken);
-        final Member member = memberRepository.findByEmail(username)
-                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_UNAUTHORIZED));
-
-        refreshTokenRepository.deleteByMember(member.getId());
+        refreshTokenRepository.deleteByEmail(username);
         // TODO - redis cache 이용하여 로그아웃된 토큰에 대한 처리 필요. 혹은 스프링 자체 캐싱 사용? 2023-01-30 skyun
         SecurityContextHolder.clearContext();
     }
