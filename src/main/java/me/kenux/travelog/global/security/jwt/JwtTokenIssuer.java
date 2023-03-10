@@ -105,10 +105,10 @@ public class JwtTokenIssuer {
 
     public String getAuthorities(String token) {
         final Claims claims = getClaims(token);
-
-        if (claims.get(KEY_ROLES).toString().equals("[null]")) {
+        final List<String> authorities = claims.get(KEY_ROLES, List.class);
+        if (authorities.isEmpty() || !authorities.stream().allMatch(auth -> auth.startsWith("ROLE_"))) {
             throw new BadCredentialsException("The token has not roles");
         }
-        return claims.get(KEY_ROLES).toString();
+        return String.join(",", authorities);
     }
 }

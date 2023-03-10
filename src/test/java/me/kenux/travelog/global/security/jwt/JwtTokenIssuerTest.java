@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class JwtTokenIssuerTest {
 
     private final String username = "admin@test.com";
-    private final String authorities = "ADMIN";
+    private final String authorities = "ROLE_ADMIN";
     private final String secretKey = "12345678901234567890123456789012345678901234567890123456789012345678901234";
     private final int refreshTokenExpirationMinute = 10; // 10 sec
     private JwtTokenIssuer jwtTokenIssuer;
@@ -90,9 +90,9 @@ class JwtTokenIssuerTest {
     }
 
     @Test
-    @DisplayName("JWT 토큰에 사용자 role 정보가 없으면 예외 발생")
+    @DisplayName("JWT 토큰에 authority 정보가 없으면 예외 발생")
     void hasNotRole_exception() {
-        final String accessToken = jwtTokenIssuer.createAccessToken(username, null);
+        final String accessToken = jwtTokenIssuer.createAccessToken(username, "");
 
         assertThatThrownBy(() -> jwtTokenIssuer.getAuthentication(accessToken))
                 .isInstanceOf(BadCredentialsException.class);
