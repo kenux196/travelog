@@ -47,44 +47,44 @@ public class AuthService {
         }
         log.info("{}, 인증 확인됨", request.getUsername());
         final String authorities = userDetails.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .collect(Collectors.joining(","));
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
         final String accessToken = jwtTokenIssuer.createAccessToken(userDetails.getUsername(), authorities);
         final String refreshToken = jwtTokenIssuer.createRefreshToken(userDetails.getUsername(), authorities);
         saveRefreshToken(refreshToken, ((UserDetailsImpl) userDetails).getId());
 
         return TokenInfo.Full.builder()
-            .accessToken(accessToken)
-            .refreshToken(refreshToken)
-            .grantType("Bearer")
-            .role(authorities)
-            .build();
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .grantType("Bearer")
+                .role(authorities)
+                .build();
     }
 
     public TokenInfo.AccessToken refreshAccessToken(RefreshTokenRequest request) {
         final RefreshTokenEntity refreshToken = refreshTokenRepository.findByToken(request.getToken())
-            .orElseThrow(() -> new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST));
+                .orElseThrow(() -> new CustomException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_EXIST));
 
         try {
             jwtTokenIssuer.validateToken(refreshToken.getToken());
             final Member member = refreshToken.getMember();
             final String accessToken = jwtTokenIssuer.createAccessToken(member.getEmail(), member.getUserRole().toString());
             return TokenInfo.AccessToken.builder()
-                .accessToken(accessToken)
-                .build();
+                    .accessToken(accessToken)
+                    .build();
         } catch (JwtExpiredException e) {
             throw new CustomException(ErrorCode.AUTH_TOKEN_EXPIRED);
         }
     }
 
     private void saveRefreshToken(String refreshToken, Long memberId) {
-        final Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new CustomException(ErrorCode.AUTH_UNREGISTERED_MEMBER));
-
-        final RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByMemberId(memberId)
-                .orElse(new RefreshTokenEntity(member));
-        refreshTokenEntity.updateToken(refreshToken);
-        refreshTokenRepository.save(refreshTokenEntity);
+        memberRepository.findById(memberId)
+                .ifPresent(member -> {
+                    final RefreshTokenEntity refreshTokenEntity = refreshTokenRepository.findByMemberId(memberId)
+                            .orElse(new RefreshTokenEntity(member));
+                    refreshTokenEntity.updateToken(refreshToken);
+                    refreshTokenRepository.save(refreshTokenEntity);
+                });
     }
 
     @Transactional
@@ -94,7 +94,7 @@ public class AuthService {
 
         // remove refresh token
         final RefreshTokenEntity refreshToken = refreshTokenRepository.findByMemberId(details.getId())
-            .orElseThrow(() -> new BadCredentialsException("Not founded refresh token for " + details.getId()));
+                .orElseThrow(() -> new BadCredentialsException("Not founded refresh token for " + details.getId()));
         refreshTokenRepository.delete(refreshToken);
 
         // TODO - redis cache 이용하여 로그아웃된 토큰에 대한 처리 필요. 혹은 스프링 자체 캐싱 사용? 2023-01-30 skyun

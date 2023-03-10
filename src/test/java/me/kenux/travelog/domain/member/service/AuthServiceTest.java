@@ -3,6 +3,7 @@ package me.kenux.travelog.domain.member.service;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.RefreshTokenEntity;
 import me.kenux.travelog.domain.member.entity.enums.UserRole;
+import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.RefreshTokenRepository;
 import me.kenux.travelog.domain.member.service.dto.TokenInfo;
 import me.kenux.travelog.domain.member.service.dto.UserDetailsImpl;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,8 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -46,7 +47,7 @@ class AuthServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
-    private AuthenticationManagerBuilder authenticationManagerBuilder;
+    private MemberRepository memberRepository;
     @Mock
     private RefreshTokenRepository refreshTokenRepository;
     @Mock
@@ -69,30 +70,24 @@ class AuthServiceTest {
                 .hasMessage(ErrorCode.AUTH_WRONG_PASSWORD.getMessage());
     }
 
-//    @Test
-//    @DisplayName("로그인 성공")
-//    void login_success() throws Exception {
-//        // given
-//        ObjectPostProcessor<Object> opp = mock(ObjectPostProcessor.class);
-//        AuthenticationProvider provider = mock(AuthenticationProvider.class);
-//        authenticationManagerBuilder = new AuthenticationManagerBuilder(opp);
-//        authenticationManagerBuilder.authenticationProvider(provider);
-//        authenticationManagerBuilder.build();
-//
-//        LoginRequest loginRequest = getLoginRequest();
-//        final UserDetails userDetails = getUserDetails();
-//        given(userDetailsService.loadUserByUsername(anyString())).willReturn(userDetails);
-//        given(passwordEncoder.matches(any(CharSequence.class), anyString())).willReturn(true);
-////        given(authenticationManagerBuilder.getObject()).willReturn(authenticationManagerBuilder.getObject());
-//        given(authenticationManagerBuilder.getObject().authenticate(any())).willReturn(any(Authentication.class));
-//
-//        // when
-//        final TokenInfo.Full tokenInfo = authService.login(loginRequest);
-//
-//        // then
-//        assertThat(tokenInfo).isNotNull();
-//
-//    }
+    @Test
+    @DisplayName("로그인 성공")
+    void login_success() throws Exception {
+        // given
+        LoginRequest loginRequest = getLoginRequest();
+        final UserDetails userDetails = getUserDetails();
+        given(userDetailsService.loadUserByUsername(anyString())).willReturn(userDetails);
+        given(passwordEncoder.matches(any(CharSequence.class), anyString())).willReturn(true);
+        given(jwtTokenIssuer.createAccessToken(any(), any())).willReturn("accessToken");
+        given(jwtTokenIssuer.createRefreshToken(any(), any())).willReturn("refreshToken");
+        given(memberRepository.findById(any())).willReturn(Optional.of(Mockito.mock(Member.class)));
+
+        // when
+        final TokenInfo.Full tokenInfo = authService.login(loginRequest);
+
+        // then
+        assertThat(tokenInfo).isNotNull();
+    }
 
     private UserDetails getUserDetails() {
         Set<GrantedAuthority> roles = new HashSet<>();
