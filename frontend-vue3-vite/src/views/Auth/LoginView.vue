@@ -9,7 +9,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { auth } from '../api';
+import { auth } from '../../api';
 
 const user = ref('');
 const password = ref('');

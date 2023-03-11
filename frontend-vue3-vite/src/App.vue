@@ -26,9 +26,12 @@ const authStore = useAuthStore();
           <router-link to="/admin/member">회원관리(관리자)</router-link>
         </li>
         <li>
-          <a v-if="authStore.isLoggedIn" @click="auth.logout">Logout</a> |
-          <a v-if="authStore.isLoggedIn" @click="auth.refreshToken">RefresToken</a>
+          <a v-if="authStore.isLoggedIn" @click="auth.logout">Logout</a>
           <router-link v-else to="/login">Login</router-link>
+        </li>
+        <li>
+          <a v-if="authStore.isLoggedIn" @click="auth.refreshToken">RefresToken</a>
+          <router-link v-else to="/signup">Signup</router-link>
         </li>
         <li>
           <router-link to="/learn">learn vue.js</router-link>

@@ -53,6 +53,16 @@ const onTokenExpired = () => {
 };
 
 const auth = {
+  async signup(name, email, password) {
+    try {
+      await request('post', '/api/signup', { name, email, password });
+      console.log('회원가입 완료');
+      router.push('/login');
+    } catch (e) {
+      console.log('Failed signup => ' + e.message);
+      alert('회원가입을 실패하였습니다.');
+    }
+  },
   async login(username, password) {
     try {
       const response = await request('post', '/api/auth/login', { username, password });
