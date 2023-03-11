@@ -1,6 +1,7 @@
 package me.kenux.travelog.web.api.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
@@ -21,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
 
@@ -32,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/refreshToken")
-    public ResponseEntity<?> refreshToken(@RequestBody ReissueTokenRequest request) {
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody ReissueTokenRequest request) {
         return ResponseEntity.ok(authService.reissueAccessToken(request));
     }
 }
