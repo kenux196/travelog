@@ -23,16 +23,16 @@ public class SignupService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void signup(SignupRequest joinRequest) {
-        if (memberRepository.existsByEmail(joinRequest.getEmail())) {
+    public void signup(SignupRequest request) {
+        if (memberRepository.existsByEmail(request.getEmail())) {
             throw new CustomException(ErrorCode.MEMBER_ALREADY_EXIST);
         }
 
-        final String encodedPassword = passwordEncoder.encode(joinRequest.getPassword());
+        final String encodedPassword = passwordEncoder.encode(request.getPassword());
         final UserPassword password = new UserPassword(encodedPassword);
         passwordRepository.save(password);
 
-        final Member newMember = Member.createNewMember(joinRequest.getName(), joinRequest.getEmail(), password);
+        final Member newMember = Member.createNewMember(request.getName(), request.getEmail(), password);
         memberRepository.save(newMember);
     }
 }

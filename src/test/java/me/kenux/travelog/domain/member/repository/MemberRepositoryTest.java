@@ -102,4 +102,20 @@ class MemberRepositoryTest extends BaseRepositoryConfig {
         // then
         assertThat(members).hasSize(1);
     }
+
+    @Test
+    void existByEmail() {
+        // given
+        final UserPassword password = new UserPassword("password");
+        passwordRepository.save(password);
+        final Member newMember = Member.createNewMember("member1", "member1@email.com", password);
+        memberRepository.save(newMember);
+        em.clear();
+
+        // when
+        final boolean result = memberRepository.existsByEmail("member1@email.com");
+
+        // then
+        assertThat(result).isTrue();
+    }
 }

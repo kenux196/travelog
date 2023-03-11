@@ -1,5 +1,6 @@
 package me.kenux.travelog.web.api.auth;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.domain.member.service.dto.request.SignupRequest;
 import me.kenux.travelog.domain.member.service.SignupService;
@@ -17,7 +18,7 @@ public class SignupController {
     private final SignupService signupService;
 
     @PostMapping
-    public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
+    public ResponseEntity<?> signup(@Valid @RequestBody SignupRequest request) {
         signupService.signup(request);
         return ResponseEntity.noContent().build();
     }

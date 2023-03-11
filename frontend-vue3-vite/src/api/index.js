@@ -57,6 +57,7 @@ const auth = {
     try {
       await request('post', '/api/signup', { name, email, password });
       console.log('회원가입 완료');
+      alert('회원가입을 성공했습니다. 로그인 후 이용하세요');
       router.push('/login');
     } catch (e) {
       console.log('Failed signup => ' + e.message);
