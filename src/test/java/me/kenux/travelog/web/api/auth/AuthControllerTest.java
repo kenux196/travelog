@@ -6,6 +6,8 @@ import me.kenux.travelog.domain.member.service.dto.TokenInfo;
 import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
 import me.kenux.travelog.domain.member.service.dto.request.ReissueTokenRequest;
 import me.kenux.travelog.global.config.SecurityConfig;
+import me.kenux.travelog.global.exception.CustomException;
+import me.kenux.travelog.global.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -92,6 +95,28 @@ class AuthControllerTest {
         actions.andExpect(status().isBadRequest())
                 .andDo(print());
         verify(authService, never()).login(any());
+    }
+
+    @Test
+    @WithAnonymousUser
+    void login_failed_requestBody_wrongPassword() throws Exception {
+        // given
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("admin@test.com");
+        loginRequest.setPassword("wrong_password");
+        String content = objectMapper.writeValueAsString(loginRequest);
+        given(authService.login(any())).willThrow(new CustomException(ErrorCode.AUTH_WRONG_PASSWORD));
+
+        // when
+        final ResultActions actions = mockMvc.perform(post(BASE_URL + "/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content)
+        );
+
+        // then
+        actions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(ErrorCode.AUTH_WRONG_PASSWORD.getCode()))
+                .andDo(print());
     }
 
     @Test
