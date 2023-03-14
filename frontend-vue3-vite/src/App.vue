@@ -22,12 +22,6 @@ const authStore = useAuthStore();
         <li>
           <router-link to="/about">About</router-link>
         </li>
-        <li v-if="authStore.isAdmin">
-          <router-link to="/admin">관리자메인화면</router-link>
-        </li>
-        <li v-if="authStore.isAdmin">
-          <router-link to="/admin/member">회원관리(관리자)</router-link>
-        </li>
         <li>
           <a v-if="authStore.isLoggedIn" @click="auth.logout">Logout</a>
           <router-link v-else to="/login">Login</router-link>
@@ -38,6 +32,19 @@ const authStore = useAuthStore();
         </li>
         <li>
           <router-link to="/learn">learn vue.js</router-link>
+        </li>
+      </ul>
+    </nav>
+    <nav v-if="authStore.isAdmin">
+      <ul>
+        <li><strong>KENUX ADMIN</strong></li>
+      </ul>
+      <ul>
+        <li v-if="authStore.isAdmin">
+          <router-link to="/admin">관리자메인화면</router-link>
+        </li>
+        <li v-if="authStore.isAdmin">
+          <router-link to="/admin/member">회원관리(관리자)</router-link>
         </li>
       </ul>
     </nav>

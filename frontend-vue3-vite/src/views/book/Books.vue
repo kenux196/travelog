@@ -1,6 +1,6 @@
 <template>
   <h1>책 검색</h1>
-  <input type="text" v-model="keyword" />
+  <input type="search" v-model="keyword" />
   <button @click="searchBook">검색</button>
   <div>
     <div v-if="hasBooks">
