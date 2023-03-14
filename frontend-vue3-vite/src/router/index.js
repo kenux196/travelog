@@ -64,9 +64,9 @@ const router = createRouter({
       component: () => import('../views/learn/LearnJs.vue'),
     },
     {
-      path: '/learn/books',
+      path: '/books',
       name: 'search book with kakao',
-      component: () => import('../views/learn/Books.vue'),
+      component: () => import('../views/book/Books.vue'),
     },
     {
       path: '/learn/event',
