@@ -1,17 +1,31 @@
 <template>
-  <h1>대구시 문화/공연/전시 이벤트 정보 검색</h1>
+  <h1>대구시 문화/공연/전시 행사 정보 검색</h1>
   <div class="grid">
-    <input type="date" v-model="startDate" />
-    <input type="date" v-model="endDate" />
-    <button @click="searchEvent">검색</button>
+    <div>
+      <label>행사 종류</label>
+      <select v-model="eventType">
+        <option v-for="(item, index) in eventTypeList" :key="index" :value="item.value">{{ item.name }}</option>
+      </select>
+    </div>
+    <div>
+      <label>시작일</label>
+      <input type="date" v-model="startDate" />
+    </div>
+    <div>
+      <label>종료일</label>
+      <input type="date" v-model="endDate" />
+    </div>
+    <div>
+      <div>검색해봅시다.</div>
+      <button @click="searchEvent">검색</button>
+    </div>
   </div>
   <div>
     <div v-if="hasEvent">
       <h4>검색 결과</h4>
-      <p>검색 결과가 있습니다.</p>
       <table>
         <thead>
-          <th>종류</th>
+          <th>행사종류</th>
           <th>주제</th>
           <th>장소</th>
           <th>유료/무료</th>
@@ -36,9 +50,15 @@
 import axios from 'axios';
 import { computed, ref } from 'vue';
 
-const startDate = ref('');
+const startDate = ref(new Date().toLocaleDateString());
 const endDate = ref('');
 const eventList = ref('');
+const eventType = ref('');
+const eventTypeList = ref([
+  { name: '선택하세요', value: '' },
+  { name: '전시', value: 'DP' },
+  { name: '공연', value: 'PF' },
+]);
 
 const hasEvent = computed(() => {
   console.log('event list = ' + eventList.value.length);
@@ -46,6 +66,10 @@ const hasEvent = computed(() => {
 });
 
 const searchEvent = () => {
+  if (eventType.value.length <= 0) {
+    alert('행사 종류를 선택하세요.');
+    return;
+  }
   if (startDate.value.length <= 0) {
     alert('시작일을 입력하세요. 시작일은 필수입니다.');
     return;
@@ -54,7 +78,7 @@ const searchEvent = () => {
   axios
     .get('/ajax/event/list.json', {
       params: {
-        event_gubun: 'DP',
+        event_gubun: eventType.value,
         start_date: startDate.value.toString(),
         end_date: endDate.value.toString(),
       },
