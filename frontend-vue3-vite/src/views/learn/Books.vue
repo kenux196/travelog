@@ -8,7 +8,6 @@
       <p>검색 결과가 있습니다.</p>
       <table>
         <thead>
-          <th></th>
           <th>표지</th>
           <th>제목</th>
           <th>작가</th>
