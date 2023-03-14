@@ -20,7 +20,7 @@
               <img :src="book.thumbnail" />
             </td>
             <td>{{ book.title }}</td>
-            <td>{{ book.authors[0] }}</td>
+            <td>{{ getAuthors(book.authors) }}</td>
             <td>{{ book.isbn }}</td>
             <td>{{ book.price }}</td>
           </tr>
@@ -71,5 +71,19 @@ const searchBook = () => {
     .catch((error) => {
       console.log(error);
     });
+};
+
+const getAuthors = (authorList) => {
+  let authors = '';
+  let isFirst = true;
+  for (const index in authorList) {
+    if (isFirst) {
+      authors += authorList[index];
+      isFirst = false;
+    } else {
+      authors += ', ' + authorList[index];
+    }
+  }
+  return authors;
 };
 </script>
