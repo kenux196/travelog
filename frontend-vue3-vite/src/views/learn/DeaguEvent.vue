@@ -51,16 +51,11 @@ const searchEvent = () => {
   console.log(keyword.value + ' 책을 검색합니다.');
 
   axios
-    .get('https://dgfca.or.kr/ajax/event/list.json', {
+    .get('/ajax/event/list.json', {
       params: {
         event_gubun: 'DP',
         start_date: '2023-03',
         end_date: '2023-04',
-      },
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE',
-        'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
       },
     })
     .then((response) => {
