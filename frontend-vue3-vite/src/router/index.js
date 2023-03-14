@@ -68,6 +68,11 @@ const router = createRouter({
       name: 'search book with kakao',
       component: () => import('../views/learn/Books.vue'),
     },
+    {
+      path: '/learn/event',
+      name: 'Deagu Event',
+      component: () => import('../views/learn/DeaguEvent.vue'),
+    },
   ],
 });
 
