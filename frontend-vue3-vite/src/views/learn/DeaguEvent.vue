@@ -75,8 +75,14 @@ const searchEvent = () => {
     return;
   }
 
+  console.log(import.meta.env.MODE);
+  let requestUrl = '';
+  if (import.meta.env.MODE !== 'development') {
+    requestUrl = 'https://dgfca.or.kr';
+  }
+
   axios
-    .get('/ajax/event/list.json', {
+    .get(requestUrl + '/ajax/event/list.json', {
       params: {
         event_gubun: eventType.value,
         start_date: startDate.value.toString(),
