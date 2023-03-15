@@ -67,6 +67,9 @@ const router = createRouter({
       path: '/books',
       name: 'search book with kakao',
       component: () => import('../views/book/Books.vue'),
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/learn/event',

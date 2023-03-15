@@ -16,7 +16,7 @@ const authStore = useAuthStore();
         <li>
           <router-link to="/">Home</router-link>
         </li>
-        <li v-if="authStore.isLoggedIn">
+        <li>
           <router-link to="/books">Book</router-link>
         </li>
         <li>
