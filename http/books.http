@@ -15,9 +15,15 @@ Content-Type: Application/json
       "isbn": "8966260950 9788966260959",
       "price": 33000,
       "publisher": "인사이트",
+      "sale_price": 29700,
       "status": "정상판매",
       "thumbnail": "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F927035%3Ftimestamp%3D20230308150335",
-      "title": "Clean Code(클린 코드)"
+      "title": "Clean Code(클린 코드)",
+      "translators": [
+        "박재호"
+      ],
+      "url": "https://search.daum.net/search?w=bookpage&bookId=927035&q=Clean+Code%28%ED%81%B4%EB%A6%B0+%EC%BD%94%EB%93%9C%29",
+      "selected": true
     },
     {
       "authors": "마리아노 아나야",
@@ -26,9 +32,15 @@ Content-Type: Application/json
       "isbn": "1161340467 9791161340463",
       "price": 28000,
       "publisher": "터닝포인트",
+      "sale_price": 25200,
       "status": "정상판매",
       "thumbnail": "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F4867370%3Ftimestamp%3D20221213180439",
-      "title": "파이썬 클린 코드"
+      "title": "파이썬 클린 코드",
+      "translators": [
+        "김창수"
+      ],
+      "url": "https://search.daum.net/search?w=bookpage&bookId=4867370&q=%ED%8C%8C%EC%9D%B4%EC%8D%AC+%ED%81%B4%EB%A6%B0+%EC%BD%94%EB%93%9C",
+      "selected": true
     }
   ]
 }
