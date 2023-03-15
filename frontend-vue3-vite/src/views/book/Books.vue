@@ -14,7 +14,7 @@
           <th>작가</th>
           <th>isbn</th>
           <th>발행일</th>
-          <th>가격</th>
+          <th>출판사</th>
         </thead>
         <tbody>
           <tr v-for="(book, index) in bookList" :key="index">
@@ -25,10 +25,10 @@
               <img :src="book.thumbnail" />
             </td>
             <td>{{ book.title }}</td>
-            <td>{{ getAuthors(book.authors) }}</td>
+            <td>{{ book.authors }}</td>
             <td>{{ book.isbn }}</td>
             <td>{{ getPublishDate(book.datetime) }}</td>
-            <td>{{ book.price }}</td>
+            <td>{{ book.publisher }}</td>
           </tr>
         </tbody>
       </table>
@@ -74,6 +74,7 @@ const searchBook = () => {
       console.log(response);
       bookList.value = response.data.documents;
       bookList.value.forEach((book) => {
+        book.authors = getAuthors(book.authors);
         book.selected = false;
       });
       console.log(bookList.value);
