@@ -12,6 +12,7 @@
           <th>제목</th>
           <th>작가</th>
           <th>isbn</th>
+          <th>발행일</th>
           <th>가격</th>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
             <td>{{ book.title }}</td>
             <td>{{ getAuthors(book.authors) }}</td>
             <td>{{ book.isbn }}</td>
+            <td>{{ getPublishDate(book.datetime) }}</td>
             <td>{{ book.price }}</td>
           </tr>
         </tbody>
@@ -85,5 +87,9 @@ const getAuthors = (authorList) => {
     }
   }
   return authors;
+};
+
+const getPublishDate = (datetime) => {
+  return new Date(datetime).toLocaleDateString();
 };
 </script>
