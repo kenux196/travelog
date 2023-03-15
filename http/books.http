@@ -1,0 +1,34 @@
+### 책 조회
+GET {{host}}/api/books
+Authorization: Bearer {{accessToken}}
+
+### 책 등록
+POST {{host}}/api/books
+Content-Type: Application/json
+
+{
+  "bookInfoBases": [
+    {
+      "authors": "로버트 C. 마틴",
+      "contents": "『Clean Code(클린 코드)』은 오브젝트 멘토(Object Mentor)의 동료들과 힘을 모아 ‘개발하며’ 클린 코드를 만드는 최상의 애자일 기법을 소개하고 있다. 소프트웨어 장인 정신의 가치를 심어 주며 프로그래밍 실력을 높여줄 것이다. 여러분이 노력만 한다면. 어떤 노력이 필요하냐고? 코드를 읽어야 한다. 아주 많은 코드를. 그리고 코드를 읽으면서 그 코드의 무엇이 옳은지, 그른지 생각도 해야 한다. 좀 더 중요하게는 전문가로서 자신이 지니는 가치",
+      "datetime": "2013-12-24T00:00:00.000+09:00",
+      "isbn": "8966260950 9788966260959",
+      "price": 33000,
+      "publisher": "인사이트",
+      "status": "정상판매",
+      "thumbnail": "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F927035%3Ftimestamp%3D20230308150335",
+      "title": "Clean Code(클린 코드)"
+    },
+    {
+      "authors": "마리아노 아나야",
+      "contents": "프로그래밍 언어이다. 그러나 이 책에서 소개하는 다음 내용을 제대로 숙지하지 않고 개발을 하다보면 더 이상은 수정이 불가능한 코드를 마주하게 된다. 어디서부터 무엇이 잘못된 걸까? 이 책을 통해 파이썬의 철학을 따르는 파이썬스러운 클린 코드를 작성하는 방법에 대해 알아보자.    * 클린 코드란 무엇인가?  * 파이썬스러운(pythonic) 코드란 무엇인가?  * 파이썬에서 밑줄의 의미  * yield와 return의 차이  * 이터러블과 이터레이터, 제너레이터의",
+      "datetime": "2019-02-25T00:00:00.000+09:00",
+      "isbn": "1161340467 9791161340463",
+      "price": 28000,
+      "publisher": "터닝포인트",
+      "status": "정상판매",
+      "thumbnail": "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F4867370%3Ftimestamp%3D20221213180439",
+      "title": "파이썬 클린 코드"
+    }
+  ]
+}
