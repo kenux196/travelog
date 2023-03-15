@@ -106,5 +106,6 @@ const registerBook = () => {
   // 책 등록 api 호출.
   const selectdBooks = bookList.value.filter((book) => book.selected);
   console.log(selectdBooks);
+  console.log(JSON.stringify(selectdBooks));
 };
 </script>
