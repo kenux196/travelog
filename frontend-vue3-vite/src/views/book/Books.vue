@@ -8,7 +8,7 @@
       <p>검색 결과가 있습니다.</p>
       <table>
         <thead>
-          <th><input type="checkbox" /></th>
+          <th><input type="checkbox" @click="selectAll()" :value="isAll" /></th>
           <th>표지</th>
           <th>제목</th>
           <th>작가</th>
@@ -44,6 +44,7 @@ import { computed, ref } from 'vue';
 
 const keyword = ref('');
 const bookList = ref('');
+const isAll = ref(false);
 
 const hasBooks = computed(() => {
   console.log('book list = ' + bookList.value.length);
@@ -115,8 +116,27 @@ const getIsbn = (isbn) => {
 
 const registerBook = () => {
   // 책 등록 api 호출.
-  const selectdBooks = bookList.value.filter((book) => book.selected);
-  console.log(JSON.stringify(selectdBooks));
-  console.log(selectdBooks);
+  const bookInfos = bookList.value.filter((book) => book.selected);
+  const jsonData = JSON.stringify(bookInfos);
+  console.log(jsonData);
+  console.log(bookInfos);
+  axios
+    .post('/api/books', { bookInfos })
+    .then(() => {
+      console.log('책등록 성공');
+      bookList.value.forEach((book) => {
+        book.selected = false;
+      });
+    })
+    .catch((e) => {
+      console.log(e.message);
+    });
+};
+
+const selectAll = () => {
+  bookList.value.forEach((book) => {
+    isAll.value = !isAll.value;
+    book.selected = !book.selected;
+  });
 };
 </script>
