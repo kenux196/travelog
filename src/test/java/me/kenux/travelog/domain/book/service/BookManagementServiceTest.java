@@ -36,7 +36,7 @@ class BookManagementServiceTest {
         given(bookRepository.findAllByIsbn(any())).willReturn(existBooks);
 
         // when
-        bookManagementService.registerBook(request);
+        bookManagementService.addBook(request);
 
         // then
         BDDMockito.then(bookRepository).should(times(1)).saveAll(any());

@@ -2,12 +2,10 @@ package me.kenux.travelog.web.api.book;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.kenux.travelog.domain.book.service.BookManagementService;
-import me.kenux.travelog.domain.book.service.dto.BookInfoDto;
 import me.kenux.travelog.domain.book.service.dto.RegisterBookRequest;
 import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,11 +16,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -65,7 +59,7 @@ class BookControllerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         final String content = objectMapper.writeValueAsString(request);
-        willDoNothing().given(bookManagementService).registerBook(any());
+        willDoNothing().given(bookManagementService).addBook(any());
 
         // when
         final ResultActions actions = mockMvc.perform(post("/api/books")

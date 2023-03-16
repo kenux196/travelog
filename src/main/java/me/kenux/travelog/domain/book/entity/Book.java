@@ -23,7 +23,7 @@ public class Book {
     @Column(name = "authors", nullable = false)
     private String authors;
 
-    @Column(name = "isbn", nullable = false, unique = true)
+    @Column(name = "isbn", nullable = false)
     private String isbn;
 
     @Column(name = "content", columnDefinition = "LONGTEXT")
@@ -40,4 +40,8 @@ public class Book {
 
     @Column(name = "publisher")
     private String publisher;
+
+    public boolean isSameBook(String title, String isbn) {
+        return this.title.equals(title) && this.isbn.equals(isbn);
+    }
 }

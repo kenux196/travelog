@@ -33,7 +33,7 @@ public class BookController {
     public ResponseEntity<?> registerBooks(@RequestBody RegisterBookRequest request) {
         // 책 등록 처리
         log.info(request.toString());
-        bookManagementService.registerBook(request);
+        bookManagementService.addBook(request);
         return ResponseEntity.noContent().build();
     }
 

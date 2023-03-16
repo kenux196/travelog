@@ -18,18 +18,25 @@ public class BookManagementService {
     private final BookRepository bookRepository;
 
     @Transactional
-    public void registerBook(RegisterBookRequest request) {
+    public void addBook(RegisterBookRequest request) {
         final List<String> isbnList = request.getBookInfos().stream()
                 .map(BookInfoDto::getIsbn)
                 .toList();
-        final List<Book> existBooks = bookRepository.findAllByIsbn(isbnList);
 
-        final List<Book> books = request.getBookInfos().stream()
-                .filter(bookInfoDto ->
-                        existBooks.stream()
-                                .noneMatch(book -> book.getIsbn().equals(bookInfoDto.getIsbn())))
+        final List<Book> foundBooks = getBooksByIsbn(isbnList);
+        final List<Book> newBooks = request.getBookInfos().stream()
+                .filter(bookInfoDto -> !existBook(foundBooks, bookInfoDto))
                 .map(BookInfoDto::toEntity)
                 .toList();
-        bookRepository.saveAll(books);
+        bookRepository.saveAll(newBooks);
+    }
+
+    private static boolean existBook(List<Book> books, BookInfoDto bookInfo) {
+        return books.stream()
+                .anyMatch(book -> book.isSameBook(bookInfo.getTitle(), bookInfo.getIsbn()));
+    }
+
+    private List<Book> getBooksByIsbn(List<String> isbnList) {
+        return bookRepository.findAllByIsbn(isbnList);
     }
 }
