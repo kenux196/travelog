@@ -1,13 +1,19 @@
 <template>
-  <div>
-    <p>Vue.js 연습 페이지</p>
+  <nav>
     <ul>
-      <li><router-link to="/learn/learn-js">Learn JS</router-link></li>
-      <li><router-link to="/learn/test01">test01</router-link></li>
+      <ul>
+        <li><strong>Vue 연습</strong></li>
+      </ul>
+      <li><router-link to="/learn/learn-js">JavaScript</router-link></li>
+      <li><router-link to="/learn/vue-1">vue-1</router-link></li>
+      <li><router-link to="/learn/vue-2">vue-2</router-link></li>
+      <li><router-link to="/learn/vue-3">vue-3</router-link></li>
       <li><router-link to="/learn/event">대구문화이벤트</router-link></li>
     </ul>
-  </div>
+  </nav>
+  <router-view></router-view>
 </template>
 <script setup>
 import { RouterLink } from 'vue-router';
 </script>
+<style scoped></style>

@@ -8,24 +8,31 @@
       <p>검색 결과가 있습니다.</p>
       <table>
         <thead>
+          <th><input type="checkbox" /></th>
           <th>표지</th>
           <th>제목</th>
           <th>작가</th>
           <th>isbn</th>
-          <th>가격</th>
+          <th>발행일</th>
+          <th>출판사</th>
         </thead>
         <tbody>
           <tr v-for="(book, index) in bookList" :key="index">
             <td>
+              <input type="checkbox" :id="'check_' + index" v-model="book.selected" />
+            </td>
+            <td>
               <img :src="book.thumbnail" />
             </td>
             <td>{{ book.title }}</td>
-            <td>{{ getAuthors(book.authors) }}</td>
+            <td>{{ book.authors }}</td>
             <td>{{ book.isbn }}</td>
-            <td>{{ book.price }}</td>
+            <td>{{ getPublishDate(book.datetime) }}</td>
+            <td>{{ book.publisher }}</td>
           </tr>
         </tbody>
       </table>
+      <p role="button" @click="registerBook">등록</p>
     </div>
     <div v-else>검색 결과가 없습니다.</div>
   </div>
@@ -66,6 +73,10 @@ const searchBook = () => {
     .then((response) => {
       console.log(response);
       bookList.value = response.data.documents;
+      bookList.value.forEach((book) => {
+        book.authors = getAuthors(book.authors);
+        book.selected = false;
+      });
       console.log(bookList.value);
     })
     .catch((error) => {
@@ -85,5 +96,16 @@ const getAuthors = (authorList) => {
     }
   }
   return authors;
+};
+
+const getPublishDate = (datetime) => {
+  return new Date(datetime).toLocaleDateString();
+};
+
+const registerBook = () => {
+  // 책 등록 api 호출.
+  const selectdBooks = bookList.value.filter((book) => book.selected);
+  console.log(selectdBooks);
+  console.log(JSON.stringify(selectdBooks));
 };
 </script>

@@ -52,16 +52,33 @@ const router = createRouter({
       path: '/learn',
       name: 'learn main',
       component: () => import('../views/learn/LearnMain.vue'),
-    },
-    {
-      path: '/learn/test01',
-      name: 'learn test 01',
-      component: () => import('../views/learn/LearnTest01.vue'),
-    },
-    {
-      path: '/learn/learn-js',
-      name: 'learn to js',
-      component: () => import('../views/learn/LearnJs.vue'),
+      children: [
+        {
+          path: '/learn/vue-1',
+          name: 'learn test 01',
+          component: () => import('../views/learn/LearnVue01.vue'),
+        },
+        {
+          path: '/learn/vue-2',
+          name: 'learn test 02',
+          component: () => import('../views/learn/LearnVue02.vue'),
+        },
+        {
+          path: '/learn/vue-3',
+          name: 'learn test 03',
+          component: () => import('../views/learn/LearnVue03.vue'),
+        },
+        {
+          path: '/learn/learn-js',
+          name: 'learn to js',
+          component: () => import('../views/learn/LearnJs.vue'),
+        },
+        {
+          path: '/learn/event',
+          name: 'Deagu Event',
+          component: () => import('../views/learn/DeaguEvent.vue'),
+        },
+      ],
     },
     {
       path: '/books',
@@ -70,11 +87,6 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       },
-    },
-    {
-      path: '/learn/event',
-      name: 'Deagu Event',
-      component: () => import('../views/learn/DeaguEvent.vue'),
     },
   ],
 });

@@ -1,22 +1,20 @@
 package me.kenux.travelog.web.api.book;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is test for data
+ * This is tested for data
  */
 
 @RestController
 @RequestMapping("/api/books")
+@Slf4j
 public class BookController {
 
     @GetMapping
@@ -24,27 +22,26 @@ public class BookController {
         return ResponseEntity.ok(getBookInfo());
     }
 
-    private List<BookInfoDto> getBookInfo() {
-        List<BookInfoDto> bookInfoDtoList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            int num = i + 1;
-            final BookInfoDto bookInfoDto = BookInfoDto.builder()
-                .id((long) num)
-                .title("Book" + num)
-                .author("kenux.yun")
-                .createdDate(OffsetDateTime.now().minusMonths(i))
-                .build();
-            bookInfoDtoList.add(bookInfoDto);
-        }
-        return bookInfoDtoList;
+    @PostMapping
+    public ResponseEntity<?> registerBooks(@RequestBody RegisterBookRequest request) {
+        
+        // 책 등록 처리
+        log.info(request.toString());
+        return ResponseEntity.noContent().build();
     }
 
-    @Data
-    @Builder
-    public static class BookInfoDto {
-        private Long id;
-        private String title;
-        private String author;
-        private OffsetDateTime createdDate;
+    private List<BookInfoBase> getBookInfo() {
+        List<BookInfoBase> bookInfoBaseList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            int num = i + 1;
+            final BookInfoBase bookInfoBase = BookInfoBase.builder()
+                .id((long) num)
+                .title("Book" + num)
+                .authors("kenux.yun")
+                .datetime(OffsetDateTime.now().minusMonths(i))
+                .build();
+            bookInfoBaseList.add(bookInfoBase);
+        }
+        return bookInfoBaseList;
     }
 }
