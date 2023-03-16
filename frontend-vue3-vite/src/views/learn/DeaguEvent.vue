@@ -4,7 +4,7 @@
     <div>
       <label>행사 종류</label>
       <select v-model="eventType">
-        <option v-for="(item, index) in eventTypeList" :key="index" :value="item.value">{{ item.name }}</option>
+        <option v-for="item in eventTypeList" :key="item.id" :value="item.value">{{ item.name }}</option>
       </select>
     </div>
     <div>
@@ -32,7 +32,7 @@
           <th>기간</th>
         </thead>
         <tbody>
-          <tr v-for="(event, index) in eventList" :key="index">
+          <tr v-for="event in eventList" :key="event.id">
             <td>{{ event.event_gubun_name }}</td>
             <td>{{ event.subject }}</td>
             <td>{{ event.place }}</td>
@@ -55,9 +55,9 @@ const endDate = ref('');
 const eventList = ref('');
 const eventType = ref('');
 const eventTypeList = ref([
-  { name: '선택하세요', value: '' },
-  { name: '전시', value: 'DP' },
-  { name: '공연', value: 'PF' },
+  { id: 0, name: '선택하세요', value: '' },
+  { id: 1, name: '전시', value: 'DP' },
+  { id: 2, name: '공연', value: 'PF' },
 ]);
 
 const hasEvent = computed(() => {
@@ -92,6 +92,10 @@ const searchEvent = () => {
     .then((response) => {
       console.log(response);
       eventList.value = response.data;
+      let id = 0;
+      eventList.value.forEach((event) => {
+        event.id = ++id;
+      });
       console.log(eventList.value);
     })
     .catch((error) => {

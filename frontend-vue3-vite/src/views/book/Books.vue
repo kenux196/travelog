@@ -17,9 +17,9 @@
           <th>출판사</th>
         </thead>
         <tbody>
-          <tr v-for="(book, index) in bookList" :key="index">
+          <tr v-for="book in bookList" :key="book.id">
             <td>
-              <input type="checkbox" :id="'check_' + index" v-model="book.selected" />
+              <input type="checkbox" :id="'check_' + book.id" v-model="book.selected" />
             </td>
             <td>
               <img :src="book.thumbnail" />
@@ -73,9 +73,12 @@ const searchBook = () => {
     .then((response) => {
       console.log(response);
       bookList.value = response.data.documents;
+      let id = 0;
       bookList.value.forEach((book) => {
+        book.id = ++id;
         book.authors = getAuthors(book.authors);
         book.selected = false;
+        book.isbn = getIsbn(book.isbn);
       });
       console.log(bookList.value);
     })
@@ -102,10 +105,18 @@ const getPublishDate = (datetime) => {
   return new Date(datetime).toLocaleDateString();
 };
 
+const getIsbn = (isbn) => {
+  const isbns = isbn.split(' ');
+  if (isbns.length < 2) {
+    return isbns[0];
+  }
+  return isbns[1];
+};
+
 const registerBook = () => {
   // 책 등록 api 호출.
   const selectdBooks = bookList.value.filter((book) => book.selected);
-  console.log(selectdBooks);
   console.log(JSON.stringify(selectdBooks));
+  console.log(selectdBooks);
 };
 </script>
