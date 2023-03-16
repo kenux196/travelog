@@ -8,7 +8,7 @@
       <p>검색 결과가 있습니다.</p>
       <table>
         <thead>
-          <th><input type="checkbox" @click="selectAll()" :value="isAll" /></th>
+          <th><input type="checkbox" @click="selectAll($event.target.checked)" v-model="isAllChecked" /></th>
           <th>표지</th>
           <th>제목</th>
           <th>작가</th>
@@ -19,7 +19,13 @@
         <tbody>
           <tr v-for="book in bookList" :key="book.id">
             <td>
-              <input type="checkbox" :id="'check_' + book.id" v-model="book.selected" />
+              <input
+                type="checkbox"
+                :id="'check_' + book.id"
+                :value="book.id"
+                v-model="book.selected"
+                @change="selectItem()"
+              />
             </td>
             <td>
               <img :src="book.thumbnail" />
@@ -44,7 +50,7 @@ import { computed, ref } from 'vue';
 
 const keyword = ref('');
 const bookList = ref('');
-const isAll = ref(false);
+const isAllChecked = ref(false);
 
 const hasBooks = computed(() => {
   console.log('book list = ' + bookList.value.length);
@@ -124,6 +130,7 @@ const registerBook = () => {
     .post('/api/books', { bookInfos })
     .then(() => {
       console.log('책등록 성공');
+      isAllChecked.value = false;
       bookList.value.forEach((book) => {
         book.selected = false;
       });
@@ -133,10 +140,19 @@ const registerBook = () => {
     });
 };
 
-const selectAll = () => {
+const selectAll = (checked) => {
+  isAllChecked.value = checked;
   bookList.value.forEach((book) => {
-    isAll.value = !isAll.value;
-    book.selected = !book.selected;
+    book.selected = isAllChecked.value;
   });
+};
+
+const selectItem = () => {
+  const unSelectedCount = bookList.value.filter((book) => !book.selected).length;
+  if (unSelectedCount > 0) {
+    isAllChecked.value = false;
+  } else if (unSelectedCount == 0) {
+    isAllChecked.value = true;
+  }
 };
 </script>
