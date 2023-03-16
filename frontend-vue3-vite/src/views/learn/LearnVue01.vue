@@ -39,7 +39,7 @@
 </template>
 <script setup>
 import { RouterLink } from 'vue-router';
-import { reactive } from 'vue';
+import { onRenderTracked, reactive } from 'vue';
 
 const testData = reactive({
   books: [
@@ -62,5 +62,9 @@ const testData = reactive({
       createDate: '2020-02-03',
     },
   ],
+});
+
+onRenderTracked((e) => {
+  console.log(e.target);
 });
 </script>
