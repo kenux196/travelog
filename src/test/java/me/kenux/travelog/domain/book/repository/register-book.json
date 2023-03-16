@@ -1,11 +1,3 @@
-### 책 조회
-GET {{host}}/api/books
-Authorization: Bearer {{accessToken}}
-
-### 책 등록
-POST {{host}}/api/books
-Content-Type: Application/json
-
 {
   "bookInfos": [
     {
