@@ -8,7 +8,7 @@
       <p>검색 결과가 있습니다.</p>
       <table>
         <thead>
-          <th><input type="checkbox" /></th>
+          <th><input type="checkbox" @click="selectAll($event.target.checked)" v-model="isAllChecked" /></th>
           <th>표지</th>
           <th>제목</th>
           <th>작가</th>
@@ -17,9 +17,15 @@
           <th>출판사</th>
         </thead>
         <tbody>
-          <tr v-for="(book, index) in bookList" :key="index">
+          <tr v-for="book in bookList" :key="book.id">
             <td>
-              <input type="checkbox" :id="'check_' + index" v-model="book.selected" />
+              <input
+                type="checkbox"
+                :id="'check_' + book.id"
+                :value="book.id"
+                v-model="book.selected"
+                @change="selectItem()"
+              />
             </td>
             <td>
               <img :src="book.thumbnail" />
@@ -44,6 +50,7 @@ import { computed, ref } from 'vue';
 
 const keyword = ref('');
 const bookList = ref('');
+const isAllChecked = ref(false);
 
 const hasBooks = computed(() => {
   console.log('book list = ' + bookList.value.length);
@@ -73,9 +80,12 @@ const searchBook = () => {
     .then((response) => {
       console.log(response);
       bookList.value = response.data.documents;
+      let id = 0;
       bookList.value.forEach((book) => {
+        book.id = ++id;
         book.authors = getAuthors(book.authors);
         book.selected = false;
+        book.isbn = getIsbn(book.isbn);
       });
       console.log(bookList.value);
     })
@@ -102,10 +112,47 @@ const getPublishDate = (datetime) => {
   return new Date(datetime).toLocaleDateString();
 };
 
+const getIsbn = (isbn) => {
+  const isbns = isbn.split(' ');
+  if (isbns.length < 2) {
+    return isbns[0];
+  }
+  return isbns[1];
+};
+
 const registerBook = () => {
   // 책 등록 api 호출.
-  const selectdBooks = bookList.value.filter((book) => book.selected);
-  console.log(selectdBooks);
-  console.log(JSON.stringify(selectdBooks));
+  const bookInfos = bookList.value.filter((book) => book.selected);
+  const jsonData = JSON.stringify(bookInfos);
+  console.log(jsonData);
+  console.log(bookInfos);
+  axios
+    .post('/api/books', { bookInfos })
+    .then(() => {
+      console.log('책등록 성공');
+      isAllChecked.value = false;
+      bookList.value.forEach((book) => {
+        book.selected = false;
+      });
+    })
+    .catch((e) => {
+      console.log(e.message);
+    });
+};
+
+const selectAll = (checked) => {
+  isAllChecked.value = checked;
+  bookList.value.forEach((book) => {
+    book.selected = isAllChecked.value;
+  });
+};
+
+const selectItem = () => {
+  const unSelectedCount = bookList.value.filter((book) => !book.selected).length;
+  if (unSelectedCount > 0) {
+    isAllChecked.value = false;
+  } else if (unSelectedCount == 0) {
+    isAllChecked.value = true;
+  }
 };
 </script>

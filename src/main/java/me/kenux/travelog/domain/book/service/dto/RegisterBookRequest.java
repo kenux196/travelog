@@ -1,4 +1,4 @@
-package me.kenux.travelog.web.api.book;
+package me.kenux.travelog.domain.book.service.dto;
 
 import lombok.Data;
 import lombok.ToString;
@@ -9,5 +9,5 @@ import java.util.List;
 @ToString
 public class RegisterBookRequest {
 
-    List<BookInfoBase> bookInfoBases;
+    List<BookInfoDto> bookInfos;
 }

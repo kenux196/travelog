@@ -1,11 +1,3 @@
-### 책 조회
-GET {{host}}/api/books
-Authorization: Bearer {{accessToken}}
-
-### 책 등록
-POST {{host}}/api/books
-Content-Type: Application/json
-
 {
   "bookInfos": [
     {
@@ -23,8 +15,7 @@ Content-Type: Application/json
         "박재호"
       ],
       "url": "https://search.daum.net/search?w=bookpage&bookId=927035&q=Clean+Code%28%ED%81%B4%EB%A6%B0+%EC%BD%94%EB%93%9C%29",
-      "selected": true,
-      "id": 1
+      "selected": true
     },
     {
       "authors": "마리아노 아나야",
@@ -41,8 +32,7 @@ Content-Type: Application/json
         "김창수"
       ],
       "url": "https://search.daum.net/search?w=bookpage&bookId=4867370&q=%ED%8C%8C%EC%9D%B4%EC%8D%AC+%ED%81%B4%EB%A6%B0+%EC%BD%94%EB%93%9C",
-      "selected": true,
-      "id": 2
+      "selected": true
     }
   ]
 }
