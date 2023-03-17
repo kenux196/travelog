@@ -2,7 +2,9 @@ package me.kenux.travelog.web.api.book;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.kenux.travelog.domain.book.repository.dto.BookSearchCond;
 import me.kenux.travelog.domain.book.service.BookManagementService;
+import me.kenux.travelog.domain.book.service.BookSearchService;
 import me.kenux.travelog.domain.book.service.dto.BookInfoDto;
 import me.kenux.travelog.domain.book.service.dto.RegisterBookRequest;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +25,11 @@ import java.util.List;
 public class BookController {
 
     private final BookManagementService bookManagementService;
+    private final BookSearchService bookSearchService;
 
     @GetMapping
-    public ResponseEntity<?> getBooks() {
-        return ResponseEntity.ok(getBookInfo());
+    public ResponseEntity<?> getBooks(BookSearchCond cond) {
+        return ResponseEntity.ok(bookSearchService.getBooks(cond));
     }
 
     @PostMapping
@@ -35,20 +38,5 @@ public class BookController {
         log.info(request.toString());
         bookManagementService.addBook(request);
         return ResponseEntity.noContent().build();
-    }
-
-    private List<BookInfoDto> getBookInfo() {
-        List<BookInfoDto> bookInfoDtoList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            int num = i + 1;
-            final BookInfoDto bookInfoDto = BookInfoDto.builder()
-                .id((long) num)
-                .title("Book" + num)
-                .authors("kenux.yun")
-                .datetime(OffsetDateTime.now().minusMonths(i))
-                .build();
-            bookInfoDtoList.add(bookInfoDto);
-        }
-        return bookInfoDtoList;
     }
 }
