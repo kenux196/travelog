@@ -5,7 +5,7 @@
     <h3>buttons</h3>
     <button>default</button>
 
-    <h3>Table</h3>
+    <h3 class="text-2xl font-bold underline">Table</h3>
     <div class="grid">
       <div>
         <details role="list">
@@ -22,9 +22,9 @@
     </div>
     <table>
       <thead>
-        <th>제목</th>
-        <th>저자</th>
-        <th>등록일</th>
+        <th class="font-bold">제목</th>
+        <th class="font-bold">저자</th>
+        <th class="font-bold">등록일</th>
       </thead>
       <tbody>
         <tr v-for="book in testData.books" :key="book.id">
