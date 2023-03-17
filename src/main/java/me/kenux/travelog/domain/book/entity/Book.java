@@ -8,9 +8,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "book")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
-@Builder
 public class Book {
 
     @Id
@@ -29,8 +27,11 @@ public class Book {
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String contents;
 
-    @Column(name = "published_date")
+    @Column(name = "published_date", nullable = false)
     private LocalDate publishedDate;
+
+    @Column(name = "publisher", nullable = false)
+    private String publisher;
 
     @Column(name = "price")
     private Integer price;
@@ -38,10 +39,32 @@ public class Book {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @Column(name = "publisher")
-    private String publisher;
+    @Builder
+    public Book(String title, String authors, String isbn, LocalDate publishedDate, String publisher) {
+        this.title = title;
+        this.authors = authors;
+        this.isbn = isbn;
+        this.publishedDate = publishedDate;
+        this.publisher = publisher;
+    }
+
+    public static Book createNewBook(String title,
+                                     String authors,
+                                     String isbn,
+                                     LocalDate publishedDate,
+                                     String publisher) {
+        return new Book(title, authors, isbn, publishedDate, publisher);
+    }
 
     public boolean isSameBook(String title, String isbn) {
         return this.title.equals(title) && this.isbn.equals(isbn);
+    }
+
+    public void updateContents(String contents) {
+        this.contents = contents;
+    }
+
+    public void updateThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }
