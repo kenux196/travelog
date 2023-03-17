@@ -38,6 +38,7 @@
           </tr>
         </tbody>
       </table>
+      <button class="secondary" v-show="!isEnd" @click="getMore">more</button>
       <p role="button" @click="registerBook">등록</p>
     </div>
     <div v-else>검색 결과가 없습니다.</div>
@@ -48,27 +49,37 @@
 import axios from 'axios';
 import { computed, ref } from 'vue';
 
-const keyword = ref('');
-const bookList = ref('');
-const isAllChecked = ref(false);
+const bookList = ref([]);
 
 const hasBooks = computed(() => {
   console.log('book list = ' + bookList.value.length);
   return bookList.value.length > 0 ? true : false;
 });
 
+const keyword = ref('');
 const searchBook = () => {
   if (keyword.value.length <= 0) {
     alert('검색할 책 정보를 입력하세요.');
     return;
   }
-  console.log(keyword.value + ' 책을 검색합니다.');
+  id.value = 0;
+  bookList.value = [];
+  getBookInfoFromKakao();
+};
 
+const page = ref(1);
+const getMore = () => {
+  page.value++;
+  getBookInfoFromKakao();
+};
+
+const isEnd = ref(false);
+const getBookInfoFromKakao = () => {
   axios
     .get('https://dapi.kakao.com/v3/search/book', {
       params: {
         sort: 'accuracy', // latest
-        page: 1,
+        page: page.value,
         size: 10,
         target: 'title',
         query: keyword.value,
@@ -79,19 +90,26 @@ const searchBook = () => {
     })
     .then((response) => {
       console.log(response);
-      bookList.value = response.data.documents;
-      let id = 0;
-      bookList.value.forEach((book) => {
-        book.id = ++id;
-        book.authors = getAuthors(book.authors);
-        book.selected = false;
-        book.isbn = getIsbn(book.isbn);
-      });
+      insertBookData(response.data.documents);
+      isEnd.value = response.data.meta.is_end;
       console.log(bookList.value);
     })
     .catch((error) => {
       console.log(error);
     });
+};
+
+const id = ref(0);
+const insertBookData = (books) => {
+  books.forEach((book) => {
+    book.id = ++id.value;
+    console.log(book.id);
+    book.authors = getAuthors(book.authors);
+    book.selected = false;
+    book.isbn = getIsbn(book.isbn);
+    bookList.value.push(book);
+  });
+  console.log(bookList.value);
 };
 
 const getAuthors = (authorList) => {
@@ -120,6 +138,7 @@ const getIsbn = (isbn) => {
   return isbns[1];
 };
 
+const isAllChecked = ref(false);
 const registerBook = () => {
   // 책 등록 api 호출.
   const bookInfos = bookList.value.filter((book) => book.selected);
@@ -134,6 +153,9 @@ const registerBook = () => {
       bookList.value.forEach((book) => {
         book.selected = false;
       });
+      bookList.value = [];
+      keyword.value = '';
+      alert('선택한 책을 저장하였습니다.');
     })
     .catch((e) => {
       console.log(e.message);

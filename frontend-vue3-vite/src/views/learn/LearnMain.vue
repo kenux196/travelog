@@ -8,6 +8,7 @@
       <li><router-link to="/learn/vue-1">vue-1</router-link></li>
       <li><router-link to="/learn/vue-2">vue-2</router-link></li>
       <li><router-link to="/learn/vue-3">vue-3</router-link></li>
+      <li><router-link to="/learn/pico">PicoCSS</router-link></li>
       <li><router-link to="/learn/event">대구문화이벤트</router-link></li>
     </ul>
   </nav>
