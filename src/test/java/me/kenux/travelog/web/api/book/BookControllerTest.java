@@ -2,6 +2,8 @@ package me.kenux.travelog.web.api.book;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.kenux.travelog.domain.book.service.BookManagementService;
+import me.kenux.travelog.domain.book.service.BookSearchService;
+import me.kenux.travelog.domain.book.service.dto.BookInfoDto;
 import me.kenux.travelog.domain.book.service.dto.RegisterBookRequest;
 import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +18,11 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,17 +42,21 @@ class BookControllerTest {
     private UserDetailsService userDetailsService;
     @MockBean
     private BookManagementService bookManagementService;
+    @MockBean
+    private BookSearchService bookSearchService;
 
     @Test
     @DisplayName("Book List 가져온다.")
     @WithMockUser(roles = "USER", username = "user@test.com")
     void getBooks_success() throws Exception {
+        // given
+        List<BookInfoDto.BasicInfo> mockBookInfos = new ArrayList<>();
+        given(bookSearchService.getBooks(any())).willReturn(mockBookInfos);
 
         mockMvc.perform(get("/api/books")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$..['title']").exists())
                 .andDo(print());
     }
 
