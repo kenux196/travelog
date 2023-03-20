@@ -74,6 +74,10 @@ const router = createRouter({
           component: () => import('../views/learn/PicoCss.vue'),
         },
         {
+          path: '/learn/tailwindcss',
+          component: () => import('@/views/learn/Tailwindcss.vue'),
+        },
+        {
           path: '/learn/learn-js',
           name: 'learn to js',
           component: () => import('../views/learn/LearnJs.vue'),
