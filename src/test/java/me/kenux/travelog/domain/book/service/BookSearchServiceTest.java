@@ -42,8 +42,7 @@ class BookSearchServiceTest {
         final List<BookInfoDto.BasicInfo> basicInfoList = bookSearchService.getBooks(any());
 
         // then
-        assertThat(basicInfoList).contains(basicInfo);
-        assertThat(basicInfoList).hasSize(1);
+        assertThat(basicInfoList).hasSize(1).contains(basicInfo);
     }
 
 }
