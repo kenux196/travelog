@@ -12,6 +12,9 @@
   * [vue.js 3](https://vuejs.org/)
   * ~~Thymeleaf~~
   * [pico.css](https://picocss.com/)
+  * [Tailwindcss](https://tailwindcss.com/)
+  * [Headless UI](https://headlessui.com/)
+  * [heroicons](https://heroicons.com/)
 
 * Cloud
   * Oracle Cloud Infra
