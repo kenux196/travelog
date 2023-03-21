@@ -7,6 +7,7 @@ import me.kenux.travelog.domain.member.entity.RefreshTokenEntity;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.RefreshTokenRepository;
 import me.kenux.travelog.domain.member.service.dto.TokenInfo;
+import me.kenux.travelog.domain.member.service.dto.UserDetailsImpl;
 import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
 import me.kenux.travelog.domain.member.service.dto.request.ReissueTokenRequest;
 import me.kenux.travelog.global.exception.CustomException;
@@ -39,7 +40,7 @@ public class AuthService {
 
     @Transactional
     public TokenInfo.Full login(LoginRequest request) {
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+        final UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(request.getUsername());
         if (!passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             log.error("{} 비밀번호 오류", request.getUsername());
             throw new CustomException(ErrorCode.AUTH_WRONG_PASSWORD);
@@ -53,6 +54,7 @@ public class AuthService {
         saveRefreshToken(refreshToken, userDetails.getUsername());
 
         return TokenInfo.Full.builder()
+                .userId(userDetails.getId())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .grantType("Bearer")

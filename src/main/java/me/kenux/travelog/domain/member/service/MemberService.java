@@ -7,10 +7,14 @@ import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
 import me.kenux.travelog.domain.member.repository.dto.MemberSearchCond;
 import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
+import me.kenux.travelog.domain.member.service.dto.response.MyInfo;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -45,6 +49,19 @@ public class MemberService {
     public MemberInfo.SimpleResponse getMemberSimpleInfo(Long id) {
         final Member member = getMember(id);
         return MemberInfo.SimpleResponse.of(member);
+    }
+
+    public MyInfo.Simple getMySimpleInfo(Long id) {
+        final Member member = getMember(id);
+        validate(member.getEmail());
+        return MyInfo.Simple.of(member);
+    }
+
+    private void validate(String email) {
+        final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!email.equals(username)) {
+            throw new CustomException(ErrorCode.MEMBER_WRONG_REQUEST);
+        }
     }
 
     @Transactional

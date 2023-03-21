@@ -70,7 +70,7 @@ class AuthServiceTest {
     void login_success() throws Exception {
         // given
         LoginRequest mockLoginRequest = mock(LoginRequest.class);
-        UserDetails mockUserDetails = mock(UserDetails.class);
+        UserDetailsImpl mockUserDetails = mock(UserDetailsImpl.class);
         given(userDetailsService.loadUserByUsername(any())).willReturn(mockUserDetails);
         given(passwordEncoder.matches(any(), any())).willReturn(true);
         given(jwtTokenIssuer.createAccessToken(any(), any())).willReturn("accessToken");

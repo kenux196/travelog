@@ -1,16 +1,18 @@
 import axios from 'axios';
 import router from '../router/index';
 import { useAuthStore } from '../stores/auth';
+import { useUserStore } from '../stores/user';
 
 const UNAUTHORIZED = 401;
 
-const request = async (method, url, data) => {
+const request = async (method, url, data, params) => {
   try {
     setAuthInHeader();
     const result = await axios({
       method,
       url,
       data,
+      params,
     });
     return result.data;
   } catch (error) {
@@ -66,9 +68,10 @@ const auth = {
   },
   async login(username, password) {
     try {
-      const response = await request('post', '/api/auth/login', { username, password });
-      console.log('accessToken: ' + response.accessToken);
-      setToken(response);
+      const data = await request('post', '/api/auth/login', { username, password });
+      console.log('accessToken: ' + data.accessToken);
+      setToken(data);
+      await this.getMySimpleInfo(data.userId);
       goHome();
     } catch (e) {
       console.error('logout error : ', e);
@@ -91,6 +94,22 @@ const auth = {
       console.log(`refresh token 성공: ${data.accessToken}`);
     } catch (e) {
       console.error('refresh token error : ', e);
+    }
+  },
+  async getMySimpleInfo(userId) {
+    try {
+      const data = await request(
+        'get',
+        '/api/members/me',
+        {},
+        {
+          id: userId,
+        },
+      );
+      useUserStore().name = data.name;
+      console.log('login user name: ' + data.name);
+    } catch (e) {
+      console.error('getMySimpleInfo error: ', e);
     }
   },
 };

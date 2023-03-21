@@ -9,6 +9,7 @@ import java.time.OffsetDateTime;
 @Data
 @Builder
 public class MemberInfo {
+
     public record SimpleResponse(Long id, String name, String email, OffsetDateTime joinDate) {
         public static SimpleResponse of(Member member) {
             return new SimpleResponse(member.getId(), member.getName(), member.getEmail(), member.getCreatedDate());
