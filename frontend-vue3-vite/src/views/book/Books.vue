@@ -3,7 +3,7 @@
     <div class="font-bold text-3xl my-4">책 검색(with kakao)</div>
     <div>
       <input type="text" v-model="keyword" class="border border-solid border-gray-500 py-2 w-2/4" />
-      <button @click="searchBook" class="text-white rouned bg-blue-600 hover:bg-blue-400 p-2 w-1/6 ml-4">검색</button>
+      <button @click="searchBook" class="text-white rouned bg-blue-600 hover:bg-blue-400 p-2 w-1/6 ml-1">검색</button>
     </div>
     <hr class="font-bold my-5 mx-5" />
   </div>
@@ -12,7 +12,12 @@
       <table>
         <thead class="bg-gray-900 text-white">
           <th>
-            <input type="checkbox" class="" @click="selectAll($event.target.checked)" v-model="isAllChecked" />
+            <input
+              type="checkbox"
+              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              @click="selectAll($event.target.checked)"
+              v-model="isAllChecked"
+            />
           </th>
           <th>표지</th>
           <th>제목</th>
@@ -30,6 +35,7 @@
                 :value="book.id"
                 v-model="book.selected"
                 @change="selectItem()"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
             </td>
             <td>
