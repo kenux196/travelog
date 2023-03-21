@@ -1,14 +1,19 @@
 <template>
-  <h1>책 검색</h1>
-  <input type="search" v-model="keyword" />
-  <button @click="searchBook">검색</button>
-  <div>
-    <div v-if="hasBooks">
-      <h4>검색 결과</h4>
-      <p>검색 결과가 있습니다.</p>
+  <div class="text-center">
+    <div class="font-bold text-3xl my-4">책 검색(with kakao)</div>
+    <div>
+      <input type="text" v-model="keyword" class="border border-solid border-gray-500 py-2 w-2/4" />
+      <button @click="searchBook" class="text-white rouned bg-blue-600 hover:bg-blue-400 p-2 w-1/6 ml-4">검색</button>
+    </div>
+    <hr class="font-bold my-5 mx-5" />
+  </div>
+  <div class="text-center">
+    <div v-if="hasBooks" class="mx-5">
       <table>
-        <thead>
-          <th><input type="checkbox" @click="selectAll($event.target.checked)" v-model="isAllChecked" /></th>
+        <thead class="bg-gray-900 text-white">
+          <th>
+            <input type="checkbox" class="" @click="selectAll($event.target.checked)" v-model="isAllChecked" />
+          </th>
           <th>표지</th>
           <th>제목</th>
           <th>작가</th>
@@ -28,7 +33,7 @@
               />
             </td>
             <td>
-              <img :src="book.thumbnail" />
+              <img :src="book.thumbnail" class="rounded-lg" />
             </td>
             <td>{{ book.title }}</td>
             <td>{{ book.authors }}</td>
@@ -38,10 +43,16 @@
           </tr>
         </tbody>
       </table>
-      <button class="secondary" v-show="!isEnd" @click="getMore">more</button>
-      <p role="button" @click="registerBook">등록</p>
+      <div class="my-4">
+        <button class="border-b-4 border-gray-400 text-gray-400 text-lg font-bold" v-show="!isEnd" @click="getMore">
+          more
+        </button>
+      </div>
+      <div class="my-4">
+        <button @click="registerBook" class="bg-blue-600 text-white py-4 px-10 font-bold text-lg">등록</button>
+      </div>
     </div>
-    <div v-else>검색 결과가 없습니다.</div>
+    <div v-else class="font-bold text-lg">검색 결과가 없습니다.</div>
   </div>
 </template>
 
@@ -178,3 +189,11 @@ const selectItem = () => {
   }
 };
 </script>
+<style scoped>
+th {
+  @apply py-3 text-center;
+}
+td {
+  @apply px-2 py-2 text-left border-b;
+}
+</style>

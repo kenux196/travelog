@@ -14,6 +14,7 @@
       </Switch>
     </div>
   </SwitchGroup>
+  <div class="font-semibold text-3xl ml-5">text</div>
 </template>
 
 <script setup>
