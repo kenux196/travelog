@@ -1,8 +1,12 @@
 <template>
-  <h1>로그인 화면</h1>
-  <div class="login">
-    <input type="text" placeholder="이메일 계정을 입력하세요" v-model="user" />
-    <input type="password" placeholder="암호를 입력하세요" v-model="password" />
+  <div class="bg-blue-500 justify-center text-center text-3xl font-semibold py-5 text-white">로그인</div>
+  <div class="text-center bg-green-300">
+    <div>
+      <input id="email" type="text" placeholder=" 이메일" v-model="user" />
+    </div>
+    <div>
+      <input id="password" type="password" placeholder=" 비밀번호" v-model="password" />
+    </div>
     <button type="submit" @click="login">로그인</button>
   </div>
 </template>
@@ -24,8 +28,10 @@ const login = () => {
 </script>
 
 <style scoped>
-.outer {
-  width: 400px;
-  margin: auto;
+input {
+  @apply border-solid border-2 border-blue-300 py-3 my-2 w-1/2;
+}
+button {
+  @apply bg-blue-600 text-white hover:bg-blue-700 rounded py-3 my-2 w-1/2;
 }
 </style>

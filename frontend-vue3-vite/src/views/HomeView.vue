@@ -4,8 +4,8 @@ import HelloWorld from '@/components/HelloWorld.vue';
 </script>
 
 <template>
-  <main class="container">
-    <div class="home">
+  <main class="justify-center">
+    <div class="justify-center text-3xl font-semibold ml-10 mt-10">
       <img class="logo" alt="Vue logo" src="../assets/logo.svg" />
       <HelloWorld msg="JAMIRO 만드는 사이트" />
     </div>

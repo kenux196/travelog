@@ -7,12 +7,12 @@ const authStore = useAuthStore();
 </script>
 
 <template>
-  <header class="container">
+  <header class="bg-blue-800">
     <nav>
       <ul>
-        <li><strong>KENUX JAMIRO</strong></li>
+        <div class="text-3xl font-bold py-3">KENUX JAMIRO</div>
       </ul>
-      <ul>
+      <ul class="flex space-x-4 mt-6">
         <li>
           <router-link to="/">Home</router-link>
         </li>
@@ -37,9 +37,9 @@ const authStore = useAuthStore();
     </nav>
     <nav v-if="authStore.isAdmin">
       <ul>
-        <li><strong>KENUX ADMIN</strong></li>
+        <div><strong>KENUX ADMIN</strong></div>
       </ul>
-      <ul>
+      <ul class="flex space-x-4">
         <li v-if="authStore.isAdmin">
           <router-link to="/admin">관리자메인화면</router-link>
         </li>
@@ -49,7 +49,15 @@ const authStore = useAuthStore();
       </ul>
     </nav>
   </header>
-  <main class="container">
+  <main>
     <RouterView />
   </main>
 </template>
+<style scoped>
+li {
+  @apply hover:text-yellow-300;
+}
+nav {
+  @apply flex justify-between mx-10 text-gray-300;
+}
+</style>
