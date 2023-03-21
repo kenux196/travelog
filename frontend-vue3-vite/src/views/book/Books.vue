@@ -2,7 +2,7 @@
   <div class="text-center">
     <div class="font-bold text-3xl my-4">책 검색(with kakao)</div>
     <div>
-      <input type="text" v-model="keyword" class="border border-solid border-gray-500 py-2 w-2/4" />
+      <input type="text" v-model="keyword" class="border border-solid border-gray-500 py-2 w-2/4 indent-2" />
       <button @click="searchBook" class="text-white rouned bg-blue-600 hover:bg-blue-400 p-2 w-1/6 ml-1">검색</button>
     </div>
     <hr class="font-bold my-5 mx-5" />
@@ -35,16 +35,6 @@
             </td>
             <td>
               <BookItem :book-info="book" />
-              <!-- <div class="overflow-hidden text-ellipsis">
-                <img :src="book.thumbnail" class="rounded-lg float-left mr-5 border shadow-md" />
-                <p class="font-bold text-lg mb-2">
-                  {{ book.title }}
-                </p>
-                <div class="mb-2 text-sm font-bold">
-                  {{ book.authors }} / {{ getPublishDate(book.datetime) }} / {{ book.publisher }}
-                </div>
-                <div class="mb-3">{{ book.contents }}</div>
-              </div> -->
             </td>
           </tr>
         </tbody>
@@ -143,10 +133,6 @@ const getAuthors = (authorList) => {
   }
   return authors;
 };
-
-// const getPublishDate = (datetime) => {
-//   return new Date(datetime).toLocaleDateString();
-// };
 
 const getIsbn = (isbn) => {
   const isbns = isbn.split(' ');

@@ -40,9 +40,9 @@ const validate = () => {
 
 <style scoped>
 input {
-  @apply border-solid border-2 border-blue-300 py-3 my-2 w-1/2;
+  @apply border-solid border border-slate-800 py-3 my-2 w-1/2 indent-2;
 }
 button {
-  @apply bg-blue-600 text-white hover:bg-blue-700 rounded py-3 my-2 w-1/2;
+  @apply bg-slate-800 text-white hover:bg-slate-700 rounded py-3 my-2 w-1/2;
 }
 </style>
