@@ -34,7 +34,8 @@
               />
             </td>
             <td>
-              <div class="overflow-hidden text-ellipsis">
+              <BookItem :book-info="book" />
+              <!-- <div class="overflow-hidden text-ellipsis">
                 <img :src="book.thumbnail" class="rounded-lg float-left mr-5 border shadow-md" />
                 <p class="font-bold text-lg mb-2">
                   {{ book.title }}
@@ -43,7 +44,7 @@
                   {{ book.authors }} / {{ getPublishDate(book.datetime) }} / {{ book.publisher }}
                 </div>
                 <div class="mb-3">{{ book.contents }}</div>
-              </div>
+              </div> -->
             </td>
           </tr>
         </tbody>
@@ -64,6 +65,7 @@
 <script setup>
 import axios from 'axios';
 import { computed, ref } from 'vue';
+import BookItem from '../../components/BookItem.vue';
 
 const bookList = ref([]);
 
@@ -142,9 +144,9 @@ const getAuthors = (authorList) => {
   return authors;
 };
 
-const getPublishDate = (datetime) => {
-  return new Date(datetime).toLocaleDateString();
-};
+// const getPublishDate = (datetime) => {
+//   return new Date(datetime).toLocaleDateString();
+// };
 
 const getIsbn = (isbn) => {
   const isbns = isbn.split(' ');
