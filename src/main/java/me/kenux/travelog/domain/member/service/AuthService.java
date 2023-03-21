@@ -40,7 +40,7 @@ public class AuthService {
 
     @Transactional
     public TokenInfo.Full login(LoginRequest request) {
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+        final UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(request.getUsername());
         if (!passwordEncoder.matches(request.getPassword(), userDetails.getPassword())) {
             log.error("{} 비밀번호 오류", request.getUsername());
             throw new CustomException(ErrorCode.AUTH_WRONG_PASSWORD);
@@ -54,7 +54,7 @@ public class AuthService {
         saveRefreshToken(refreshToken, userDetails.getUsername());
 
         return TokenInfo.Full.builder()
-                .userId(((UserDetailsImpl) userDetails).getId())
+                .userId(userDetails.getId())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .grantType("Bearer")
