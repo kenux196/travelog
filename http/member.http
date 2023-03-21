@@ -14,7 +14,7 @@ Content-Type: Application/json
 
 {
     "username": "{{username-user}}",
-    "password": "{{password-admin}}"
+    "password": "{{password-user}}"
 }
 
 > {%
@@ -24,4 +24,8 @@ Content-Type: Application/json
 
 ### Get member detail
 GET {{host}}/api/members/2
+Authorization: Bearer {{accessToken}}
+
+### Get my simple info
+GET {{host}}/api/members/me?id=2
 Authorization: Bearer {{accessToken}}

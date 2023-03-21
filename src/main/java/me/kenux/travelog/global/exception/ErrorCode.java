@@ -26,6 +26,7 @@ public enum ErrorCode {
     MEMBER_ALREADY_EXIST(BAD_REQUEST, "M001","이미 가입된 이메일 주소입니다."),
     MEMBER_PASSWORD_SHORT(BAD_REQUEST, "M002", "패스워드는 8자 이상이어야 합니다."),
     MEMBER_NOT_EXIST(NOT_FOUND, "M003", "요청한 멤버가 존재하지 않습니다."),
+    MEMBER_WRONG_REQUEST(BAD_REQUEST, "M004", "잘못된 요청입니다."),
 
     // book
 
