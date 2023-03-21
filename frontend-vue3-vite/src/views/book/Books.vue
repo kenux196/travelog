@@ -19,12 +19,7 @@
               v-model="isAllChecked"
             />
           </th>
-          <th>표지</th>
-          <th>제목</th>
-          <th>작가</th>
-          <th>isbn</th>
-          <th>발행일</th>
-          <th>출판사</th>
+          <th>책</th>
         </thead>
         <tbody>
           <tr v-for="book in bookList" :key="book.id">
@@ -39,13 +34,17 @@
               />
             </td>
             <td>
-              <img :src="book.thumbnail" class="rounded-lg" />
+              <div class="overflow-hidden text-ellipsis">
+                <img :src="book.thumbnail" class="rounded-lg float-left mr-5 border shadow-md" />
+                <p class="font-bold text-lg mb-2">
+                  {{ book.title }}
+                </p>
+                <div class="mb-2 text-sm font-bold">
+                  {{ book.authors }} / {{ getPublishDate(book.datetime) }} / {{ book.publisher }}
+                </div>
+                <div class="mb-3">{{ book.contents }}</div>
+              </div>
             </td>
-            <td>{{ book.title }}</td>
-            <td>{{ book.authors }}</td>
-            <td>{{ book.isbn }}</td>
-            <td>{{ getPublishDate(book.datetime) }}</td>
-            <td>{{ book.publisher }}</td>
           </tr>
         </tbody>
       </table>
