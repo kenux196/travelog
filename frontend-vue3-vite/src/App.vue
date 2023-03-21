@@ -7,7 +7,7 @@ const authStore = useAuthStore();
 </script>
 
 <template>
-  <header class="bg-blue-800">
+  <header class="bg-slate-800">
     <nav>
       <ul>
         <div class="text-3xl font-bold py-3">KENUX JAMIRO</div>
