@@ -9,8 +9,11 @@ import me.kenux.travelog.domain.member.repository.PasswordRepository;
 import me.kenux.travelog.domain.member.repository.dto.MemberSearchCond;
 import me.kenux.travelog.domain.member.service.dto.UserDetailsImpl;
 import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
+import me.kenux.travelog.domain.member.service.dto.response.MyInfo;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
+import me.kenux.travelog.global.security.jwt.JwtAuthenticationToken;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,17 +22,19 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -137,5 +142,51 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.getMemberDetail(anyLong()))
                 .isInstanceOf(CustomException.class)
                 .hasMessage(ErrorCode.MEMBER_NOT_EXIST.getMessage());
+    }
+
+    @Test
+    @DisplayName("로그인된 회원이 아닌 다른 회원정보가 조회시 예외발생.")
+    void getMySimpleInfo_failed() {
+        // given
+        final Member member = Member.builder()
+                .name("user")
+                .email("user@test.com")
+                .build();
+        Authentication authentication = Mockito.mock(Authentication.class);
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        given(securityContext.getAuthentication()).willReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        given(SecurityContextHolder.getContext().getAuthentication().getName()).willReturn("another@test.com");
+        given(memberRepository.findById(any())).willReturn(Optional.of(member));
+
+        // when
+        final Throwable throwable = catchThrowable(() -> memberService.getMySimpleInfo(any()));
+
+        // then
+        assertThat(throwable)
+                .isInstanceOf(CustomException.class)
+                .hasMessage(ErrorCode.MEMBER_WRONG_REQUEST.getMessage());
+    }
+
+    @Test
+    @DisplayName("로그인된 회원 자신의 정보 요청시 성공")
+    void getMySimpleInfo_success() {
+        // given
+        final Member member = Member.builder()
+                .name("user")
+                .email("user@test.com")
+                .build();
+        Authentication authentication = Mockito.mock(Authentication.class);
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        given(securityContext.getAuthentication()).willReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        given(SecurityContextHolder.getContext().getAuthentication().getName()).willReturn(member.getEmail());
+        given(memberRepository.findById(any())).willReturn(Optional.of(member));
+
+        // when
+        final MyInfo.Simple mySimpleInfo = memberService.getMySimpleInfo(any());
+
+        // then
+        assertThat(mySimpleInfo.name()).isEqualTo(member.getName());
     }
 }
