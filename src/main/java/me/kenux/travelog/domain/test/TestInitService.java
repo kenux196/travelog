@@ -2,10 +2,10 @@ package me.kenux.travelog.domain.test;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.book.entity.Book;
-import me.kenux.travelog.domain.book.entity.BookLog;
-import me.kenux.travelog.domain.book.repository.BookLogRepository;
-import me.kenux.travelog.domain.book.repository.BookRepository;
+import me.kenux.travelog.domain.booklog.entity.Book;
+import me.kenux.travelog.domain.booklog.entity.BookLog;
+import me.kenux.travelog.domain.booklog.repository.BookLogRepository;
+import me.kenux.travelog.domain.booklog.repository.BookRepository;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
@@ -18,8 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
