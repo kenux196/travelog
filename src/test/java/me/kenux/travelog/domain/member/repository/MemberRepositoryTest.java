@@ -1,5 +1,6 @@
 package me.kenux.travelog.domain.member.repository;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import me.kenux.travelog.BaseRepositoryConfig;
 import me.kenux.travelog.domain.member.entity.Member;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 

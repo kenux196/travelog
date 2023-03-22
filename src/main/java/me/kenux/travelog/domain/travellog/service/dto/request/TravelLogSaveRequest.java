@@ -2,12 +2,12 @@ package me.kenux.travelog.domain.travellog.service.dto.request;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import me.kenux.travelog.domain.travellog.entity.TravelLog;
 import me.kenux.travelog.domain.travellog.entity.enums.TravelType;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data

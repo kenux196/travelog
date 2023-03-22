@@ -1,21 +1,16 @@
 package me.kenux.travelog.domain.travellog.repository;
 
+import jakarta.validation.ConstraintViolationException;
 import me.kenux.travelog.BaseRepositoryConfig;
-import me.kenux.travelog.domain.member.entity.Member;
-import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
 import me.kenux.travelog.domain.travellog.entity.TravelLog;
 import me.kenux.travelog.domain.travellog.entity.enums.TravelType;
-import me.kenux.travelog.domain.travellog.repository.dto.TravelLogSearchCond;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

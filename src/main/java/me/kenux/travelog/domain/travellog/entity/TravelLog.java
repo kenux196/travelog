@@ -1,12 +1,12 @@
 package me.kenux.travelog.domain.travellog.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import me.kenux.travelog.domain.common.BaseEntity;
 import me.kenux.travelog.domain.destination.entity.Destination;
 import me.kenux.travelog.domain.travellog.entity.enums.TravelType;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

@@ -2,8 +2,8 @@ package me.kenux.travelog.web.api.auth;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.domain.member.service.dto.request.SignupRequest;
 import me.kenux.travelog.domain.member.service.SignupService;
+import me.kenux.travelog.domain.member.service.dto.request.SignupRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

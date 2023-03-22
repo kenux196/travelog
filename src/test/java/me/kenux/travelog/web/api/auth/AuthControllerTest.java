@@ -2,7 +2,6 @@ package me.kenux.travelog.web.api.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.kenux.travelog.domain.member.service.AuthService;
-import me.kenux.travelog.domain.member.service.dto.TokenInfo;
 import me.kenux.travelog.domain.member.service.dto.request.LoginRequest;
 import me.kenux.travelog.domain.member.service.dto.request.ReissueTokenRequest;
 import me.kenux.travelog.global.config.SecurityConfig;
@@ -22,9 +21,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-import static me.kenux.travelog.domain.booklog.entity.QBook.*;
+import static me.kenux.travelog.domain.booklog.entity.QBook.book;
 
 @RequiredArgsConstructor
 public class BookCustomRepositoryImpl implements BookCustomRepository {

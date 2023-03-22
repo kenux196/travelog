@@ -1,7 +1,6 @@
 package me.kenux.travelog.domain.travellog.service;
 
 import me.kenux.travelog.domain.member.repository.MemberRepository;
-import me.kenux.travelog.domain.travellog.entity.TravelLog;
 import me.kenux.travelog.domain.travellog.repository.TravelLogRepository;
 import me.kenux.travelog.domain.travellog.service.dto.request.TravelLogSaveRequest;
 import me.kenux.travelog.global.exception.CustomException;
@@ -18,7 +17,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class TravelLogServiceTest {

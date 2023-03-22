@@ -8,7 +8,7 @@ import me.kenux.travelog.domain.booklog.repository.dto.BookLogSearchCond;
 
 import java.util.List;
 
-import static me.kenux.travelog.domain.booklog.entity.QBookLog.*;
+import static me.kenux.travelog.domain.booklog.entity.QBookLog.bookLog;
 
 @RequiredArgsConstructor
 public class BookLogCustomRepositoryImpl implements BookLogCustomRepository {

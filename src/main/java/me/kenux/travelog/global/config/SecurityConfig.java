@@ -1,8 +1,9 @@
 package me.kenux.travelog.global.config;
 
-import lombok.RequiredArgsConstructor;
-import me.kenux.travelog.global.exception.ExceptionHandlerFilter;
-import me.kenux.travelog.global.security.jwt.*;
+import me.kenux.travelog.global.security.jwt.JwtAccessDeniedHandler;
+import me.kenux.travelog.global.security.jwt.JwtAuthenticationEntryPoint;
+import me.kenux.travelog.global.security.jwt.JwtAuthenticationProvider;
+import me.kenux.travelog.global.security.jwt.JwtSecurityConfig;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +13,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -66,10 +65,10 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/", "/api/signup", "/api/auth/login", "/api/auth/refreshToken").permitAll()
-                        .requestMatchers("/api/books").permitAll()
                         .requestMatchers("/api/auth/logout").authenticated()
                         .requestMatchers("/api/members/me").authenticated()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/books").permitAll()
                         .requestMatchers("/api/**").hasRole("USER")
                         .anyRequest().permitAll())
                 .formLogin().disable()

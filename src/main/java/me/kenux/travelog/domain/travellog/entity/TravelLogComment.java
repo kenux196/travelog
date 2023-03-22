@@ -1,8 +1,8 @@
 package me.kenux.travelog.domain.travellog.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
