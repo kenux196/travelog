@@ -2,17 +2,12 @@ package me.kenux.travelog.web.api.book;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.book.repository.dto.BookSearchCond;
-import me.kenux.travelog.domain.book.service.BookManagementService;
-import me.kenux.travelog.domain.book.service.BookSearchService;
-import me.kenux.travelog.domain.book.service.dto.BookInfoDto;
-import me.kenux.travelog.domain.book.service.dto.RegisterBookRequest;
+import me.kenux.travelog.domain.booklog.repository.dto.BookSearchCond;
+import me.kenux.travelog.domain.booklog.service.BookManagementService;
+import me.kenux.travelog.domain.booklog.service.BookSearchService;
+import me.kenux.travelog.domain.booklog.service.dto.RegisterBookRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This is tested for data

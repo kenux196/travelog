@@ -1,10 +1,10 @@
 package me.kenux.travelog.web.api.book;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.kenux.travelog.domain.book.service.BookManagementService;
-import me.kenux.travelog.domain.book.service.BookSearchService;
-import me.kenux.travelog.domain.book.service.dto.BookInfoDto;
-import me.kenux.travelog.domain.book.service.dto.RegisterBookRequest;
+import me.kenux.travelog.domain.booklog.service.BookManagementService;
+import me.kenux.travelog.domain.booklog.service.BookSearchService;
+import me.kenux.travelog.domain.booklog.service.dto.BookInfoDto;
+import me.kenux.travelog.domain.booklog.service.dto.RegisterBookRequest;
 import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
