@@ -2,11 +2,11 @@ package me.kenux.travelog.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.member.service.dto.request.SignupRequest;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
+import me.kenux.travelog.domain.member.service.dto.request.SignupRequest;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-import static me.kenux.travelog.domain.member.entity.QMember.*;
+import static me.kenux.travelog.domain.member.entity.QMember.member;
 
 @RequiredArgsConstructor
 public class MemberCustomRepositoryImpl implements MemberCustomRepository {

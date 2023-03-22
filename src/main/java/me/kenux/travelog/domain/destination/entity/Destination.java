@@ -1,10 +1,9 @@
 package me.kenux.travelog.domain.destination.entity;
 
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import jakarta.persistence.*;
 
 @Entity
 @Table(name = "destination")

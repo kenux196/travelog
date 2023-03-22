@@ -8,7 +8,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MemberTest {
