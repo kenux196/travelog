@@ -56,6 +56,8 @@ class BookLogRepositoryTest extends BaseRepositoryConfig {
         // when
         List<BookLog> bookLogs = bookLogRepository.findByMember(member.getId());
 
+        bookLogRepository.deleteAllById();
+
         // then
         assertThat(bookLogs).hasSize(1);
     }
