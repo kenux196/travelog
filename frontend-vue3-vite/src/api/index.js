@@ -71,7 +71,7 @@ const auth = {
       const data = await request('post', '/api/auth/login', { username, password });
       console.log('accessToken: ' + data.accessToken);
       setToken(data);
-      await this.getMySimpleInfo(data.userId);
+      await this.getMySimpleInfo();
       goHome();
     } catch (e) {
       console.error('logout error : ', e);
@@ -96,14 +96,14 @@ const auth = {
       console.error('refresh token error : ', e);
     }
   },
-  async getMySimpleInfo(userId) {
+  async getMySimpleInfo() {
     try {
       const data = await request(
         'get',
         '/api/members/me',
         {},
         {
-          id: userId,
+          id: useUserStore().id,
         },
       );
       useUserStore().name = data.name;
@@ -116,11 +116,14 @@ const auth = {
 
 const setToken = (data) => {
   const authSotre = useAuthStore();
+  const userStore = useUserStore();
   if (data === null) {
+    userStore.id = 0;
     authSotre.accessToken = '';
     authSotre.refreshToken = '';
     authSotre.role = 'anonymouse';
   } else {
+    userStore.id = data.userId;
     authSotre.accessToken = data.accessToken;
     authSotre.refreshToken = data.refreshToken;
     authSotre.role = data.role;

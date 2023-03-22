@@ -13,10 +13,10 @@ export const useAuthStore = defineStore('auth', {
     isAdmin: (state) => state.role.split(',').includes('ROLE_ADMIN'),
   },
   actions: {
-    setAuthentication(accessToken, refreshToken, role) {
-      this.accessToken = accessToken;
-      this.refreshToken = refreshToken;
-      this.role = role;
+    setAuthentication(data) {
+      this.accessToken = data.accessToken;
+      this.refreshToken = data.refreshToken;
+      this.role = data.role;
     },
     updateAccessToken(token) {
       this.accessToken = token;
