@@ -3,25 +3,31 @@
     <nav>
       <div>
         <div v-if="authStore.isAdmin" class="text-3xl font-bold">JAMIRO ADMIN</div>
-        <div v-else class="text-3xl font-bold">JAMIRO</div>
+        <div v-else class="text-3xl font-bold">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+            />
+          </svg>
+          JAMIRO
+        </div>
       </div>
       <div class="flex mt-5">
-        <ul class="flex space-x-4">
+        <ul v-for="menu in userMainMenus" :key="menu.id" class="flex mx-3">
           <li>
-            <router-link to="/" class="menu">Home</router-link>
+            <button class="menu" @click="moveTo(menu.id)">{{ menu.name }}</button>
           </li>
-          <li>
-            <MenuBookLog class="menu" />
-          </li>
-          <li>
-            <router-link to="/books" class="menu">Book</router-link>
-          </li>
-          <li>
-            <router-link to="/about" class="menu">About</router-link>
-          </li>
-          <li>
-            <router-link to="/learn" class="menu">learn vue.js</router-link>
-          </li>
+        </ul>
+        <ul class="flex space-x-3">
           <li>
             <router-link v-if="!authStore.isLoggedIn" to="/login" class="menu">Login</router-link>
           </li>
@@ -47,12 +53,49 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
-import MenuBookLog from './components/main_menu/MenuBookLog.vue';
 import MyInfoBadge from './components/MyInfoBadge.vue';
+import router from './router';
 import { useAuthStore } from './stores/auth';
 
 const authStore = useAuthStore();
+
+const userMainMenus = ref([
+  {
+    id: 0,
+    link: '/',
+    name: 'Home',
+    selected: false,
+  },
+  {
+    id: 1,
+    link: '/booklog',
+    name: 'Book Log',
+    selected: false,
+  },
+  {
+    id: 3,
+    link: '/books',
+    name: 'Books',
+    selected: false,
+  },
+  {
+    id: 4,
+    link: '/learn/',
+    name: '연습장',
+    selected: false,
+  },
+]);
+
+const selectedMenu = ref(0);
+const moveTo = (id) => {
+  if (selectedMenu.value !== id) {
+    selectedMenu.value = id;
+    const menu = userMainMenus.value.find((menu) => menu.id === id);
+    router.push(menu.link);
+  }
+};
 </script>
 
 <style scoped>

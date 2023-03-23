@@ -12,17 +12,6 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
-      meta: {
-        requiresAuth: true,
-      },
-    },
-    {
       path: '/login',
       component: LoginView,
     },
@@ -93,12 +82,34 @@ const router = createRouter({
       },
     },
     {
-      path: '/my-bookshelf',
-      name: 'user bookshelf',
+      path: '/booklog',
+      name: 'user book log',
       component: () => import('@/views/booklog/BookLog.vue'),
       meta: {
         requiresAuth: true,
       },
+      children: [
+        {
+          path: '/booklog/bookshelf',
+          name: 'bookshelf',
+          component: () => import('@/components/booklog/BookShelf.vue'),
+        },
+        {
+          path: '/booklog/book-review',
+          name: 'book-review',
+          component: () => import('@/components/booklog/BookReviewList.vue'),
+        },
+        {
+          path: '/booklog/book-highlight',
+          name: 'book-highlight',
+          component: () => import('@/components/booklog/BookHighlightList.vue'),
+        },
+        {
+          path: '/booklog/book-favorite',
+          name: 'book-favorite',
+          component: () => import('@/components/booklog/BookFavoriteList.vue'),
+        },
+      ],
     },
   ],
 });
