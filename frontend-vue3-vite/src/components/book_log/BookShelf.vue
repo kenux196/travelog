@@ -29,13 +29,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { request } from '@/api';
 import { useUserStore } from '../../stores/user';
-
-onMounted(() => {
-  console.log('마운트됨.');
-});
 
 const myBooks = ref('');
 const userStore = useUserStore();

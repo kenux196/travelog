@@ -93,7 +93,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/my-bookshelf',
+      path: '/booklog',
       name: 'user bookshelf',
       component: () => import('@/views/booklog/BookLog.vue'),
       meta: {
