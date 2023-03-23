@@ -83,11 +83,33 @@ const router = createRouter({
     },
     {
       path: '/booklog',
-      name: 'user bookshelf',
+      name: 'user book log',
       component: () => import('@/views/booklog/BookLog.vue'),
       meta: {
         requiresAuth: true,
       },
+      children: [
+        {
+          path: '/booklog/bookshelf',
+          name: 'bookshelf',
+          component: () => import('@/components/booklog/BookShelf.vue'),
+        },
+        {
+          path: '/booklog/book-review',
+          name: 'book-review',
+          component: () => import('@/components/booklog/BookReviewList.vue'),
+        },
+        {
+          path: '/booklog/book-highlight',
+          name: 'book-highlight',
+          component: () => import('@/components/booklog/BookHighlightList.vue'),
+        },
+        {
+          path: '/booklog/book-favorite',
+          name: 'book-favorite',
+          component: () => import('@/components/booklog/BookFavoriteList.vue'),
+        },
+      ],
     },
   ],
 });
