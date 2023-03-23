@@ -22,19 +22,12 @@
         </div>
       </div>
       <div class="flex mt-5">
-        <ul class="flex space-x-4">
+        <ul v-for="menu in userMainMenus" :key="menu.id" class="flex mx-3">
           <li>
-            <router-link to="/" class="menu">Home</router-link>
+            <button class="menu" @click="moveTo(menu.id)">{{ menu.name }}</button>
           </li>
-          <li>
-            <router-link to="/booklog" class="menu">Book Log</router-link>
-          </li>
-          <li>
-            <router-link to="/books" class="menu">Book</router-link>
-          </li>
-          <li>
-            <router-link to="/learn" class="menu">learn vue.js</router-link>
-          </li>
+        </ul>
+        <ul class="flex space-x-3">
           <li>
             <router-link v-if="!authStore.isLoggedIn" to="/login" class="menu">Login</router-link>
           </li>
@@ -60,11 +53,49 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 import MyInfoBadge from './components/MyInfoBadge.vue';
+import router from './router';
 import { useAuthStore } from './stores/auth';
 
 const authStore = useAuthStore();
+
+const userMainMenus = ref([
+  {
+    id: 0,
+    link: '/',
+    name: 'Home',
+    selected: false,
+  },
+  {
+    id: 1,
+    link: '/booklog',
+    name: 'Book Log',
+    selected: false,
+  },
+  {
+    id: 3,
+    link: '/books',
+    name: 'Books',
+    selected: false,
+  },
+  {
+    id: 4,
+    link: '/learn/',
+    name: '연습장',
+    selected: false,
+  },
+]);
+
+const selectedMenu = ref(0);
+const moveTo = (id) => {
+  if (selectedMenu.value !== id) {
+    selectedMenu.value = id;
+    const menu = userMainMenus.value.find((menu) => menu.id === id);
+    router.push(menu.link);
+  }
+};
 </script>
 
 <style scoped>
