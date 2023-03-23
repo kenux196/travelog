@@ -76,9 +76,12 @@ public class TestInitService implements ApplicationListener<ApplicationStartedEv
                 .title(bookTitle)
                 .publishedDate(LocalDate.now())
                 .publisher("베스트 지니어스")
-                .isbn(getRandomLong(14))
+                .isbn(getRandomLong(13))
                 .authors("작가1")
                 .build();
+        final String thumbnailUrl = "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F2425256%3Ftimestamp%3D20230307154230";
+        book.updateThumbnail(thumbnailUrl);
+        book.updateContents("This is Sample book.");
         bookRepository.save(book);
     }
 

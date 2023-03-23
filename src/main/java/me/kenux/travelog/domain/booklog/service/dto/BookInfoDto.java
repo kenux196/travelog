@@ -48,6 +48,18 @@ public class BookInfoDto {
                     .publishedDate(book.getPublishedDate())
                     .build();
         }
-
     }
+
+    @Builder
+    public record SimpleInfo(Long id, String title, String thumbnail) {
+
+        public static SimpleInfo from(Book book) {
+            return SimpleInfo.builder()
+                    .id(book.getId())
+                    .title(book.getTitle())
+                    .thumbnail(book.getThumbnail())
+                    .build();
+        }
+    }
+
 }
