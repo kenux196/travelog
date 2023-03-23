@@ -144,4 +144,4 @@ const admin = {
   },
 };
 
-export { auth, admin };
+export { auth, admin, request };

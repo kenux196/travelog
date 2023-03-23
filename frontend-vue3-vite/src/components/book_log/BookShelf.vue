@@ -1,6 +1,6 @@
 <template>
   <div class="text-center mx-5">
-    <div>BookShelf</div>
+    <div class="font-bold text-3xl text-orange-600">BookShelf</div>
     <div class="bg-slate-400">
       <table class="bg-slate-600 w-full">
         <thead class="border-b-4 border-stone-900 text-white">
@@ -14,12 +14,12 @@
           </tr>
         </thead>
         <tbody class="bg-slate-400">
-          <tr v-for="book in testData" :key="book.id" class="border-b-2">
+          <tr v-for="book in myBooks" :key="book.id" class="border-b-2">
             <td class="py-3">{{ book.id }}</td>
-            <td>{{ book.title }}</td>
-            <td>{{ book.status }}</td>
-            <td>{{ book.start }}</td>
-            <td>{{ book.end }}</td>
+            <td>{{ book.bookInfo.title }}</td>
+            <td>{{ book.bookStatus }}</td>
+            <td>{{ book.startDate ? book.startDate : '-' }}</td>
+            <td>{{ book.endDate }}</td>
             <td>{{ book.period }}</td>
           </tr>
         </tbody>
@@ -29,32 +29,22 @@
 </template>
 
 <script setup>
-const testData = [
-  {
-    id: 1,
-    title: '테스트 북 1',
-    status: '완료',
-    start: '2023.01.04',
-    end: '2023.01.10',
-    period: 6,
-  },
-  {
-    id: 2,
-    title: '테스트 북 2',
-    status: '완료',
-    start: '2023.01.04',
-    end: '2023.01.10',
-    period: 6,
-  },
-  {
-    id: 3,
-    title: '테스트 북 2',
-    status: '완료',
-    start: '2023.01.04',
-    end: '2023.01.10',
-    period: 6,
-  },
-];
+import { onMounted, ref } from 'vue';
+import { request } from '@/api';
+import { useUserStore } from '../../stores/user';
+
+onMounted(() => {
+  console.log('마운트됨.');
+});
+
+const myBooks = ref('');
+const userStore = useUserStore();
+const requestMyBooks = async () => {
+  myBooks.value = await request('get', '/api/book-logs', null, { memberId: userStore.id });
+  console.log(myBooks.value);
+};
+
+requestMyBooks();
 </script>
 
 <style lang="scss" scoped></style>
