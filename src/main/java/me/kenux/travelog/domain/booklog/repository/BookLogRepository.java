@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface BookLogRepository extends JpaRepository<BookLog, Long>, BookLogCustomRepository {
 
-    @Query(value = "select bl from BookLog bl where bl.member.id = :memberId")
+    @Query(value = "select bl from BookLog bl join fetch bl.member join fetch bl.book where bl.member.id = :memberId")
     List<BookLog> findByMember(Long memberId);
 
-    @Query(value = "select bl from BookLog bl where bl.book.id = :bookId")
+    @Query(value = "select bl from BookLog bl join fetch bl.member join fetch bl.book where bl.book.id = :bookId")
     List<BookLog> findByBook(Long bookId);
 }
