@@ -1,5 +1,5 @@
 <template>
-  <div class="flex mx-10">
+  <div class="flex mx-5">
     <div class="mx-1 w-1/5 mt-10">
       <div class="mx-3 my-3 border-b-slate-800" v-for="menu in menus" :key="menu.id">
         <p :class="{ 'selected-sub-menu': menu.selected, 'sub-menu': !menu.selected }" @click="select(menu.id)">

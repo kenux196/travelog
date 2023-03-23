@@ -1,28 +1,15 @@
 <template>
-  <div class="text-center mx-1 w-full">
-    <div class="font-bold text-3xl text-slate-800 my-5">나의 책장</div>
-    <table class="w-full">
-      <thead class="bg-slate-800 border-b border-stone-900 text-white">
-        <tr>
-          <th class="py-3">#</th>
-          <th>책</th>
-          <th>상태</th>
-          <th>시작일</th>
-          <th>종료일</th>
-          <th>기간</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="book in myBooks" :key="book.id" class="border-b-2">
-          <td class="py-3">{{ book.id }}</td>
-          <td>{{ book.bookInfo.title }}</td>
-          <td>{{ book.bookStatus }}</td>
-          <td>{{ book.startDate ? book.startDate : '-' }}</td>
-          <td>{{ book.endDate }}</td>
-          <td>{{ book.period }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="mx-5 w-full">
+    <div class="text-center font-bold text-3xl text-slate-800 my-5">나의 책장</div>
+    <div class="flex flex-wrap mt-10">
+      <div class="mr-10 mb-10" v-for="book in myBooks" :key="book.id">
+        <img class="w-full shadow-lg shadow-gray-600" :src="book.bookInfo.thumbnail" />
+        <div class="font-semibold">{{ book.bookInfo.title }}</div>
+        <div class="text-xs">{{ book.bookStatus }}</div>
+        <div class="text-xs">{{ book.startDate }}</div>
+        <div class="text-xs">{{ book.endDate }}</div>
+      </div>
+    </div>
   </div>
 </template>
 

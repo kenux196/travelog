@@ -55,7 +55,7 @@
 <script setup>
 import axios from 'axios';
 import { computed, ref } from 'vue';
-import BookItem from '../../components/BookItem.vue';
+import BookItem from '@/components/book/BookItem.vue';
 
 const bookList = ref([]);
 
