@@ -11,6 +11,9 @@
             <router-link to="/" class="menu">Home</router-link>
           </li>
           <li>
+            <MenuBookLog class="menu" />
+          </li>
+          <li>
             <router-link to="/books" class="menu">Book</router-link>
           </li>
           <li>
@@ -45,6 +48,7 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+import MenuBookLog from './components/main_menu/MenuBookLog.vue';
 import MyInfoBadge from './components/MyInfoBadge.vue';
 import { useAuthStore } from './stores/auth';
 

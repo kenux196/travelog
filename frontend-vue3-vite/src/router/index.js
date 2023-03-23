@@ -86,8 +86,16 @@ const router = createRouter({
     },
     {
       path: '/books',
-      name: 'search book with kakao',
-      component: () => import('../views/book/Books.vue'),
+      name: 'book search',
+      component: () => import('@/views/booklog/Books.vue'),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/my-bookshelf',
+      name: 'user bookshelf',
+      component: () => import('@/views/booklog/BookLog.vue'),
       meta: {
         requiresAuth: true,
       },
@@ -96,9 +104,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // console.log('router.beforeEach : from =' + from.path);
-  // console.log('router.beforeEach : to =' + to.path);
-  // console.log('router.beforeEach : to =' + JSON.stringify(to.meta));
   const authStore = useAuthStore();
   const isLoggedIn = authStore.isLoggedIn;
   const isAdmin = authStore.isAdmin;
