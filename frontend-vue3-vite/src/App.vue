@@ -17,9 +17,6 @@
             <router-link to="/books" class="menu">Book</router-link>
           </li>
           <li>
-            <router-link to="/about" class="menu">About</router-link>
-          </li>
-          <li>
             <router-link to="/learn" class="menu">learn vue.js</router-link>
           </li>
           <li>
