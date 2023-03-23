@@ -50,6 +50,10 @@
   <main>
     <RouterView />
   </main>
+  <footer class="text-center mt-10">
+    <p>Copyright © 2023 kenux All rights reserved.</p>
+    <address>Contact webmaster for more information. kenux@gmail.com</address>
+  </footer>
 </template>
 
 <script setup>
