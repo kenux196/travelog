@@ -87,7 +87,7 @@ const router = createRouter({
     {
       path: '/books',
       name: 'book search',
-      component: () => import('@/views/book_log/Books.vue'),
+      component: () => import('@/views/booklog/Books.vue'),
       meta: {
         requiresAuth: true,
       },
@@ -95,7 +95,7 @@ const router = createRouter({
     {
       path: '/my-bookshelf',
       name: 'user bookshelf',
-      component: () => import('@/views/book_log/Books.vue'),
+      component: () => import('@/views/booklog/BookLog.vue'),
       meta: {
         requiresAuth: true,
       },

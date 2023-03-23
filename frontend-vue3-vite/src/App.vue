@@ -48,7 +48,7 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
-import MenuBookLog from './components/main_manus/MenuBookLog.vue';
+import MenuBookLog from './components/main_menu/MenuBookLog.vue';
 import MyInfoBadge from './components/MyInfoBadge.vue';
 import { useAuthStore } from './stores/auth';
 
