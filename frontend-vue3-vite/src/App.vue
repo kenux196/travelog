@@ -24,7 +24,15 @@
       <div class="flex mt-5">
         <ul v-for="menu in userMainMenus" :key="menu.id" class="flex mx-3">
           <li>
-            <button class="menu" @click="moveTo(menu.id)">{{ menu.name }}</button>
+            <button
+              :class="{
+                'selected-menu': menu.id === menuStore.selectedMenu,
+                'normal-menu': menu.id !== menuStore.selectedMenu,
+              }"
+              @click="moveTo(menu.id)"
+            >
+              {{ menu.name }}
+            </button>
           </li>
         </ul>
         <ul class="flex space-x-3">
@@ -62,6 +70,7 @@ import { RouterLink, RouterView } from 'vue-router';
 import MyInfoBadge from './components/MyInfoBadge.vue';
 import router from './router';
 import { useAuthStore } from './stores/auth';
+import { useMenuStore } from './stores/userMenu';
 
 const authStore = useAuthStore();
 
@@ -92,10 +101,10 @@ const userMainMenus = ref([
   },
 ]);
 
-const selectedMenu = ref(0);
+const menuStore = useMenuStore();
 const moveTo = (id) => {
-  if (selectedMenu.value !== id) {
-    selectedMenu.value = id;
+  if (menuStore.selectedMenu !== id) {
+    menuStore.selectedMenu = id;
     const menu = userMainMenus.value.find((menu) => menu.id === id);
     router.push(menu.link);
   }
@@ -103,9 +112,13 @@ const moveTo = (id) => {
 </script>
 
 <style scoped>
-.menu {
+.normal-menu {
   @apply hover:text-yellow-300 font-extralight;
 }
+.selected-menu {
+  @apply hover:text-yellow-300 font-extralight border-b-2 border-b-slate-200;
+}
+
 nav {
   @apply flex justify-between mx-10 text-neutral-200 items-center h-full;
 }
