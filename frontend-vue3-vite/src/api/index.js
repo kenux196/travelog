@@ -2,7 +2,7 @@ import axios from 'axios';
 import router from '../router/index';
 import { useAuthStore } from '../stores/auth';
 import { useUserStore } from '../stores/user';
-import { useMenuStore } from '../stores/userMenu';
+import { useRouterLinkStore } from '../stores/router-link-store';
 
 const UNAUTHORIZED = 401;
 
@@ -132,13 +132,15 @@ const setToken = (data) => {
 };
 
 const goHome = () => {
-  const menuStore = useMenuStore();
+  let to = '/';
+  const routerLinkStore = useRouterLinkStore();
   if (useAuthStore().isAdmin) {
-    router.push('/admin');
+    to = '/admin';
+    router.push(to);
   } else {
-    router.push('/');
-    menuStore.selectedMenu = 0;
+    router.push(to);
   }
+  routerLinkStore.currentLink = to;
 };
 
 const admin = {

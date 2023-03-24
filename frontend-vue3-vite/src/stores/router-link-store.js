@@ -1,19 +1,19 @@
 import { defineStore } from 'pinia';
 
-export const useMenuStore = defineStore('userMenu', {
+export const useRouterLinkStore = defineStore('router-link', {
   state: () => {
     return {
-      selectedMenu: 0,
+      currentLink: '',
     };
   },
   getters: {
     getSeletedMenu: (state) => {
-      state.selectedMenu;
+      state.currentLink;
     },
   },
   actions: {
-    setSelectedMenu(menuId) {
-      this.selectedMenu = menuId;
+    setSelectedMenu(link) {
+      this.currentLink = link;
     },
   },
   persist: {

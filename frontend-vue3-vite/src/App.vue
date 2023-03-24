@@ -26,10 +26,10 @@
           <li>
             <button
               :class="{
-                'selected-menu': menu.id === menuStore.selectedMenu,
-                'normal-menu': menu.id !== menuStore.selectedMenu,
+                'selected-menu': menu.link === routerLinkStore.currentLink,
+                'normal-menu': menu.link !== routerLinkStore.currentLink,
               }"
-              @click="moveTo(menu.id)"
+              @click="moveTo(menu.link)"
             >
               {{ menu.name }}
             </button>
@@ -70,43 +70,34 @@ import { RouterLink, RouterView } from 'vue-router';
 import MyInfoBadge from './components/MyInfoBadge.vue';
 import router from './router';
 import { useAuthStore } from './stores/auth';
-import { useMenuStore } from './stores/userMenu';
+import { useRouterLinkStore } from './stores/router-link-store';
 
 const authStore = useAuthStore();
 
 const userMainMenus = ref([
   {
-    id: 0,
     link: '/',
     name: 'Home',
-    selected: false,
   },
   {
-    id: 1,
     link: '/booklog',
     name: 'Book Log',
-    selected: false,
   },
   {
-    id: 3,
     link: '/books',
     name: 'Books',
-    selected: false,
   },
   {
-    id: 4,
     link: '/learn/',
     name: '연습장',
-    selected: false,
   },
 ]);
 
-const menuStore = useMenuStore();
-const moveTo = (id) => {
-  if (menuStore.selectedMenu !== id) {
-    menuStore.selectedMenu = id;
-    const menu = userMainMenus.value.find((menu) => menu.id === id);
-    router.push(menu.link);
+const routerLinkStore = useRouterLinkStore();
+const moveTo = (to) => {
+  if (routerLinkStore.currentLink !== to) {
+    routerLinkStore.currentLink = to;
+    router.push(to);
   }
 };
 </script>
