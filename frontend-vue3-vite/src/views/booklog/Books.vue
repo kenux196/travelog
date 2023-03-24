@@ -31,7 +31,7 @@
               />
             </td>
             <td>
-              <BookItem :book-info="book" />
+              <BookListItem :book-info="book" />
             </td>
           </tr>
         </tbody>
@@ -46,6 +46,11 @@
           책장에 담기
         </button>
       </div>
+      <div class="flex flex-wrap mt-10">
+        <div v-for="book in bookList" :key="book.id" class="mr-10 mb-10">
+          <BookGridItem :book-info="book" />
+        </div>
+      </div>
     </div>
     <div v-else class="font-bold text-lg">검색 결과가 없습니다.</div>
   </div>
@@ -54,7 +59,8 @@
 <script setup>
 import axios from 'axios';
 import { computed, ref } from 'vue';
-import BookItem from '@/components/book/BookItem.vue';
+import BookListItem from '@/components/book/BookListItem.vue';
+import BookGridItem from '@/components/book/BookGridItem.vue';
 
 const page = ref(1);
 const bookList = ref([]);
