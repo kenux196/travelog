@@ -11,23 +11,6 @@
       </div>
     </div>
     <div v-else class="text-center text-xl font-bold text-slate-700">책창에 책이 없군요. 책을 추가해보세요.</div>
-    <div class="grid grid-cols-5">
-      <div></div>
-      <div></div>
-      <div class="flex bg-slate-800 hover:bg-slate-600 text-white px-3 py-3 mt-5 rounded-lg justify-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <div class="ml-2">책 추가하러 가기</div>
-      </div>
-    </div>
   </div>
 </template>
 

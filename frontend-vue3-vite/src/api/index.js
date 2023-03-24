@@ -2,6 +2,7 @@ import axios from 'axios';
 import router from '../router/index';
 import { useAuthStore } from '../stores/auth';
 import { useUserStore } from '../stores/user';
+import { useRouterLinkStore } from '../stores/router-link-store';
 
 const UNAUTHORIZED = 401;
 
@@ -81,7 +82,7 @@ const auth = {
     try {
       await request('post', '/api/auth/logout');
       setToken(null);
-      router.push('/login');
+      goHome();
     } catch (e) {
       console.error('logout error : ', e);
     }
@@ -131,11 +132,15 @@ const setToken = (data) => {
 };
 
 const goHome = () => {
+  let to = '/';
+  const routerLinkStore = useRouterLinkStore();
   if (useAuthStore().isAdmin) {
-    router.push('/admin');
+    to = '/admin';
+    router.push(to);
   } else {
-    router.push('/');
+    router.push(to);
   }
+  routerLinkStore.currentLink = to;
 };
 
 const admin = {

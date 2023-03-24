@@ -2,50 +2,32 @@
   <div class="text-center">
     <div class="font-bold text-3xl my-4">책 검색(with kakao)</div>
     <div>
-      <input type="text" v-model="keyword" class="border border-solid border-gray-500 py-2 w-2/4 indent-2" />
-      <button @click="searchBook" class="text-white rouned bg-blue-600 hover:bg-blue-400 p-2 w-1/6 ml-1">검색</button>
+      <input
+        type="text"
+        v-model="keyword"
+        @keyup.enter="searchBook"
+        class="border border-solid border-gray-500 py-2 w-2/4 indent-2"
+      />
+      <button @click="searchBook" class="text-white rouned bg-slate-800 hover:bg-slate-700 p-2 w-1/6 ml-1">검색</button>
     </div>
     <hr class="font-bold my-5 mx-5" />
   </div>
   <div class="text-center">
     <div v-if="hasBooks" class="mx-5">
-      <table>
-        <thead class="bg-gray-900 text-white">
-          <th>
-            <input
-              type="checkbox"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              @click="selectAll($event.target.checked)"
-              v-model="isAllChecked"
-            />
-          </th>
-          <th>책</th>
-        </thead>
-        <tbody>
-          <tr v-for="book in bookList" :key="book.id">
-            <td>
-              <input
-                type="checkbox"
-                :id="'check_' + book.id"
-                :value="book.id"
-                v-model="book.selected"
-                @change="selectItem()"
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-            </td>
-            <td>
-              <BookItem :book-info="book" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="flex flex-wrap mt-10">
+        <div v-for="book in bookList" :key="book.id" class="mr-10 mb-10">
+          <BookGridItem :book="book" @select:book="selectBook" />
+        </div>
+      </div>
       <div class="my-4">
         <button class="border-b-4 border-gray-400 text-gray-400 text-lg font-bold" v-show="!isEnd" @click="getMore">
           more
         </button>
       </div>
       <div class="my-4">
-        <button @click="registerBook" class="bg-blue-600 text-white py-4 px-10 font-bold text-lg">등록</button>
+        <button @click="registerBook" class="bg-slate-800 hover:bg-slate-700 rounded-lg text-white py-2 px-10">
+          책장에 담기
+        </button>
       </div>
     </div>
     <div v-else class="font-bold text-lg">검색 결과가 없습니다.</div>
@@ -55,14 +37,22 @@
 <script setup>
 import axios from 'axios';
 import { computed, ref } from 'vue';
-import BookItem from '@/components/book/BookItem.vue';
+import BookGridItem from '@/components/book/BookGridItem.vue';
 
+const page = ref(1);
 const bookList = ref([]);
+const selectedBooks = ref([]);
 
 const hasBooks = computed(() => {
-  console.log('book list = ' + bookList.value.length);
   return bookList.value.length > 0 ? true : false;
 });
+
+const init = () => {
+  id.value = 0;
+  page.value = 1;
+  bookList.value.length = 0;
+  selectedBooks.value.length = 0;
+};
 
 const keyword = ref('');
 const searchBook = () => {
@@ -70,12 +60,10 @@ const searchBook = () => {
     alert('검색할 책 정보를 입력하세요.');
     return;
   }
-  id.value = 0;
-  bookList.value = [];
+  init();
   getBookInfoFromKakao();
 };
 
-const page = ref(1);
 const getMore = () => {
   page.value++;
   getBookInfoFromKakao();
@@ -111,9 +99,7 @@ const id = ref(0);
 const insertBookData = (books) => {
   books.forEach((book) => {
     book.id = ++id.value;
-    console.log(book.id);
     book.authors = getAuthors(book.authors);
-    book.selected = false;
     book.isbn = getIsbn(book.isbn);
     bookList.value.push(book);
   });
@@ -142,44 +128,28 @@ const getIsbn = (isbn) => {
   return isbns[1];
 };
 
-const isAllChecked = ref(false);
+// 책 등록 api 호출.
 const registerBook = () => {
-  // 책 등록 api 호출.
-  const bookInfos = bookList.value.filter((book) => book.selected);
-  const jsonData = JSON.stringify(bookInfos);
-  console.log(jsonData);
-  console.log(bookInfos);
+  const bookInfos = selectedBooks.value;
   axios
     .post('/api/books', { bookInfos })
     .then(() => {
-      console.log('책등록 성공');
-      isAllChecked.value = false;
-      bookList.value.forEach((book) => {
-        book.selected = false;
-      });
-      bookList.value = [];
-      keyword.value = '';
-      alert('선택한 책을 저장하였습니다.');
+      alert('나의 책장에 담았습니다.');
     })
     .catch((e) => {
       console.log(e.message);
     });
 };
 
-const selectAll = (checked) => {
-  isAllChecked.value = checked;
-  bookList.value.forEach((book) => {
-    book.selected = isAllChecked.value;
-  });
-};
-
-const selectItem = () => {
-  const unSelectedCount = bookList.value.filter((book) => !book.selected).length;
-  if (unSelectedCount > 0) {
-    isAllChecked.value = false;
-  } else if (unSelectedCount == 0) {
-    isAllChecked.value = true;
+const selectBook = (book, checked) => {
+  if (checked) {
+    selectedBooks.value.push(book);
+  } else {
+    const index = selectedBooks.value.findIndex((bookItem) => bookItem.id === book.id);
+    console.log(index);
+    selectedBooks.value.splice(index, 1);
   }
+  // print();
 };
 </script>
 <style scoped>

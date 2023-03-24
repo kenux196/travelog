@@ -24,7 +24,15 @@
       <div class="flex mt-5">
         <ul v-for="menu in userMainMenus" :key="menu.id" class="flex mx-3">
           <li>
-            <button class="menu" @click="moveTo(menu.id)">{{ menu.name }}</button>
+            <button
+              :class="{
+                'selected-menu': menu.link === routerLinkStore.currentLink,
+                'normal-menu': menu.link !== routerLinkStore.currentLink,
+              }"
+              @click="moveTo(menu.link)"
+            >
+              {{ menu.name }}
+            </button>
           </li>
         </ul>
         <ul class="flex space-x-3">
@@ -62,50 +70,46 @@ import { RouterLink, RouterView } from 'vue-router';
 import MyInfoBadge from './components/MyInfoBadge.vue';
 import router from './router';
 import { useAuthStore } from './stores/auth';
+import { useRouterLinkStore } from './stores/router-link-store';
 
 const authStore = useAuthStore();
 
 const userMainMenus = ref([
   {
-    id: 0,
     link: '/',
     name: 'Home',
-    selected: false,
   },
   {
-    id: 1,
     link: '/booklog',
     name: 'Book Log',
-    selected: false,
   },
   {
-    id: 3,
     link: '/books',
     name: 'Books',
-    selected: false,
   },
   {
-    id: 4,
     link: '/learn/',
     name: '연습장',
-    selected: false,
   },
 ]);
 
-const selectedMenu = ref(0);
-const moveTo = (id) => {
-  if (selectedMenu.value !== id) {
-    selectedMenu.value = id;
-    const menu = userMainMenus.value.find((menu) => menu.id === id);
-    router.push(menu.link);
+const routerLinkStore = useRouterLinkStore();
+const moveTo = (to) => {
+  if (routerLinkStore.currentLink !== to) {
+    routerLinkStore.currentLink = to;
+    router.push(to);
   }
 };
 </script>
 
 <style scoped>
-.menu {
+.normal-menu {
   @apply hover:text-yellow-300 font-extralight;
 }
+.selected-menu {
+  @apply hover:text-yellow-300 font-extralight border-b-2 border-b-slate-200;
+}
+
 nav {
   @apply flex justify-between mx-10 text-neutral-200 items-center h-full;
 }
