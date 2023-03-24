@@ -1,7 +1,7 @@
 <template>
   <div class="flex mx-5">
     <div class="mx-1 mt-10">
-      <div class="mx-3 my-3 border-b-slate-800" v-for="menu in menus" :key="menu.id">
+      <div class="mx-3 border-b-slate-800" v-for="menu in menus" :key="menu.id">
         <button
           :class="{ 'selected-sub-menu': selectedMenu === menu.id, 'sub-menu': selectedMenu !== menu.id }"
           class="w-40 text-left"
