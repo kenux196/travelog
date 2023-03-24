@@ -10,6 +10,8 @@ import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
 import me.kenux.travelog.domain.member.service.dto.response.MyInfo;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +45,21 @@ class MemberServiceTest {
 
     @InjectMocks
     MemberService memberService;
+
+    private static Authentication authentication;
+    private static SecurityContext securityContext;
+
+    @BeforeAll
+    static void setup() {
+        authentication = Mockito.mock(Authentication.class);
+        securityContext = getMockSecurityContext();
+    }
+
+    private static SecurityContext getMockSecurityContext() {
+        securityContext = Mockito.mock(SecurityContext.class);
+        SecurityContextHolder.setContext(securityContext);
+        return securityContext;
+    }
 
     @Test
     @DisplayName("회원 전체 조회 - 성공")
@@ -130,8 +147,11 @@ class MemberServiceTest {
         // given
         given(memberRepository.findById(anyLong())).willReturn(Optional.empty());
 
-        // when then
-        assertThatThrownBy(() -> memberService.getMemberDetail(anyLong()))
+        // when
+        Throwable throwable = catchThrowable(() -> memberService.getMemberDetail(anyLong()));
+
+        // then
+        assertThat(throwable)
                 .isInstanceOf(CustomException.class)
                 .hasMessage(ErrorCode.MEMBER_NOT_EXIST.getMessage());
     }
@@ -144,10 +164,7 @@ class MemberServiceTest {
                 .name("user")
                 .email("user@test.com")
                 .build();
-        Authentication authentication = Mockito.mock(Authentication.class);
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
         given(securityContext.getAuthentication()).willReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
         given(SecurityContextHolder.getContext().getAuthentication().getName()).willReturn("another@test.com");
         given(memberRepository.findById(any())).willReturn(Optional.of(member));
 
@@ -168,10 +185,7 @@ class MemberServiceTest {
                 .name("user")
                 .email("user@test.com")
                 .build();
-        Authentication authentication = Mockito.mock(Authentication.class);
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
         given(securityContext.getAuthentication()).willReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
         given(SecurityContextHolder.getContext().getAuthentication().getName()).willReturn(member.getEmail());
         given(memberRepository.findById(any())).willReturn(Optional.of(member));
 

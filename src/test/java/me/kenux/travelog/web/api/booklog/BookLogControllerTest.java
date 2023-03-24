@@ -1,7 +1,11 @@
 package me.kenux.travelog.web.api.booklog;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import me.kenux.travelog.domain.booklog.service.BookLogService;
+import me.kenux.travelog.domain.booklog.service.dto.AddBookLogRequest;
 import me.kenux.travelog.domain.booklog.service.dto.BookLogResponse;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,7 +22,10 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,6 +39,12 @@ class BookLogControllerTest {
     MockMvc mockMvc;
 
     private final String BASE_URL = "/api/book-logs";
+
+    private static ObjectMapper mapper;
+    @BeforeAll
+    static void setup() {
+        mapper = new ObjectMapper();
+    }
 
     @Test
     @DisplayName("회원의 북로그 조회 API - 200 OK")
@@ -49,5 +62,27 @@ class BookLogControllerTest {
         // then
         actions.andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("북로그 추가 API - 200 OK")
+    @WithMockUser
+    void addBookLogs_success() throws Exception {
+        // given
+        AddBookLogRequest request = new AddBookLogRequest();
+        request.setBookId(1L);
+        final String content = mapper.writeValueAsString(request);
+        given(bookLogService.addNewBookLog(any())).willReturn("title");
+
+        // when
+        final ResultActions actions = mockMvc.perform(post(BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content)
+                .with(csrf()));
+
+        // then
+        actions.andExpect(status().isOk())
+                .andDo(print());
+
     }
 }
