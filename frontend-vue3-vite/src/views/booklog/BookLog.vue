@@ -1,10 +1,14 @@
 <template>
   <div class="flex mx-5">
-    <div class="mx-1 w-1/5 mt-10">
+    <div class="mx-1 mt-10">
       <div class="mx-3 my-3 border-b-slate-800" v-for="menu in menus" :key="menu.id">
-        <p :class="{ 'selected-sub-menu': menu.selected, 'sub-menu': !menu.selected }" @click="select(menu.id)">
-          <RouterLink :to="menu.link">{{ menu.name }}</RouterLink>
-        </p>
+        <button
+          :class="{ 'selected-sub-menu': selectedMenu === menu.id, 'sub-menu': selectedMenu !== menu.id }"
+          class="w-40 text-left"
+          @click="select(menu.id)"
+        >
+          {{ menu.name }}
+        </button>
       </div>
     </div>
     <RouterView />
@@ -13,7 +17,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
 import router from '../../router';
 
 const menus = ref([
@@ -43,18 +46,18 @@ const menus = ref([
   },
 ]);
 
+const selectedMenu = ref(0);
 const init = () => {
   const menu = menus.value.find((menu) => menu.id === 0);
-  menu.selected = true;
   router.push(menu.link);
+  selectedMenu.value = menu.id;
 };
 init();
 
 const select = (id) => {
-  menus.value.forEach((menu) => {
-    if (menu.id !== id) menu.selected = false;
-    else menu.selected = true;
-  });
+  const menu = menus.value.find((menu) => menu.id === id);
+  router.push(menu.link);
+  selectedMenu.value = menu.id;
 };
 </script>
 
