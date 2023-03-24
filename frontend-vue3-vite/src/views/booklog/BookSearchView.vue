@@ -14,28 +14,11 @@
   </div>
   <div class="text-center">
     <div v-if="hasBooks" class="mx-5">
-      <table>
-        <thead class="bg-gray-900 text-white">
-          <th></th>
-          <th>책</th>
-        </thead>
-        <tbody>
-          <tr v-for="book in bookList" :key="book.id">
-            <td>
-              <input
-                type="checkbox"
-                :value="book"
-                v-model="selectedBooks"
-                @change="print"
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-            </td>
-            <td>
-              <BookListItem :book-info="book" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="flex flex-wrap mt-10">
+        <div v-for="book in bookList" :key="book.id" class="mr-10 mb-10">
+          <BookGridItem :book="book" @select:book="selectBook" />
+        </div>
+      </div>
       <div class="my-4">
         <button class="border-b-4 border-gray-400 text-gray-400 text-lg font-bold" v-show="!isEnd" @click="getMore">
           more
@@ -46,11 +29,6 @@
           책장에 담기
         </button>
       </div>
-      <div class="flex flex-wrap mt-10">
-        <div v-for="book in bookList" :key="book.id" class="mr-10 mb-10">
-          <BookGridItem :book-info="book" />
-        </div>
-      </div>
     </div>
     <div v-else class="font-bold text-lg">검색 결과가 없습니다.</div>
   </div>
@@ -59,7 +37,6 @@
 <script setup>
 import axios from 'axios';
 import { computed, ref } from 'vue';
-import BookListItem from '@/components/book/BookListItem.vue';
 import BookGridItem from '@/components/book/BookGridItem.vue';
 
 const page = ref(1);
@@ -164,8 +141,15 @@ const registerBook = () => {
     });
 };
 
-const print = () => {
-  console.log(selectedBooks.value);
+const selectBook = (book, checked) => {
+  if (checked) {
+    selectedBooks.value.push(book);
+  } else {
+    const index = selectedBooks.value.findIndex((bookItem) => bookItem.id === book.id);
+    console.log(index);
+    selectedBooks.value.splice(index, 1);
+  }
+  // print();
 };
 </script>
 <style scoped>
