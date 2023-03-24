@@ -20,3 +20,12 @@ Authorization: Bearer {{accessToken}}
 ### get book logs by member id
 GET {{host}}/api/book-logs?memberId=2
 Authorization: Bearer {{accessToken}}
+
+### add book logs
+POST {{host}}/api/book-logs
+Content-Type: Application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "bookId": 10
+}

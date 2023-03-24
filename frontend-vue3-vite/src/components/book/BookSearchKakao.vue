@@ -101,6 +101,7 @@ const insertBookData = (books) => {
     book.id = ++id.value;
     book.authors = getAuthors(book.authors);
     book.isbn = getIsbn(book.isbn);
+    book.publishedDate = book.datetime;
     bookList.value.push(book);
   });
   console.log(bookList.value);

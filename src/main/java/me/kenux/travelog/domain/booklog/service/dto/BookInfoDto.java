@@ -37,7 +37,8 @@ public class BookInfoDto {
     }
 
     @Builder
-    public record BasicInfo(Long id, String title, String authors, String publisher, LocalDate publishedDate) {
+    public record BasicInfo(Long id, String title, String authors, String publisher,
+                            LocalDate publishedDate, String thumbnail) {
 
         public static BasicInfo from(Book book) {
             return BasicInfo.builder()
@@ -46,6 +47,7 @@ public class BookInfoDto {
                     .authors(book.getAuthors())
                     .publisher(book.getPublisher())
                     .publishedDate(book.getPublishedDate())
+                    .thumbnail(book.getThumbnail())
                     .build();
         }
     }
