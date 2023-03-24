@@ -13,7 +13,7 @@
       <div class="font-semibold text-sm">{{ book.title }}</div>
       <div class="text-xs">{{ book.authors }}</div>
       <div class="text-xs">{{ book.publisher }}</div>
-      <div class="text-xs">{{ getPublishDate(book.datetime) }}</div>
+      <div class="text-xs">{{ getPublishDate(book.publishedDate) }}</div>
     </div>
   </div>
 </template>

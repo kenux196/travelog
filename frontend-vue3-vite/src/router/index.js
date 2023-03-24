@@ -76,7 +76,7 @@ const router = createRouter({
     {
       path: '/books',
       name: 'book search',
-      component: () => import('@/views/booklog/BookSearchView.vue'),
+      component: () => import('@/views/booklog/BookView.vue'),
       meta: {
         requiresAuth: true,
       },

@@ -28,7 +28,7 @@
   </div>
 </template>
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { admin } from '../../api';
 
 const members = ref(null);
@@ -36,10 +36,7 @@ const members = ref(null);
 async function getMembers() {
   admin.getMembers().then((data) => (members.value = data));
 }
-
-onMounted(() => {
-  getMembers();
-});
+getMembers();
 
 function displayDate(dateString) {
   const date = new Date(dateString);
