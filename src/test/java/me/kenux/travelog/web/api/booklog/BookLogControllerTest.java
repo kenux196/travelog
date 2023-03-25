@@ -1,6 +1,5 @@
 package me.kenux.travelog.web.api.booklog;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.kenux.travelog.domain.booklog.service.BookLogService;
 import me.kenux.travelog.domain.booklog.service.dto.AddBookLogRequest;
@@ -20,9 +19,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -70,9 +69,10 @@ class BookLogControllerTest {
     void addBookLogs_success() throws Exception {
         // given
         AddBookLogRequest request = new AddBookLogRequest();
-        request.setBookId(1L);
+        List<Long> bookIds = Collections.singletonList(1L);
+        request.setBookIds(bookIds);
         final String content = mapper.writeValueAsString(request);
-        given(bookLogService.addNewBookLog(any())).willReturn("title");
+        given(bookLogService.addNewBookLog(any())).willReturn(1);
 
         // when
         final ResultActions actions = mockMvc.perform(post(BASE_URL)

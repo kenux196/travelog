@@ -2,8 +2,10 @@ package me.kenux.travelog.domain.booklog.service.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class AddBookLogRequest {
 
-    private Long bookId;
+    private List<Long> bookIds;
 }

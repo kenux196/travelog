@@ -35,7 +35,6 @@
 </template>
 
 <script setup>
-import axios from 'axios';
 import { computed, ref } from 'vue';
 import BookGridItem from '@/components/book/BookGridItem.vue';
 import { request } from '@/api';
@@ -80,11 +79,17 @@ init();
 getBooks();
 
 // 책 등록 api 호출.
-const registerBook = () => {
-  const bookInfos = selectedBooks.value;
+const registerBook = async () => {
+  const bookInfos = selectedBooks.value.map((book) => book.id);
   console.log(bookInfos);
-  axios
-    .post('/api/books', { bookInfos })
+  await request(
+    'post',
+    '/api/book-logs',
+    {
+      bookIds: bookInfos,
+    },
+    null,
+  )
     .then(() => {
       alert('나의 책장에 담았습니다.');
     })

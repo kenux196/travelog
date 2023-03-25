@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static me.kenux.travelog.domain.booklog.entity.QBook.book;
 
 @Service
 @Transactional(readOnly = true)
@@ -38,18 +41,27 @@ public class BookLogService {
     }
 
     @Transactional
-    public String addNewBookLog(AddBookLogRequest request) {
-        final Book book = getBook(request.getBookId());
+    public int addNewBookLog(AddBookLogRequest request) {
         final Member member = getMember();
-        final BookLog newLog = BookLog.createNewLog(book, member);
-        bookLogRepository.save(newLog);
-        return book.getTitle();
+        final List<BookLog> newBookLogs = getBooks(request.getBookIds()).stream()
+                .map(book -> BookLog.createNewLog(book, member))
+                .toList();
+        bookLogRepository.saveAll(newBookLogs);
+        return newBookLogs.size();
     }
 
     private Member getMember() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return memberRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+    }
+
+    private List<Book> getBooks(List<Long> bookIds) {
+        final List<Book> books = bookRepository.findAllById(bookIds);
+        if (books.isEmpty()) {
+            throw new CustomException(ErrorCode.BOOK_NOT_FOUND);
+        }
+        return books;
     }
 
     private Book getBook(Long bookId) {
