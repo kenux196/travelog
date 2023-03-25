@@ -23,6 +23,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class BookLogServiceTest {
@@ -83,9 +85,10 @@ class BookLogServiceTest {
     @DisplayName("새로운 북로그를 추가 실패 - 책이 존재하지 않음")
     void addBookLog_failed_bookNotFounded() {
         // given
-        AddBookLogRequest request = new AddBookLogRequest();
-        request.setBookId(1L);
-        given(bookRepository.findById(any())).willReturn(Optional.empty());
+        AddBookLogRequest request = getAddBookLogRequest();
+        given(securityContext.getAuthentication()).willReturn(authentication);
+        given(memberRepository.findByEmail(any())).willReturn(Optional.of(mock(Member.class)));
+        given(bookRepository.findAllById(any())).willReturn(new ArrayList<>());
 
         // when
         final Throwable throwable = catchThrowable(() -> bookLogService.addNewBookLog(request));
@@ -100,11 +103,7 @@ class BookLogServiceTest {
     @DisplayName("새로운 북로그를 추가 실패 - 회원이 존재하지 않음")
     void addBookLog_failed_memberNotFounded() {
         // given
-        AddBookLogRequest request = new AddBookLogRequest();
-        request.setBookId(1L);
-        final Book mockBook = Mockito.mock(Book.class);
-        given(bookRepository.findById(any())).willReturn(Optional.of(mockBook));
-        given(securityContext.getAuthentication()).willReturn(authentication);
+        AddBookLogRequest request = getAddBookLogRequest();
         given(memberRepository.findByEmail(any())).willReturn(Optional.empty());
 
         // when
@@ -120,17 +119,23 @@ class BookLogServiceTest {
     @DisplayName("새로운 북로그를 추가 성공")
     void addBookLog_failed_success() {
         // given
-        AddBookLogRequest request = new AddBookLogRequest();
-        request.setBookId(1L);
+        AddBookLogRequest request = getAddBookLogRequest();
         final Book book = Book.createNewBook("book1", "author", "isbn", LocalDate.now(), "publisher");
-        given(bookRepository.findById(any())).willReturn(Optional.of(book));
+        given(bookRepository.findAllById(any())).willReturn(Collections.singletonList(book));
         given(securityContext.getAuthentication()).willReturn(authentication);
         given(memberRepository.findByEmail(any())).willReturn(Optional.of(Mockito.mock(Member.class)));
 
         // when
-        final String bookTitle = bookLogService.addNewBookLog(request);
+        final int addedBookCount = bookLogService.addNewBookLog(request);
 
         // then
-        assertThat(bookTitle).isEqualTo("book1");
+        assertThat(addedBookCount).isEqualTo(1);
+    }
+
+    private AddBookLogRequest getAddBookLogRequest() {
+        AddBookLogRequest request = new AddBookLogRequest();
+        List<Long> bookIds = Collections.singletonList(1L);
+        request.setBookIds(bookIds);
+        return request;
     }
 }
