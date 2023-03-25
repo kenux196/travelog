@@ -86,7 +86,7 @@ const registerBook = async () => {
     'post',
     '/api/book-logs',
     {
-      bookId: bookInfos,
+      bookIds: bookInfos,
     },
     null,
   )
