@@ -16,33 +16,23 @@
   </section>
 </template>
 
-<script>
+<script setup>
 import { inject, ref } from 'vue';
 
-export default {
-  name: 'TodoListNew',
-  setup() {
-    const today = inject('today');
-    const addTodo = inject('addTodo');
-    const valObj = ref({
-      job: '',
-      date: today,
-      today: today,
-    });
+const today = inject('today');
+const addTodo = inject('addTodo');
+const valObj = ref({
+  job: '',
+  date: today,
+  today: today,
+});
 
-    const onAddTodo = () => {
-      if (valObj.value.job.length > 0) {
-        console.log('call onAddTodo = ' + valObj.value.job);
-        addTodo(valObj.value.job, valObj.value.date);
-        valObj.value.job = '';
-        valObj.value.date = today;
-      }
-    };
-    return {
-      today,
-      valObj,
-      onAddTodo,
-    };
-  },
+const onAddTodo = () => {
+  if (valObj.value.job.length > 0) {
+    console.log('call onAddTodo = ' + valObj.value.job);
+    addTodo(valObj.value.job, valObj.value.date);
+    valObj.value.job = '';
+    valObj.value.date = today;
+  }
 };
 </script>
