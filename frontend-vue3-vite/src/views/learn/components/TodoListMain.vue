@@ -6,19 +6,18 @@
     </div>
     <todo-list :data="filtered_todos[key]" />
   </div>
-  <div><span class="bg-red-500">&nbsp;</span>&nbsp;<Strong>처리하지 못한 작업들</Strong></div>
+  <div class="flex"><span class="bg-red-500">&nbsp;</span>&nbsp;<Strong>처리하지 못한 작업들</Strong></div>
   <TodoList :data="pending_todos"></TodoList>
 </template>
 
 <script>
+import { ref, inject, provide, watch } from 'vue';
 import { useFilter } from '../compositions/filters';
-
 import TodoListMenu from './TodoListMenu.vue';
 import TodoList from './TodoList.vue';
-import { ref, inject, provide, watch } from 'vue';
 
 export default {
-  name: 'TotodListMain',
+  name: 'TododListMain',
   setup(props) {
     const { getPendingTodos, getActiveTodayTodos, getCompletedTodayTodos, getAllTodayTodos, getAllTodos } = useFilter();
     const filter = ref(0);

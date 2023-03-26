@@ -1,5 +1,5 @@
 <template>
-  <todo-list-new></todo-list-new>
+  <TodoListNew />
   <section class="container">
     <div class="row justify-center m-2">
       <TodoListMain />
@@ -10,6 +10,7 @@
 import { ref, provide, readonly } from 'vue';
 import { useStorage } from '../compositions/storage';
 import TodoListMain from './TodoListMain.vue';
+import TodoListNew from './TodoListNew.vue';
 
 export default {
   name: 'TodoListContainer',
@@ -23,6 +24,7 @@ export default {
       todos.value = init_todos;
     };
     const addTodo = (job, date) => {
+      console.log('called addTodo');
       todos.value.push({
         id: storage_id.value++,
         job: job,
@@ -32,6 +34,7 @@ export default {
       saveTodos(todos);
     };
     const removeTodo = (id) => {
+      console.log('called removeTodo');
       todos.value.splice(id, 1);
       todos.value.forEach((todo, idx) => {
         todo.id = idx;
@@ -39,6 +42,7 @@ export default {
       saveTodos(todos);
     };
     const completeTodo = (id) => {
+      console.log('called completeTodo');
       todos.value.find((todo) => todo.id == id).completed = true;
       saveTodos(todos);
     };
@@ -49,6 +53,6 @@ export default {
 
     loadTodos(initTodos);
   },
-  components: { TodoListMain },
+  components: { TodoListMain, TodoListNew },
 };
 </script>
