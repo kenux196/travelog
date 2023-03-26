@@ -11,4 +11,5 @@ const app = createApp(App);
 
 app.use(pinia);
 app.use(router);
+app.provide('today', new Date().toISOString().split('T')[0]);
 app.mount('#app');
