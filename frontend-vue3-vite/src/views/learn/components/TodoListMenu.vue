@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between">
-    <div>
+    <div class="py-4">
       <span class="bg-blue-500">&nbsp;</span>&nbsp;
       <strong>{{ state }}</strong>
     </div>
@@ -15,31 +15,19 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, watch, computed, inject } from 'vue';
 
-export default {
-  name: 'TodoListMenu',
-  emits: ['change-filter'],
-  setup(props, context) {
-    const filters = inject('filters');
-    const filter = ref(0);
-    const state = computed(() => {
-      return filters[filter.value].str;
-    });
-    watch(
-      () => filter.value,
-      (filter) => {
-        context.emit('change-filter', filter);
-      },
-    );
-    return {
-      state,
-      filter,
-      filters,
-    };
+const emit = defineEmits(['change-filter']);
+const filters = inject('filters');
+const filter = ref(0);
+const state = computed(() => {
+  return filters[filter.value].str;
+});
+watch(
+  () => filter.value,
+  (filter) => {
+    emit('change-filter', filter);
   },
-};
+);
 </script>
-
-<style lang="scss" scoped></style>

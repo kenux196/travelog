@@ -7,15 +7,9 @@
     <TodoListContainer />
   </div>
 </template>
-<script>
+<script setup>
 import { inject } from 'vue';
 import TodoListContainer from './components/TodoListContainer.vue';
 
-export default {
-  setup() {
-    const today = inject('today');
-    return { today };
-  },
-  components: { TodoListContainer },
-};
+const today = inject('today');
 </script>
