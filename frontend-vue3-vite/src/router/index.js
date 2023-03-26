@@ -43,9 +43,9 @@ const router = createRouter({
       component: () => import('../views/learn/LearnMain.vue'),
       children: [
         {
-          path: '/learn/vue-1',
-          name: 'learn test 01',
-          component: () => import('../views/learn/LearnVue01.vue'),
+          path: '/learn/todo-list',
+          name: 'example todo-list',
+          component: () => import('../views/learn/TodoListView.vue'),
         },
         {
           path: '/learn/vue-2',

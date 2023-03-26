@@ -21,7 +21,7 @@ const menus = [
     active: false,
   },
   {
-    to: '/learn/vue-1',
+    to: '/learn/todo-list',
     name: 'todo-list',
     active: true,
   },
