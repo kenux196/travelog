@@ -27,8 +27,8 @@ const menus = [
   },
   {
     to: '/learn/vue-2',
-    name: 'vue-2',
-    active: false,
+    name: 'vue연습',
+    active: true,
   },
   {
     to: '/learn/vue-3',
