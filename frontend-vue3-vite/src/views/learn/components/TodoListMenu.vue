@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between">
-    <div>
+    <div class="py-4">
       <span class="bg-blue-500">&nbsp;</span>&nbsp;
       <strong>{{ state }}</strong>
     </div>

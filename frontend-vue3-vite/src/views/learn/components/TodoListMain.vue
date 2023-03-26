@@ -1,12 +1,14 @@
 <template>
+  <hr class="my-4" />
   <todo-list-menu @change-filter="onChangeFilter"></todo-list-menu>
   <div v-for="key in Object.keys(filtered_todos)" :key="key">
-    <div v-if="use_category">
+    <div v-if="use_category" class="w-32 border-l-4 border-lime-400">
       <em>{{ key }}</em>
     </div>
     <todo-list :data="filtered_todos[key]" />
   </div>
-  <div class="flex"><span class="bg-red-500">&nbsp;</span>&nbsp;<Strong>처리하지 못한 작업들</Strong></div>
+  <hr class="my-4" />
+  <div class="flex my-2"><span class="bg-red-500">&nbsp;</span>&nbsp;<Strong>처리하지 못한 작업들</Strong></div>
   <TodoList :data="pending_todos"></TodoList>
 </template>
 

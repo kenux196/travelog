@@ -7,7 +7,6 @@
         placeholder="여기에 할일을 적으세요"
         class="input input-bordered input-md w-full"
       />
-      <div>입력한 값 : {{ valObj.job }}</div>
       <div class="flex justify-between my-2">
         <input type="date" v-model="valObj.date" :min="today" class="input input-bordered input-md w-full max-w-xs" />
         <button @click="onAddTodo" class="btn bg-slate-800 hover:bg-slate-700">할일 추가</button>
