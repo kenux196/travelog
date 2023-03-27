@@ -26,7 +26,8 @@
     <div v-if="hasBooks" class="mx-5">
       <div class="flex flex-wrap mt-10">
         <div v-for="book in bookList" :key="book.id" class="mr-10 mb-10">
-          <BookGridItem :book="book" @select:book="selectBook" />
+          <!-- <BookGridItem :book="book" @select:book="selectBook" /> -->
+          <BookCard :book="book" @select:book="selectBook" />
         </div>
       </div>
       <div class="my-4">
@@ -46,6 +47,7 @@
 import axios from 'axios';
 import { computed, ref } from 'vue';
 import BookGridItem from '@/components/book/BookGridItem.vue';
+import BookCard from './BookCard.vue';
 
 const page = ref(1);
 const bookList = ref([]);
