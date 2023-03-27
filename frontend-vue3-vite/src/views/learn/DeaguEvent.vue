@@ -41,7 +41,7 @@
         </tbody>
       </table>
     </div>
-    <div v-else>검색 결과가 없습니다.</div>
+    <div v-else class="text-center text-lg">검색 결과가 없습니다.</div>
   </div>
 </template>
 
