@@ -16,7 +16,7 @@ public class TravelLogSaveRequest {
     private String title;
 
     @NotBlank
-    private String content;
+    private String contents;
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -32,7 +32,7 @@ public class TravelLogSaveRequest {
     public TravelLog toEntity() {
         return TravelLog.builder()
             .title(title)
-            .content(content)
+            .contents(contents)
             .startDate(startDate)
             .duration(duration)
             .travelType(travelType)

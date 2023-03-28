@@ -27,7 +27,7 @@ public class Book {
     @Column(name = "isbn", nullable = false)
     private String isbn;
 
-    @Column(name = "content", columnDefinition = "LONGTEXT")
+    @Column(name = "contents", length = 1000)
     private String contents;
 
     @Column(name = "published_date", nullable = false)
