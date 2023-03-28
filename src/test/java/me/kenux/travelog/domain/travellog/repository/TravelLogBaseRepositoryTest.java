@@ -31,7 +31,7 @@ class TravelLogBaseRepositoryTest extends BaseRepositoryConfig {
     @DisplayName("제목은 필수이다.")
     void titleIsNotNull() {
         final TravelLog history = TravelLog.builder()
-            .content("힘들었지만, 즐겁다.")
+            .contents("힘들었지만, 즐겁다.")
             .travelType(TravelType.CAMPING)
             .startDate(LocalDate.now())
             .memberId(1L)
@@ -46,7 +46,7 @@ class TravelLogBaseRepositoryTest extends BaseRepositoryConfig {
     void travelTypeIsNotNull() {
         final TravelLog history = TravelLog.builder()
             .title("title")
-            .content("content")
+            .contents("content")
             .memberId(1L)
             .build();
         assertThatThrownBy(() -> travelLogRepository.save(history))
@@ -58,7 +58,7 @@ class TravelLogBaseRepositoryTest extends BaseRepositoryConfig {
     void memberIdIsNotNull() {
         final TravelLog history = TravelLog.builder()
             .title("title")
-            .content("content")
+            .contents("content")
             .travelType(TravelType.PICNIC)
             .memberId(1L)
             .build();
@@ -71,7 +71,7 @@ class TravelLogBaseRepositoryTest extends BaseRepositoryConfig {
     void startDateIsNotNull() {
         final TravelLog history = TravelLog.builder()
             .title("팔공산 등산")
-            .content("힘들었지만, 즐겁다.")
+            .contents("힘들었지만, 즐겁다.")
             .travelType(TravelType.CAMPING)
             .memberId(1L)
             .build();
@@ -110,7 +110,7 @@ class TravelLogBaseRepositoryTest extends BaseRepositoryConfig {
     private static TravelLog getTravelLog() {
         return TravelLog.builder()
             .title("팔공산 등산")
-            .content("힘들었지만, 즐겁다.")
+            .contents("힘들었지만, 즐겁다.")
             .startDate(LocalDate.of(2022, 10, 1))
             .duration(3)
             .travelType(TravelType.CAMPING)
