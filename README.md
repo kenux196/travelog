@@ -11,8 +11,9 @@
 * Front-End
   * [vue.js 3](https://vuejs.org/)
   * ~~Thymeleaf~~
-  * [pico.css](https://picocss.com/)
+  * ~~[pico.css](https://picocss.com/)~~
   * [Tailwindcss](https://tailwindcss.com/)
+    * [daisyui](https://daisyui.com/)
   * [Headless UI](https://headlessui.com/)
   * [heroicons](https://heroicons.com/)
 
