@@ -38,7 +38,8 @@ public class TravelLog extends BaseEntity {
     @NotNull
     private TravelType travelType;
 
-    private String content;
+    @Column(name = "contents", length = 5000)
+    private String contents;
 
     @Column(name = "member_id", nullable = false)
     @NotNull

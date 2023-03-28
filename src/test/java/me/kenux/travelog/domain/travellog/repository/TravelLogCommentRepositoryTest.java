@@ -54,7 +54,7 @@ class TravelLogCommentRepositoryTest extends BaseRepositoryConfig {
     private static TravelLog getTravelLog() {
         return TravelLog.builder()
                 .title("팔공산 등산")
-                .content("힘들었지만, 즐겁다.")
+                .contents("힘들었지만, 즐겁다.")
                 .startDate(LocalDate.of(2022, 10, 1))
                 .duration(3)
                 .travelType(TravelType.CAMPING)

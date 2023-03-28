@@ -16,7 +16,7 @@ class TravelLogTest {
         // given
         final TravelLog travelLog = TravelLog.builder()
             .title("title")
-            .content("content")
+            .contents("content")
             .startDate(LocalDate.of(2022, 12, 1))
             .duration(3)
             .build();
@@ -39,7 +39,7 @@ class TravelLogTest {
         int duration = 3;
         final TravelLog travelLog = TravelLog.builder()
             .title("title")
-            .content("content")
+            .contents("content")
             .startDate(startDate)
             .duration(duration)
             .build();
@@ -57,7 +57,7 @@ class TravelLogTest {
         // given
         final TravelLog travelLog = TravelLog.builder()
             .title("title")
-            .content("content")
+            .contents("content")
             .travelType(TravelType.TOURISM)
             .build();
 
