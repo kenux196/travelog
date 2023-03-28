@@ -1,13 +1,15 @@
 <template>
-  <div class="justify-center text-center text-3xl font-semibold py-5 text-gray-700">로그인</div>
+  <div class="justify-center text-center text-3xl font-semibold py-5">로그인</div>
   <div class="text-center">
-    <div>
+    <div class="my-2">
       <input id="email" type="text" placeholder=" 이메일" v-model="user" />
     </div>
-    <div>
+    <div class="my-2">
       <input id="password" type="password" placeholder=" 비밀번호" v-model="password" />
     </div>
-    <button type="submit" @click="login">로그인</button>
+    <div class="my-2">
+      <button type="submit" @click="login">로그인</button>
+    </div>
   </div>
 </template>
 
@@ -29,9 +31,9 @@ const login = () => {
 
 <style scoped>
 input {
-  @apply border-solid border border-slate-800 py-3 my-2 w-1/2 indent-2;
+  @apply input input-bordered input-md w-1/2;
 }
 button {
-  @apply bg-slate-800 text-white hover:bg-slate-700 rounded py-3 my-2 w-1/2;
+  @apply btn w-1/2;
 }
 </style>

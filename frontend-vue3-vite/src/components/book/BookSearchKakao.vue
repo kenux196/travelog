@@ -1,18 +1,28 @@
 <template>
   <div class="text-center">
     <div class="font-bold text-3xl my-4">책 검색(with kakao)</div>
-    <div>
+    <div class="flex justify-center">
       <input
         type="text"
         v-model="keyword"
         @keyup.enter="searchBook"
-        class="border border-solid border-gray-500 py-2 w-2/4 indent-2"
+        placeholder="검색할 도서의 제목을 입력하세요"
+        class="input input-bordered w-2/4"
       />
-      <button @click="searchBook" class="text-white rouned bg-slate-800 hover:bg-slate-700 p-2 w-1/6 ml-1">검색</button>
+      <button @click="searchBook" class="btn mx-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </button>
     </div>
-    <hr class="font-bold my-5 mx-5" />
   </div>
   <div class="text-center">
+    <div class="divider">검색 결과</div>
     <div v-if="hasBooks" class="mx-5">
       <div class="flex flex-wrap mt-10">
         <div v-for="book in bookList" :key="book.id" class="mr-10 mb-10">
@@ -25,9 +35,7 @@
         </button>
       </div>
       <div class="my-4">
-        <button @click="registerBook" class="bg-slate-800 hover:bg-slate-700 rounded-lg text-white py-2 px-10">
-          책장에 담기
-        </button>
+        <button @click="registerBook" class="btn px-10">책장에 담기</button>
       </div>
     </div>
     <div v-else class="font-bold text-lg">검색 결과가 없습니다.</div>
