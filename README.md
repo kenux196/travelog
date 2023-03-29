@@ -7,7 +7,8 @@
   * Spring Boot 3.0
   * Spring Security 6.0
   * Spring Data JPA
-  * DataBase: h2 db, MariaDB
+  * DataBase: [h2db](https://www.h2database.com/), [MariaDB](https://mariadb.org/)
+    * [flyway](https://flywaydb.org/)
 * Front-End
   * [vue.js 3](https://vuejs.org/)
   * ~~Thymeleaf~~
