@@ -8,21 +8,15 @@ import me.kenux.travelog.domain.booklog.repository.BookRepository;
 import me.kenux.travelog.domain.booklog.service.dto.AddBookLogRequest;
 import me.kenux.travelog.domain.booklog.service.dto.BookLogResponse;
 import me.kenux.travelog.domain.member.entity.Member;
-import me.kenux.travelog.domain.member.repository.MemberCustomRepository;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
-import me.kenux.travelog.domain.member.service.dto.UserDetailsImpl;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static me.kenux.travelog.domain.booklog.entity.QBook.book;
 
 @Service
 @Transactional(readOnly = true)
