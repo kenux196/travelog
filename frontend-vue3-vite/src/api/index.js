@@ -72,7 +72,7 @@ const auth = {
       const data = await request('post', '/api/auth/login', { username, password });
       console.log('accessToken: ' + data.accessToken);
       setToken(data);
-      await this.getMySimpleInfo();
+      // await this.getMySimpleInfo();
       goHome();
     } catch (e) {
       console.error('logout error : ', e);
@@ -99,14 +99,7 @@ const auth = {
   },
   async getMySimpleInfo() {
     try {
-      const data = await request(
-        'get',
-        '/api/members/me',
-        {},
-        {
-          id: useUserStore().id,
-        },
-      );
+      const data = await request('get', '/api/members/me', {}, {});
       useUserStore().name = data.name;
       console.log('login user name: ' + data.name);
     } catch (e) {

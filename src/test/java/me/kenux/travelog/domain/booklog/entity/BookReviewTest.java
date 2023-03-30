@@ -1,14 +1,11 @@
 package me.kenux.travelog.domain.booklog.entity;
 
 import me.kenux.travelog.domain.member.entity.Member;
-import me.kenux.travelog.domain.member.entity.QMember;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.setAllowComparingPrivateFields;
-import static org.junit.jupiter.api.Assertions.*;
 
 class BookReviewTest {
 
@@ -19,8 +16,8 @@ class BookReviewTest {
         Member member = Mockito.mock(Member.class);
         Book book = Mockito.mock(Book.class);
         String review = "review content";
-        Integer rating = 5;
-        bookReview = BookReview.createBookReview(book, member, review, rating);
+        Integer rate = 5;
+        bookReview = BookReview.createBookReview(book, member, review, rate);
     }
 
     @Test
@@ -38,13 +35,13 @@ class BookReviewTest {
     @Test
     void updateRatingPoint() {
         // given
-        Integer rating = 10;
+        Integer rate = 10;
 
         // when
-        bookReview.updateRating(rating);
+        bookReview.updateRate(rate);
 
         // then
-        assertThat(bookReview.getRating()).isEqualTo(rating);
+        assertThat(bookReview.getRate()).isEqualTo(rate);
     }
 
 }

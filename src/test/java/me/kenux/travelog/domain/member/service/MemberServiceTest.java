@@ -11,7 +11,6 @@ import me.kenux.travelog.domain.member.service.dto.response.MyInfo;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,21 +44,6 @@ class MemberServiceTest {
 
     @InjectMocks
     MemberService memberService;
-
-    private static Authentication authentication;
-    private static SecurityContext securityContext;
-
-    @BeforeAll
-    static void setup() {
-        authentication = Mockito.mock(Authentication.class);
-        securityContext = getMockSecurityContext();
-    }
-
-    private static SecurityContext getMockSecurityContext() {
-        securityContext = Mockito.mock(SecurityContext.class);
-        SecurityContextHolder.setContext(securityContext);
-        return securityContext;
-    }
 
     @Test
     @DisplayName("회원 전체 조회 - 성공")
@@ -154,45 +138,5 @@ class MemberServiceTest {
         assertThat(throwable)
                 .isInstanceOf(CustomException.class)
                 .hasMessage(ErrorCode.MEMBER_NOT_EXIST.getMessage());
-    }
-
-    @Test
-    @DisplayName("로그인된 회원이 아닌 다른 회원정보가 조회시 예외발생.")
-    void getMySimpleInfo_failed() {
-        // given
-        final Member member = Member.builder()
-                .name("user")
-                .email("user@test.com")
-                .build();
-        given(securityContext.getAuthentication()).willReturn(authentication);
-        given(SecurityContextHolder.getContext().getAuthentication().getName()).willReturn("another@test.com");
-        given(memberRepository.findById(any())).willReturn(Optional.of(member));
-
-        // when
-        final Throwable throwable = catchThrowable(() -> memberService.getMySimpleInfo(any()));
-
-        // then
-        assertThat(throwable)
-                .isInstanceOf(CustomException.class)
-                .hasMessage(ErrorCode.MEMBER_WRONG_REQUEST.getMessage());
-    }
-
-    @Test
-    @DisplayName("로그인된 회원 자신의 정보 요청시 성공")
-    void getMySimpleInfo_success() {
-        // given
-        final Member member = Member.builder()
-                .name("user")
-                .email("user@test.com")
-                .build();
-        given(securityContext.getAuthentication()).willReturn(authentication);
-        given(SecurityContextHolder.getContext().getAuthentication().getName()).willReturn(member.getEmail());
-        given(memberRepository.findById(any())).willReturn(Optional.of(member));
-
-        // when
-        final MyInfo.Simple mySimpleInfo = memberService.getMySimpleInfo(any());
-
-        // then
-        assertThat(mySimpleInfo.name()).isEqualTo(member.getName());
     }
 }

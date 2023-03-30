@@ -49,19 +49,6 @@ public class MemberService {
         return MemberInfo.SimpleResponse.of(member);
     }
 
-    public MyInfo.Simple getMySimpleInfo(Long id) {
-        final Member member = getMember(id);
-        validate(member.getEmail());
-        return MyInfo.Simple.of(member);
-    }
-
-    private void validate(String email) {
-        final String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!email.equals(username)) {
-            throw new CustomException(ErrorCode.MEMBER_WRONG_REQUEST);
-        }
-    }
-
     @Transactional
     public void blockMember(Long memberId) {
         final Member member = getMember(memberId);
