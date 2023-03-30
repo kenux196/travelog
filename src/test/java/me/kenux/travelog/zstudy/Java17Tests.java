@@ -2,6 +2,7 @@ package me.kenux.travelog.zstudy;
 
 import me.kenux.travelog.domain.member.entity.enums.MemberStatus;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.StringUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,6 +35,5 @@ class Java17Tests {
     }
 
     record Point(int x, int y) {
-
     }
 }
