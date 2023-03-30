@@ -21,8 +21,8 @@ public class BookReview extends BaseTimeEntity {
     @Column(name = "review", length = 1000, nullable = false)
     private String review;
 
-    @Column(name = "rating", nullable = false)
-    private Integer rating;
+    @Column(name = "rate", nullable = false)
+    private Integer rate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
@@ -33,19 +33,19 @@ public class BookReview extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public BookReview(Book book, Member member, String review, Integer rating) {
+    public BookReview(Book book, Member member, String review, Integer rate) {
         this.book = book;
         this.member = member;
         this.review = review;
-        this.rating = rating;
+        this.rate = rate;
     }
 
-    public static BookReview createBookReview(Book book, Member member, String review, Integer rating) {
+    public static BookReview createBookReview(Book book, Member member, String review, Integer rate) {
         return BookReview.builder()
                 .book(book)
                 .member(member)
                 .review(review)
-                .rating(rating)
+                .rate(rate)
                 .build();
     }
 
@@ -53,7 +53,7 @@ public class BookReview extends BaseTimeEntity {
         this.review = review;
     }
 
-    public void updateRating(Integer rating) {
-        this.rating = rating;
+    public void updateRate(Integer rate) {
+        this.rate = rate;
     }
 }

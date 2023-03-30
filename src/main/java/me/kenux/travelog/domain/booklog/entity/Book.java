@@ -39,6 +39,9 @@ public class Book {
     @Column(name = "price")
     private Integer price;
 
+    @Column(name = "rate")
+    private Float rate;
+
     @Column(name = "thumbnail")
     private String thumbnail;
 

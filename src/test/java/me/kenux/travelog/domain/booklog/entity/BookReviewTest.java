@@ -19,8 +19,8 @@ class BookReviewTest {
         Member member = Mockito.mock(Member.class);
         Book book = Mockito.mock(Book.class);
         String review = "review content";
-        Integer rating = 5;
-        bookReview = BookReview.createBookReview(book, member, review, rating);
+        Integer rate = 5;
+        bookReview = BookReview.createBookReview(book, member, review, rate);
     }
 
     @Test
@@ -38,13 +38,13 @@ class BookReviewTest {
     @Test
     void updateRatingPoint() {
         // given
-        Integer rating = 10;
+        Integer rate = 10;
 
         // when
-        bookReview.updateRating(rating);
+        bookReview.updateRate(rate);
 
         // then
-        assertThat(bookReview.getRating()).isEqualTo(rating);
+        assertThat(bookReview.getRate()).isEqualTo(rate);
     }
 
 }
