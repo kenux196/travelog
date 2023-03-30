@@ -3,6 +3,8 @@ package me.kenux.travelog.domain.member.service;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.service.dto.response.MyInfo;
+import me.kenux.travelog.global.exception.CustomException;
+import me.kenux.travelog.global.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -58,5 +61,22 @@ class MyInfoServiceTest {
         // then
         assertThat(myName).isNotNull();
         assertThat(myName.name()).isEqualTo("user");
+    }
+
+    @Test
+    @DisplayName("로그인된 회원의 정보를 조회할 수 있다. - exception")
+    void getMyName_exception() {
+        // given
+        given(securityContext.getAuthentication()).willReturn(authentication);
+        given(SecurityContextHolder.getContext().getAuthentication().getName()).willReturn("user@test.com");
+        given(memberRepository.findByEmail(any())).willReturn(Optional.empty());
+
+        // when
+        final Throwable throwable = catchThrowable(() -> myInfoService.getMyName());
+
+        // then
+        assertThat(throwable)
+                .isInstanceOf(CustomException.class)
+                .hasMessage(ErrorCode.MEMBER_NOT_EXIST.getMessage());
     }
 }
