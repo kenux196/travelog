@@ -27,5 +27,5 @@ GET {{host}}/api/members/2
 Authorization: Bearer {{accessToken}}
 
 ### Get my simple info
-GET {{host}}/api/members/me?id=2
+GET {{host}}/api/members/me
 Authorization: Bearer {{accessToken}}
