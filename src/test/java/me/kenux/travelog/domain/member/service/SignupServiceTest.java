@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
@@ -56,14 +57,11 @@ class SignupServiceTest {
         request.setEmail("testUser1@email.com");
         request.setPassword("password");
         given(memberRepository.existsByEmail(any())).willReturn(false);
-        given(passwordEncoder.encode(any())).willReturn(any());
+        given(passwordEncoder.encode(any())).willReturn(anyString());
 
         // when
         signupService.signup(request);
 
-        // then
-//        verify(memberRepository, times(1)).save(any());
-//        verify(passwordRepository, times(1)).save(any());
         then(passwordEncoder).should(times(1)).encode(any());
         then(memberRepository).should(times(1)).save(any());
         then(passwordRepository).should(times(1)).save(any());

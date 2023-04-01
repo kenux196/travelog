@@ -1,6 +1,7 @@
 package me.kenux.travelog.web.admin;
 
 import me.kenux.travelog.domain.member.entity.Member;
+import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.domain.member.entity.enums.UserRole;
 import me.kenux.travelog.domain.member.service.MemberService;
 import me.kenux.travelog.domain.member.service.dto.response.MemberInfo;
@@ -62,6 +63,7 @@ class MemberManageControllerTest {
                     .name(name)
                     .email(email)
                     .userRole(i == 0 ? UserRole.ADMIN : UserRole.USER)
+                    .password(new UserPassword("password"))
                     .build();
             memberList.add(member);
         }
