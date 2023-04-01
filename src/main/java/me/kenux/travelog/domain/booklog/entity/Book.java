@@ -1,10 +1,8 @@
 package me.kenux.travelog.domain.booklog.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import me.kenux.travelog.domain.common.BaseTimeEntity;
 
 import java.time.LocalDate;
 
@@ -12,7 +10,7 @@ import java.time.LocalDate;
 @Table(name = "book")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Book {
+public class Book extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +44,8 @@ public class Book {
     private String thumbnail;
 
     @Builder
-    public Book(String title, String authors, String isbn, LocalDate publishedDate, String publisher) {
+    public Book(@NonNull String title, @NonNull String authors, @NonNull String isbn,
+                @NonNull LocalDate publishedDate, @NonNull String publisher) {
         this.title = title;
         this.authors = authors;
         this.isbn = isbn;

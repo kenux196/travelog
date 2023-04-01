@@ -72,6 +72,7 @@ class AuthServiceTest {
         LoginRequest mockLoginRequest = mock(LoginRequest.class);
         UserDetailsImpl mockUserDetails = mock(UserDetailsImpl.class);
         given(userDetailsService.loadUserByUsername(any())).willReturn(mockUserDetails);
+        given(mockUserDetails.getUsername()).willReturn("user1@test.com");
         given(passwordEncoder.matches(any(), any())).willReturn(true);
         given(jwtTokenIssuer.createAccessToken(any(), any())).willReturn("accessToken");
         given(jwtTokenIssuer.createRefreshToken(any(), any())).willReturn("refreshToken");

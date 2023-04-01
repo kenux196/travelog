@@ -1,10 +1,7 @@
 package me.kenux.travelog.domain.booklog.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.kenux.travelog.domain.common.BaseTimeEntity;
 import me.kenux.travelog.domain.member.entity.Member;
 
@@ -25,15 +22,15 @@ public class BookReview extends BaseTimeEntity {
     private Integer rate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @Builder
-    public BookReview(Book book, Member member, String review, Integer rate) {
+    public BookReview(@NonNull Book book, @NonNull Member member, @NonNull String review, @NonNull Integer rate) {
         this.book = book;
         this.member = member;
         this.review = review;

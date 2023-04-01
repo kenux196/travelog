@@ -1,6 +1,8 @@
 package me.kenux.travelog.domain.member.service;
 
 import me.kenux.travelog.domain.member.entity.Member;
+import me.kenux.travelog.domain.member.entity.UserPassword;
+import me.kenux.travelog.domain.member.entity.enums.UserRole;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.service.dto.response.MyInfo;
 import me.kenux.travelog.global.exception.CustomException;
@@ -50,6 +52,8 @@ class MyInfoServiceTest {
         final Member member = Member.builder()
                 .email("user@test.com")
                 .name("user")
+                .password(new UserPassword("password"))
+                .userRole(UserRole.USER)
                 .build();
         given(securityContext.getAuthentication()).willReturn(authentication);
         given(SecurityContextHolder.getContext().getAuthentication().getName()).willReturn("user@test.com");

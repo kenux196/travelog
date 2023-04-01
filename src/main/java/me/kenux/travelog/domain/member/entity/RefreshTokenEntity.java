@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
 @Table(name = "refresh_token")
@@ -15,17 +16,18 @@ public class RefreshTokenEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "token")
+    @Column(nullable = false)
     private String token;
 
+    @Column(nullable = false)
     private String email;
 
-    public RefreshTokenEntity(String token, String email) {
+    public RefreshTokenEntity(@NonNull String token, @NonNull String email) {
         this.token = token;
         this.email = email;
     }
 
-    public void updateToken(String token) {
+    public void updateToken(@NonNull String token) {
         this.token = token;
     }
 }

@@ -1,6 +1,8 @@
 package me.kenux.travelog.domain.booklog.entity;
 
 import me.kenux.travelog.domain.member.entity.Member;
+import me.kenux.travelog.domain.member.entity.UserPassword;
+import me.kenux.travelog.domain.member.entity.enums.UserRole;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -102,10 +104,21 @@ class BookLogTest {
     }
 
     private Member getTestMember() {
-        return Member.builder().name("user1").build();
+        return Member.builder()
+                .name("user1")
+                .email("user1@email.com")
+                .password(new UserPassword("password"))
+                .userRole(UserRole.USER)
+                .build();
     }
 
     private Book getTestBook() {
-        return Book.builder().title("book1").build();
+        return Book.builder()
+                .title("book1")
+                .authors("author1")
+                .publishedDate(LocalDate.of(2023, 1, 1))
+                .publisher("publisher1")
+                .isbn("isbn-1")
+                .build();
     }
 }
