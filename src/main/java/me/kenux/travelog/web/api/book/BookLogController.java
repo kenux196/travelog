@@ -1,4 +1,4 @@
-package me.kenux.travelog.web.api.booklog;
+package me.kenux.travelog.web.api.book;
 
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.domain.booklog.service.BookLogService;

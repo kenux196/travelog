@@ -5,13 +5,17 @@ import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.entity.BookReview;
 import me.kenux.travelog.domain.booklog.repository.BookRepository;
 import me.kenux.travelog.domain.booklog.repository.BookReviewRepository;
+import me.kenux.travelog.domain.booklog.service.dto.BookReviewResponse;
 import me.kenux.travelog.domain.booklog.service.dto.BookReviewSaveRequest;
+import me.kenux.travelog.domain.booklog.repository.dto.BookReviewSearchCond;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,17 @@ public class BookReviewService {
                 .createBookReview(book, member, request.getReviewContents(), request.getRate());
 
         bookReviewRepository.save(bookReview);
+    }
+
+    public List<BookReviewResponse> getBookReviews(BookReviewSearchCond cond) {
+        return null;
+//        return bookReviewRepository.findBySearchCond(cond);
+    }
+
+    public List<BookReviewResponse> getBookReviewWithMember(Long bookId) {
+        return bookReviewRepository.findReviewWithMemberBy(bookId).stream()
+                .map(BookReviewResponse::from)
+                .toList();
     }
 
     private Book getBook(Long bookId) {

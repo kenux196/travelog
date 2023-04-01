@@ -4,12 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.entity.BookLog;
+import me.kenux.travelog.domain.booklog.entity.BookReview;
 import me.kenux.travelog.domain.booklog.repository.BookLogRepository;
 import me.kenux.travelog.domain.booklog.repository.BookRepository;
+import me.kenux.travelog.domain.booklog.repository.BookReviewRepository;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
+import me.kenux.travelog.global.exception.CustomException;
+import me.kenux.travelog.global.exception.ErrorCode;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
@@ -19,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static me.kenux.travelog.global.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +37,7 @@ public class TestInitService implements ApplicationListener<ApplicationStartedEv
     private final PasswordEncoder passwordEncoder;
     private final BookRepository bookRepository;
     private final BookLogRepository bookLogRepository;
+    private final BookReviewRepository bookReviewRepository;
 
     @Override
     @Transactional
@@ -40,6 +47,7 @@ public class TestInitService implements ApplicationListener<ApplicationStartedEv
         insertMember();
         insertBook();
         insertBookLog();
+        insertBookReview();
     }
 
     private void insertAdmin() {
@@ -103,11 +111,29 @@ public class TestInitService implements ApplicationListener<ApplicationStartedEv
     }
 
     private void insertBookLog() {
-        memberRepository.findById(2L).ifPresent(member ->
-                bookRepository.findAll().forEach(book -> {
-                    final BookLog newLog = BookLog.createNewLog(book, member);
-                    bookLogRepository.save(newLog);
-        }));
+        final Member member = getMember();
+        bookRepository.findAll().forEach(book -> {
+            final BookLog newLog = BookLog.createNewLog(book, member);
+            bookLogRepository.save(newLog);
+        });
+    }
+
+    private void insertBookReview() {
+        final Member member = getMember();
+        final Book book = getBook();
+        final BookReview bookReview =
+                BookReview.createBookReview(book, member, "This book is best for me.", 10);
+        bookReviewRepository.save(bookReview);
+    }
+
+    private Member getMember() {
+        return memberRepository.findById(2L)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_EXIST));
+    }
+
+    private Book getBook() {
+        return bookRepository.findById(1L)
+                .orElseThrow(() -> new CustomException(BOOK_NOT_FOUND));
     }
 
     private String getEncodedPassword() {

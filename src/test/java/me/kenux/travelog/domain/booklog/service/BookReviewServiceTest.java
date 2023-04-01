@@ -1,8 +1,10 @@
 package me.kenux.travelog.domain.booklog.service;
 
 import me.kenux.travelog.domain.booklog.entity.Book;
+import me.kenux.travelog.domain.booklog.entity.BookReview;
 import me.kenux.travelog.domain.booklog.repository.BookRepository;
 import me.kenux.travelog.domain.booklog.repository.BookReviewRepository;
+import me.kenux.travelog.domain.booklog.service.dto.BookReviewResponse;
 import me.kenux.travelog.domain.booklog.service.dto.BookReviewSaveRequest;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
@@ -19,8 +21,12 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -75,4 +81,21 @@ class BookReviewServiceTest {
         then(bookReviewRepository).should(times(1)).save(any());
     }
 
+    @Test
+    @DisplayName("bookId로 리뷰를 조회하면, 작성자가 포함되어야 한다.")
+    void getBookReviewWithMember() {
+        // given
+        final BookReview mockBookReview = Mockito.mock(BookReview.class);
+        final Member mockMember = mock(Member.class);
+        given(bookReviewRepository.findReviewWithMemberBy(any())).willReturn(Collections.singletonList(mockBookReview));
+        given(mockBookReview.getMember()).willReturn(mockMember);
+        given(mockMember.getName()).willReturn("writer");
+
+        // when
+        final List<BookReviewResponse> response = bookReviewService.getBookReviewWithMember(any());
+
+        // then
+        assertThat(response).hasSize(1);
+        assertThat(response.get(0).getWriter()).isEqualTo("writer");
+    }
 }

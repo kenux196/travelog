@@ -1,4 +1,4 @@
-package me.kenux.travelog.web.api.booklog;
+package me.kenux.travelog.web.api.book;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.kenux.travelog.domain.booklog.service.BookManagementService;
