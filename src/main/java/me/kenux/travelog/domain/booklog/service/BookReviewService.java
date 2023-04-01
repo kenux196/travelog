@@ -40,7 +40,11 @@ public class BookReviewService {
 //        return bookReviewRepository.findBySearchCond(cond);
     }
 
-    
+    public List<BookReviewResponse> getBookReviewWithMember(Long bookId) {
+        return bookReviewRepository.findReviewWithMemberBy(bookId).stream()
+                .map(BookReviewResponse::from)
+                .toList();
+    }
 
     private Book getBook(Long bookId) {
         return bookRepository.findById(bookId)

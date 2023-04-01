@@ -1,0 +1,22 @@
+### member login
+POST {{host}}/api/auth/login
+Content-Type: Application/json
+
+{
+    "username": "{{username-user}}",
+    "password": "{{password-user}}"
+}
+
+> {%
+    client.global.set("accessToken", response.body.accessToken);
+    client.global.set("refreshToken", response.body.refreshToken);
+%}
+
+### 로그아웃
+POST {{host}}/api/auth/logout
+Content-Type: Application/json
+Authorization: Bearer {{accessToken}}
+
+### get book review for book
+GET {{host}}/api/book-review?bookId=1
+Authorization: Bearer {{accessToken}}
