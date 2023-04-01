@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 class BookTest {
 
@@ -16,7 +16,38 @@ class BookTest {
     private static final LocalDate publishedDate = LocalDate.of(2023, 1, 1);
 
     @Test
-    @DisplayName("북 객체 생성 static method")
+    void createNewBook_failed_titleIsNull() {
+        assertThatThrownBy(() -> Book.createNewBook(null, authors, isbn, publishedDate, publisher))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    void createNewBook_failed_authorIsNull() {
+        assertThatThrownBy(() -> Book.createNewBook(title, null, isbn, publishedDate, publisher))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    void createNewBook_failed_isbnIsNull() {
+        assertThatThrownBy(() -> Book.createNewBook(title, authors, null, publishedDate, publisher))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    void createNewBook_failed_publishDateIsNull() {
+        assertThatThrownBy(() -> Book.createNewBook(title, authors, isbn, null, publisher))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    void createNewBook_failed_publisherIsNull() {
+        assertThatThrownBy(() -> Book.createNewBook(title, authors, isbn, publishedDate, null))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+
+    @Test
+    @DisplayName("createNewBook - success")
     void createNewBook() {
         final Book newBook = createBook();
 
