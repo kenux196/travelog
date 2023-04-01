@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import me.kenux.travelog.domain.common.BaseTimeEntity;
 import me.kenux.travelog.domain.member.entity.Member;
 
 import java.time.LocalDate;
@@ -15,7 +17,7 @@ import static me.kenux.travelog.domain.booklog.entity.BookStatus.*;
 @Table(name = "book_log")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class BookLog {
+public class BookLog extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,14 +31,14 @@ public class BookLog {
     private LocalDate endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    public BookLog(Book book, Member member) {
+    public BookLog(@NonNull Book book, @NonNull Member member) {
         this.book = book;
         this.member = member;
     }

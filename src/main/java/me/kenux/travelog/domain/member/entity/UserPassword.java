@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.time.OffsetDateTime;
 
@@ -17,12 +18,13 @@ public class UserPassword {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String password;
 
     private OffsetDateTime lastChangedDate;
 
 
-    public UserPassword(String password) {
+    public UserPassword(@NonNull String password) {
         this.password = password;
         this.lastChangedDate = OffsetDateTime.now();
     }
@@ -31,4 +33,6 @@ public class UserPassword {
         this.password = password;
         lastChangedDate = OffsetDateTime.now();
     }
+
+    // TODO - Need password validate & policy  2023-04-01 sky
 }

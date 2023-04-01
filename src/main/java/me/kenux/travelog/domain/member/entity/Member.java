@@ -19,9 +19,10 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Enumerated(EnumType.STRING)
@@ -32,12 +33,12 @@ public class Member extends BaseTimeEntity {
 
     private OffsetDateTime lastAccessDate;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "password_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "password_id", nullable = false)
     private UserPassword userPassword;
 
     @Builder
-    public Member(String name, String email, UserPassword password, UserRole userRole) {
+    public Member(@NonNull String name, @NonNull String email, @NonNull UserPassword password, @NonNull UserRole userRole) {
         this.name = name;
         this.email = email;
         this.userPassword = password;
