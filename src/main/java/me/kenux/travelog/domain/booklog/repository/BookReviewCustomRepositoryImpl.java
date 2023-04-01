@@ -16,7 +16,7 @@ public class BookReviewCustomRepositoryImpl implements BookReviewCustomRepositor
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<BookReview> findReviewBy(BookReviewSearchCond cond) {
+    public List<BookReview> findReviewByCondition(BookReviewSearchCond cond) {
         return queryFactory
                 .select(bookReview)
                 .from(bookReview)

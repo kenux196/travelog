@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BookReviewCustomRepository {
 
-    List<BookReview> findReviewBy(BookReviewSearchCond cond);
+    List<BookReview> findReviewByCondition(BookReviewSearchCond cond);
 
     List<BookReview> findReviewWithMemberBy(Long bookId);
 }
