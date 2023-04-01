@@ -3,7 +3,7 @@ package me.kenux.travelog.domain.booklog.repository;
 import me.kenux.travelog.BaseRepositoryConfig;
 import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.entity.BookReview;
-import me.kenux.travelog.domain.booklog.service.dto.BookReviewSearchCond;
+import me.kenux.travelog.domain.booklog.repository.dto.BookReviewSearchCond;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.domain.member.repository.MemberRepository;

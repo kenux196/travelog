@@ -1,4 +1,4 @@
-package me.kenux.travelog.domain.booklog.service.dto;
+package me.kenux.travelog.domain.booklog.repository.dto;
 
 import lombok.Data;
 

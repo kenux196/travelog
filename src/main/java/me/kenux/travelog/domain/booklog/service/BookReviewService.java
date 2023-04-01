@@ -7,7 +7,7 @@ import me.kenux.travelog.domain.booklog.repository.BookRepository;
 import me.kenux.travelog.domain.booklog.repository.BookReviewRepository;
 import me.kenux.travelog.domain.booklog.service.dto.BookReviewResponse;
 import me.kenux.travelog.domain.booklog.service.dto.BookReviewSaveRequest;
-import me.kenux.travelog.domain.booklog.service.dto.BookReviewSearchCond;
+import me.kenux.travelog.domain.booklog.repository.dto.BookReviewSearchCond;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.global.exception.CustomException;
@@ -39,6 +39,8 @@ public class BookReviewService {
         return null;
 //        return bookReviewRepository.findBySearchCond(cond);
     }
+
+    
 
     private Book getBook(Long bookId) {
         return bookRepository.findById(bookId)

@@ -4,7 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.domain.booklog.entity.BookReview;
-import me.kenux.travelog.domain.booklog.service.dto.BookReviewSearchCond;
+import me.kenux.travelog.domain.booklog.repository.dto.BookReviewSearchCond;
 
 import java.util.List;
 
