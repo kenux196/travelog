@@ -1,5 +1,7 @@
 package me.kenux.travelog.domain.booklog.service.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import me.kenux.travelog.domain.booklog.entity.Book;
@@ -11,15 +13,29 @@ import java.time.OffsetDateTime;
 @Builder
 public class BookInfoDto {
     private Long id;
+
+    @NotBlank
     private String title;
+
+    @NotBlank
     private String authors;
-    private String contents;
+
+    @NotBlank
     private String isbn;
+
+    @NotBlank
     private String publisher;
-    private String status;
-    private String thumbnail;
-    private Integer price;
+
+    @NotNull
     private OffsetDateTime datetime;
+
+    private String contents;
+
+    private String status;
+
+    private String thumbnail;
+
+    private Integer price;
 
     public static Book toEntity(BookInfoDto bookInfo) {
         final Book book = Book.createNewBook(
