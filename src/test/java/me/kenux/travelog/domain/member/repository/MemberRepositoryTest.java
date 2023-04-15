@@ -18,9 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class MemberRepositoryTest extends BaseRepositoryConfig {
 
-    @PersistenceContext
+    @Autowired
     EntityManager em;
-
     @Autowired
     MemberRepository memberRepository;
     @Autowired
