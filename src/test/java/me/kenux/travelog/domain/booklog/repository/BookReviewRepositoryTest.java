@@ -8,13 +8,16 @@ import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
-import org.junit.jupiter.api.*;
+import me.kenux.travelog.global.exception.CustomException;
+import me.kenux.travelog.global.exception.ErrorCode;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,7 +25,6 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BookReviewRepositoryTest extends BaseRepositoryConfig {
 
     @Autowired
@@ -37,7 +39,10 @@ class BookReviewRepositoryTest extends BaseRepositoryConfig {
     private Member member;
     private Book book;
 
-    @BeforeAll
+    private static final String email = "member@email.com";
+    private static final String isbn = "isbn";
+
+    @BeforeEach
     void setup() {
         saveTestMemberData();
         saveTestBookData();
@@ -48,13 +53,13 @@ class BookReviewRepositoryTest extends BaseRepositoryConfig {
     private void saveTestMemberData() {
         final UserPassword password = new UserPassword("password");
         passwordRepository.save(password);
-        member = Member.createNewMember("member1", "member1@email.com", password);
+        member = Member.createNewMember("member1", email, password);
         memberRepository.save(member);
     }
 
     private void saveTestBookData() {
         LocalDate date = LocalDate.of(2023, 3, 30);
-        book = Book.createNewBook("title", "author", "isbn", date, "publisher");
+        book = Book.createNewBook("title", "author", isbn, date, "publisher");
         bookRepository.save(book);
     }
 
@@ -81,25 +86,36 @@ class BookReviewRepositoryTest extends BaseRepositoryConfig {
     @ParameterizedTest(name = "{index}: {2}")
     @MethodSource("provideBookReviewSearchCond")
     @DisplayName("find book review by search condition")
-    void findReviewByCondition(Long memberId, Long bookId, String message, int count) {
-        System.out.println("memberId = " + memberId + " bookId = " + bookId);
+    void findReviewByCondition(String email, String isbn, String message, int count) {
         // given
+        Long memberId = null;
+        Long bookId = null;
+        if (StringUtils.hasText(email)) {
+            member = memberRepository.findByEmail(email)
+                    .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_EXIST));
+            memberId = member.getId();
+        }
+        if (StringUtils.hasText(isbn)) {
+            final Book book = bookRepository.findBookByIsbn(isbn)
+                    .orElseThrow(() -> new CustomException(ErrorCode.BOOK_NOT_FOUND));
+            bookId = book.getId();
+        }
         final BookReviewSearchCond cond = new BookReviewSearchCond(memberId, bookId);
 
         // when
-        final List<BookReview> reviews = bookReviewRepository.findReviewByCondition(cond);
+        final List<BookReview> result = bookReviewRepository.findReviewByCondition(cond);
 
         // then
-        assertThat(reviews).hasSize(count);
+        assertThat(result).hasSize(count);
     }
 
     private static Stream<Arguments> provideBookReviewSearchCond() {
         System.out.println("provideBookReviewSearchCond() = ");
         return Stream.of(
                 Arguments.of(null, null, "no condition - find all", 1),
-                Arguments.of(1L, null, "find by memberId", 1),
-                Arguments.of(null, 1L, "find by bookId", 1),
-                Arguments.of(1L, 1L, "find by both(member, book)", 1)
+                Arguments.of(email, null, "find by memberId", 1),
+                Arguments.of(null, isbn, "find by bookId", 1),
+                Arguments.of(email, isbn, "find by both(member, book)", 1)
         );
     }
 
