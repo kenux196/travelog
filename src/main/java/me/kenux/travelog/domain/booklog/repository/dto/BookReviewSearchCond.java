@@ -6,4 +6,9 @@ import lombok.Data;
 public class BookReviewSearchCond {
     private Long memberId;
     private Long bookId;
+
+    public BookReviewSearchCond(Long memberId, Long bookId) {
+        this.memberId = memberId;
+        this.bookId = bookId;
+    }
 }
