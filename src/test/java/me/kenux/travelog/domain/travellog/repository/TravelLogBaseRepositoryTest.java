@@ -1,7 +1,7 @@
 package me.kenux.travelog.domain.travellog.repository;
 
 import jakarta.validation.ConstraintViolationException;
-import me.kenux.travelog.BaseRepositoryConfig;
+import me.kenux.travelog.RepositoryTestConfigure;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.domain.member.repository.PasswordRepository;
 import me.kenux.travelog.domain.travellog.entity.TravelLog;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
-class TravelLogBaseRepositoryTest extends BaseRepositoryConfig {
+class TravelLogBaseRepositoryTest extends RepositoryTestConfigure {
 
     @Autowired
     private TravelLogRepository travelLogRepository;

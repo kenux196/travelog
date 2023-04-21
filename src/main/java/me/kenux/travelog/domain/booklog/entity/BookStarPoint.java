@@ -1,10 +1,9 @@
-package me.kenux.travelog.domain.starpoint.entity;
+package me.kenux.travelog.domain.booklog.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.common.BaseTimeEntity;
 
 @Entity
@@ -17,15 +16,16 @@ public class BookStarPoint extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer point;
+    @Column(name = "star_point", nullable = false)
+    private Integer starPoint;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", insertable = false, updatable = false)
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    public BookStarPoint(Book book, int point) {
+    public BookStarPoint(Book book, int starPoint) {
         this.book = book;
-        this.point = point;
+        this.starPoint = starPoint;
     }
 
     public static BookStarPoint createStarPoint(Book book, int point) {

@@ -1,6 +1,5 @@
-package me.kenux.travelog.domain.starpoint.entity;
+package me.kenux.travelog.domain.booklog.entity;
 
-import me.kenux.travelog.domain.booklog.entity.Book;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
