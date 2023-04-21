@@ -10,7 +10,7 @@ import me.kenux.travelog.domain.common.BaseTimeEntity;
 @Table(name = "book_start_point")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class BookStarPoint extends BaseTimeEntity {
+public class BookStarPoint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
