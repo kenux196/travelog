@@ -55,6 +55,9 @@ dependencies {
     // 설정파일 암호화
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70', 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // time based uuid generator
+    implementation 'com.fasterxml.uuid:java-uuid-generator:4.1.0'
 }
 
 //Querydsl 추가, 자동 생성된 Q클래스 gradle clean으로 제거
