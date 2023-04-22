@@ -14,43 +14,21 @@ import java.time.OffsetDateTime;
 public class BookInfoDto {
     private Long id;
 
-    @NotBlank
     private String title;
 
-    @NotBlank
     private String authors;
 
-    @NotBlank
     private String isbn;
 
-    @NotBlank
     private String publisher;
 
-    @NotNull
     private OffsetDateTime datetime;
 
     private String contents;
 
-    private String status;
-
     private String thumbnail;
 
-    private Integer price;
-
-    public static Book toEntity(BookInfoDto bookInfo) {
-        final Book book = Book.createNewBook(
-                bookInfo.getTitle(), bookInfo.getAuthors(), bookInfo.getIsbn(),
-                bookInfo.getDatetime().toLocalDate(), bookInfo.getPublisher());
-
-        if (!StringUtils.hasText(bookInfo.getContents())) {
-            book.updateContents(bookInfo.getContents());
-        }
-
-        if (!StringUtils.hasText(book.getThumbnail())) {
-            book.updateThumbnail(bookInfo.getThumbnail());
-        }
-        return book;
-    }
+    private float rating;
 
     @Builder
     public record BasicInfo(Long id, String title, String authors, String publisher,

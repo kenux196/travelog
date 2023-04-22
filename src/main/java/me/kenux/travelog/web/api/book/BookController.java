@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.booklog.repository.dto.BookSearchCond;
 import me.kenux.travelog.domain.booklog.service.BookManagementService;
 import me.kenux.travelog.domain.booklog.service.BookSearchService;
-import me.kenux.travelog.domain.booklog.service.dto.RegisterBookRequest;
+import me.kenux.travelog.domain.booklog.service.dto.AddBookRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +28,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registerBooks(@RequestBody RegisterBookRequest request) {
+    public ResponseEntity<?> registerBooks(@RequestBody AddBookRequest request) {
         // 책 등록 처리
         log.info(request.toString());
         bookManagementService.addBook(request);

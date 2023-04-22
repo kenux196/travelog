@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class AddBookLogRequestWithBookInfo {
 
-    private BookInfoDto bookInfo;
+    private AddBookRequest.BookInfo bookInfo;
 }

@@ -2,7 +2,7 @@ package me.kenux.travelog.domain.booklog.service;
 
 import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.repository.BookRepository;
-import me.kenux.travelog.domain.booklog.service.dto.RegisterBookRequest;
+import me.kenux.travelog.domain.booklog.service.dto.AddBookRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ class BookManagementServiceTest {
     @DisplayName("책 정보를 등록한다. 정상 성공")
     void registerBook() {
         // given
-        RegisterBookRequest request = mock(RegisterBookRequest.class);
+        AddBookRequest request = mock(AddBookRequest.class);
         List<Book> existBooks = new ArrayList<>();
         given(bookRepository.findAllByIsbn(any())).willReturn(existBooks);
 
