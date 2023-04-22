@@ -1,0 +1,2 @@
+ALTER TABLE book ADD created_date TIMESTAMP NOT NULL;
+ALTER TABLE book ADD updated_date TIMESTAMP NOT NULL;

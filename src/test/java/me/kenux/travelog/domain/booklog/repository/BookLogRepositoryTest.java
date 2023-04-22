@@ -1,6 +1,6 @@
 package me.kenux.travelog.domain.booklog.repository;
 
-import me.kenux.travelog.BaseRepositoryConfig;
+import me.kenux.travelog.RepositoryTestConfigure;
 import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.entity.BookLog;
 import me.kenux.travelog.domain.booklog.entity.BookStatus;
@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BookLogRepositoryTest extends BaseRepositoryConfig {
+class BookLogRepositoryTest extends RepositoryTestConfigure {
 
     @Autowired
     PasswordRepository passwordRepository;

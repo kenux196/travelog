@@ -1,6 +1,6 @@
 package me.kenux.travelog.domain.booklog.repository;
 
-import me.kenux.travelog.BaseRepositoryConfig;
+import me.kenux.travelog.RepositoryTestConfigure;
 import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.repository.dto.BookSearchCond;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BookCustomRepositoryImplTest extends BaseRepositoryConfig {
+class BookCustomRepositoryImplTest extends RepositoryTestConfigure {
 
     private final String baseTitle = "test book";
     private final String author = "kim, lee, yun";

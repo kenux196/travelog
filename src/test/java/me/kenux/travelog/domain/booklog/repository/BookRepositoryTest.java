@@ -2,7 +2,7 @@ package me.kenux.travelog.domain.booklog.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import me.kenux.travelog.BaseRepositoryConfig;
+import me.kenux.travelog.RepositoryTestConfigure;
 import me.kenux.travelog.domain.booklog.entity.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BookRepositoryTest extends BaseRepositoryConfig {
+class BookRepositoryTest extends RepositoryTestConfigure {
 
     @PersistenceContext
     EntityManager em;

@@ -1,6 +1,6 @@
 package me.kenux.travelog.domain.travellog.repository;
 
-import me.kenux.travelog.BaseRepositoryConfig;
+import me.kenux.travelog.RepositoryTestConfigure;
 import me.kenux.travelog.domain.travellog.entity.TravelLog;
 import me.kenux.travelog.domain.travellog.entity.enums.TravelType;
 import me.kenux.travelog.domain.travellog.repository.dto.TravelLogSearchCond;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class TravelLogCommentRepositoryTest extends BaseRepositoryConfig {
+class TravelLogCommentRepositoryTest extends RepositoryTestConfigure {
 
     @Autowired
     TravelLogRepository travelLogRepository;

@@ -1,6 +1,6 @@
 package me.kenux.travelog.domain.booklog.repository;
 
-import me.kenux.travelog.BaseRepositoryConfig;
+import me.kenux.travelog.RepositoryTestConfigure;
 import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.entity.BookReview;
 import me.kenux.travelog.domain.booklog.repository.dto.BookReviewSearchCond;
@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BookReviewRepositoryTest extends BaseRepositoryConfig {
+class BookReviewRepositoryTest extends RepositoryTestConfigure {
 
     @Autowired
     private BookReviewRepository bookReviewRepository;
