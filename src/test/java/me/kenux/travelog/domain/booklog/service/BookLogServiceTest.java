@@ -4,10 +4,7 @@ import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.entity.BookLog;
 import me.kenux.travelog.domain.booklog.repository.BookLogRepository;
 import me.kenux.travelog.domain.booklog.repository.BookRepository;
-import me.kenux.travelog.domain.booklog.service.dto.AddBookLogRequest;
-import me.kenux.travelog.domain.booklog.service.dto.AddBookLogRequestWithBookInfo;
-import me.kenux.travelog.domain.booklog.service.dto.BookInfoDto;
-import me.kenux.travelog.domain.booklog.service.dto.BookLogResponse;
+import me.kenux.travelog.domain.booklog.service.dto.*;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.global.exception.CustomException;
@@ -19,13 +16,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,12 +54,12 @@ class BookLogServiceTest {
 
     @BeforeAll
     static void setupAll() {
-        authentication = Mockito.mock(Authentication.class);
+        authentication = mock(Authentication.class);
         securityContext = getMockSecurityContext();
 
     }
     private static SecurityContext getMockSecurityContext() {
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        SecurityContext securityContext = mock(SecurityContext.class);
         SecurityContextHolder.setContext(securityContext);
         return securityContext;
     }
@@ -142,8 +137,8 @@ class BookLogServiceTest {
     @DisplayName("책정보를 기준으로 새로운 북로그 생성 - 기존에 등록된 책이면 바로 북로그 생성 - 성공")
     void addBookLog_withBookInfo_success() {
         // given
-        AddBookLogRequestWithBookInfo request = Mockito.mock(AddBookLogRequestWithBookInfo.class);
-        BookInfoDto bookInfoDto = mock(BookInfoDto.class);
+        AddBookLogRequestWithBookInfo request = mock(AddBookLogRequestWithBookInfo.class);
+        AddBookRequest.BookInfo bookInfoDto = mock(AddBookRequest.BookInfo.class);
         given(request.getBookInfo()).willReturn(bookInfoDto);
         given(bookRepository.findBookByIsbn(any())).willReturn(Optional.of(mockBook));
         setStubMember();
@@ -159,15 +154,8 @@ class BookLogServiceTest {
     @DisplayName("책정보를 기준으로 새로운 북로그 생성 - 기존에 등록되지 않은 책은 새로 책 등록 후 북로그 생성 성공")
     void addBookLog_withBookInfo_notExistBook_success() {
         // given
-        AddBookLogRequestWithBookInfo request = Mockito.mock(AddBookLogRequestWithBookInfo.class);
-        BookInfoDto bookInfoDto = BookInfoDto.builder()
-                .title("title")
-                .publisher("publisher")
-                .authors("author")
-                .isbn("isbn")
-                .datetime(OffsetDateTime.now())
-                .build();
-        given(request.getBookInfo()).willReturn(bookInfoDto);
+        AddBookLogRequestWithBookInfo request = mock(AddBookLogRequestWithBookInfo.class);
+        given(request.getBookInfo()).willReturn(provideAddBookInfo());
         given(bookRepository.findBookByIsbn(any())).willReturn(Optional.empty());
         given(bookRepository.save(any())).willReturn(mockBook);
         setStubMember();
@@ -178,6 +166,16 @@ class BookLogServiceTest {
         // then
         then(bookRepository).should(times(1)).save(any());
         then(bookLogRepository).should(times(1)).save(any());
+    }
+
+    private AddBookRequest.BookInfo provideAddBookInfo() {
+        AddBookRequest.BookInfo bookInfo = new AddBookRequest.BookInfo();
+        bookInfo.setTitle("title");
+        bookInfo.setPublisher("publisher");
+        bookInfo.setIsbn("isbn");
+        bookInfo.setAuthors("authors");
+        bookInfo.setDatetime(OffsetDateTime.now());
+        return bookInfo;
     }
 
     private AddBookLogRequest getAddBookLogRequest() {

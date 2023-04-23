@@ -3,8 +3,8 @@ package me.kenux.travelog.domain.booklog.service;
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.repository.BookRepository;
+import me.kenux.travelog.domain.booklog.service.dto.AddBookRequest;
 import me.kenux.travelog.domain.booklog.service.dto.BookInfoDto;
-import me.kenux.travelog.domain.booklog.service.dto.RegisterBookRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,20 +18,20 @@ public class BookManagementService {
     private final BookRepository bookRepository;
 
     @Transactional
-    public void addBook(RegisterBookRequest request) {
-        final List<String> isbnList = request.getBookInfos().stream()
-                .map(BookInfoDto::getIsbn)
+    public void addBook(AddBookRequest request) {
+        final List<String> isbnList = request.getBooks().stream()
+                .map(AddBookRequest.BookInfo::getIsbn)
                 .toList();
 
         final List<Book> foundBooks = getBooksByIsbn(isbnList);
-        final List<Book> newBooks = request.getBookInfos().stream()
-                .filter(bookInfoDto -> !existBook(foundBooks, bookInfoDto))
-                .map(BookInfoDto::toEntity)
+        final List<Book> newBooks = request.getBooks().stream()
+                .filter(bookInfo -> !existBook(foundBooks, bookInfo))
+                .map(AddBookRequest.BookInfo::toEntity)
                 .toList();
         bookRepository.saveAll(newBooks);
     }
 
-    private static boolean existBook(List<Book> books, BookInfoDto bookInfo) {
+    private boolean existBook(List<Book> books, AddBookRequest.BookInfo bookInfo) {
         return books.stream()
                 .anyMatch(book -> book.isSameBook(bookInfo.getTitle(), bookInfo.getIsbn()));
     }

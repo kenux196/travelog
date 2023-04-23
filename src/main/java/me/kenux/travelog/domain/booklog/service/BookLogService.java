@@ -5,10 +5,7 @@ import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.entity.BookLog;
 import me.kenux.travelog.domain.booklog.repository.BookLogRepository;
 import me.kenux.travelog.domain.booklog.repository.BookRepository;
-import me.kenux.travelog.domain.booklog.service.dto.AddBookLogRequest;
-import me.kenux.travelog.domain.booklog.service.dto.AddBookLogRequestWithBookInfo;
-import me.kenux.travelog.domain.booklog.service.dto.BookInfoDto;
-import me.kenux.travelog.domain.booklog.service.dto.BookLogResponse;
+import me.kenux.travelog.domain.booklog.service.dto.*;
 import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
 import me.kenux.travelog.global.exception.CustomException;
@@ -77,8 +74,8 @@ public class BookLogService {
         return bookRepository.findBookByIsbn(isbn).orElse(null);
     }
 
-    private Book createNewBook(BookInfoDto bookInfoDto) {
-        final Book book = BookInfoDto.toEntity(bookInfoDto);
+    private Book createNewBook(AddBookRequest.BookInfo bookInfo) {
+        final Book book = AddBookRequest.BookInfo.toEntity(bookInfo);
         return bookRepository.save(book);
     }
 }
