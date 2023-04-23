@@ -27,7 +27,7 @@ public class BookRating {
         this.rating = rating;
     }
 
-    public static BookRating createStarPoint(Book book, int point) {
+    public static BookRating createBookRating(Book book, int point) {
         return new BookRating(book, point);
     }
 }

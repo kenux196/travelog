@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface BookRatingRepository extends JpaRepository<BookRating, Long> {
+public interface BookRatingRepository extends JpaRepository<BookRating, Long>, BookRatingCustomRepository {
 
     @Query(value = "select br from BookRating br where br.book.id = :bookId")
     List<BookRating> findByBookId(Long bookId);

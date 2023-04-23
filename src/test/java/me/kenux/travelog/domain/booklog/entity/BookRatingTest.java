@@ -17,7 +17,7 @@ class BookRatingTest {
         int point = 10;
 
         // when
-        BookRating bookRating = BookRating.createStarPoint(book, point);
+        BookRating bookRating = BookRating.createBookRating(book, point);
 
         // then
         assertThat(bookRating).isNotNull();
