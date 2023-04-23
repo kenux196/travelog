@@ -29,8 +29,6 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<?> registerBooks(@RequestBody AddBookRequest request) {
-        // 책 등록 처리
-        log.info(request.toString());
         bookManagementService.addBook(request);
         return ResponseEntity.noContent().build();
     }

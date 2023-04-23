@@ -1,41 +1,20 @@
 package me.kenux.travelog.domain.booklog.service.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import me.kenux.travelog.domain.booklog.entity.Book;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
+
 @Data
-@Builder
 public class BookInfoDto {
-    private Long id;
-
-    private String title;
-
-    private String authors;
-
-    private String isbn;
-
-    private String publisher;
-
-    private OffsetDateTime datetime;
-
-    private String contents;
-
-    private String thumbnail;
-
-    private float rating;
 
     @Builder
-    public record BasicInfo(Long id, String title, String authors, String publisher,
-                            LocalDate publishedDate, String thumbnail) {
+    public record Basic(Long id, String title, String authors, String publisher,
+                        LocalDate publishedDate, String thumbnail) {
 
-        public static BasicInfo from(Book book) {
-            return BasicInfo.builder()
+        public static Basic from(Book book) {
+            return Basic.builder()
                     .id(book.getId())
                     .title(book.getTitle())
                     .authors(book.getAuthors())
@@ -47,10 +26,10 @@ public class BookInfoDto {
     }
 
     @Builder
-    public record SimpleInfo(Long id, String title, String thumbnail) {
+    public record Simple(Long id, String title, String thumbnail) {
 
-        public static SimpleInfo from(Book book) {
-            return SimpleInfo.builder()
+        public static Simple from(Book book) {
+            return Simple.builder()
                     .id(book.getId())
                     .title(book.getTitle())
                     .thumbnail(book.getThumbnail())
@@ -58,4 +37,20 @@ public class BookInfoDto {
         }
     }
 
+    @Builder
+    public record WithRating(Long id, String title, String authors, String publisher,
+                            LocalDate publishedDate, String thumbnail, float rating) {
+
+        public static WithRating from(Book book, float rating) {
+            return WithRating.builder()
+                    .id(book.getId())
+                    .title(book.getTitle())
+                    .authors(book.getAuthors())
+                    .publisher(book.getPublisher())
+                    .publishedDate(book.getPublishedDate())
+                    .thumbnail(book.getThumbnail())
+                    .rating(rating)
+                    .build();
+        }
+    }
 }

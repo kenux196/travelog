@@ -51,7 +51,7 @@ class BookControllerTest {
     @WithMockUser(roles = "USER", username = "user@test.com")
     void getBooks_success() throws Exception {
         // given
-        List<BookInfoDto.BasicInfo> mockBookInfos = new ArrayList<>();
+        List<BookInfoDto.Basic> mockBookInfos = new ArrayList<>();
         given(bookSearchService.getBooks(any())).willReturn(mockBookInfos);
 
         mockMvc.perform(get("/api/books")

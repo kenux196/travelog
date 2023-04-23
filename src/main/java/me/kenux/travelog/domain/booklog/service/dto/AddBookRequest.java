@@ -42,11 +42,11 @@ public class AddBookRequest {
                     request.getTitle(), request.getAuthors(), request.getIsbn(),
                     request.getDatetime().toLocalDate(), request.getPublisher());
 
-            if (!StringUtils.hasText(request.getContents())) {
+            if (StringUtils.hasText(request.getContents())) {
                 book.updateContents(request.getContents());
             }
 
-            if (!StringUtils.hasText(book.getThumbnail())) {
+            if (StringUtils.hasText(book.getThumbnail())) {
                 book.updateThumbnail(request.getThumbnail());
             }
             return book;

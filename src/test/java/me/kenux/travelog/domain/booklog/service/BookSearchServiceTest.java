@@ -33,13 +33,13 @@ class BookSearchServiceTest {
         // given
         final Book book = Book.createNewBook("test", "author", "123", LocalDate.now(), "publisher");
         given(bookRepository.findBooksByCondition(any())).willReturn(Collections.singletonList(book));
-        final BookInfoDto.BasicInfo basicInfo = BookInfoDto.BasicInfo.from(book);
+        final BookInfoDto.Basic basic = BookInfoDto.Basic.from(book);
 
         // when
-        final List<BookInfoDto.BasicInfo> basicInfoList = bookSearchService.getBooks(any());
+        final List<BookInfoDto.Basic> basicList = bookSearchService.getBooks(any());
 
         // then
-        assertThat(basicInfoList).hasSize(1).contains(basicInfo);
+        assertThat(basicList).hasSize(1).contains(basic);
     }
 
 }
