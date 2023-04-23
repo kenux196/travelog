@@ -14,7 +14,7 @@ import java.util.List;
 public class BookSearchService {
 
     private final BookRepository bookRepository;
-    private final BookRatingRepository pointRepository;
+    private final BookRatingRepository bookRatingRepository;
 
     public List<BookInfoDto.Basic> getBooks(BookSearchCond cond) {
         return bookRepository.findBooksByCondition(cond).stream()

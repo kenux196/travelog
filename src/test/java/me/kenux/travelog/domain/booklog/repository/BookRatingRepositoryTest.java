@@ -21,7 +21,7 @@ class BookRatingRepositoryTest extends RepositoryTestConfigure {
     @Autowired
     EntityManager em;
     @Autowired
-    BookRatingRepository pointRepository;
+    BookRatingRepository bookRatingRepository;
 
     private Book book;
 
@@ -34,7 +34,7 @@ class BookRatingRepositoryTest extends RepositoryTestConfigure {
     @Test
     void findStarPointByBookId() {
         // when
-        List<BookRating> foundPoint = pointRepository.findByBookId(book.getId());
+        List<BookRating> foundPoint = bookRatingRepository.findByBookId(book.getId());
 
         // then
         assertThat(foundPoint).hasSize(5);
@@ -42,7 +42,7 @@ class BookRatingRepositoryTest extends RepositoryTestConfigure {
 
     @Test
     void getAverageBookRating() {
-        final Double avgRating = pointRepository.getBookRating(book.getId());
+        final Double avgRating = bookRatingRepository.getBookRating(book.getId());
 
         int sumRating = 0;
         for (int rating : RATINGS) {
