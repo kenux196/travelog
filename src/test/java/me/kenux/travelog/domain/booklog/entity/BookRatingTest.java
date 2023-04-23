@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BookStarPointTest {
+class BookRatingTest {
 
     @Test
     void createTest() {
@@ -17,9 +17,9 @@ class BookStarPointTest {
         int point = 10;
 
         // when
-        BookStarPoint bookStarPoint = BookStarPoint.createStarPoint(book, point);
+        BookRating bookRating = BookRating.createStarPoint(book, point);
 
         // then
-        assertThat(bookStarPoint).isNotNull();
+        assertThat(bookRating).isNotNull();
     }
 }

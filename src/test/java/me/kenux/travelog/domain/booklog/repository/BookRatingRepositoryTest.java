@@ -3,7 +3,7 @@ package me.kenux.travelog.domain.booklog.repository;
 import jakarta.persistence.EntityManager;
 import me.kenux.travelog.RepositoryTestConfigure;
 import me.kenux.travelog.domain.booklog.entity.Book;
-import me.kenux.travelog.domain.booklog.entity.BookStarPoint;
+import me.kenux.travelog.domain.booklog.entity.BookRating;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +13,12 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BookStartPointRepositoryTest extends RepositoryTestConfigure {
+class BookRatingRepositoryTest extends RepositoryTestConfigure {
 
     @Autowired
     EntityManager em;
     @Autowired
-    BookStartPointRepository pointRepository;
+    BookRatingRepository pointRepository;
 
     private List<Book> bookList;
 
@@ -34,12 +34,12 @@ class BookStartPointRepositoryTest extends RepositoryTestConfigure {
         // given
         int point = 10;
         Book book = bookList.get(0);
-        final BookStarPoint starPoint = BookStarPoint.createStarPoint(book, point);
+        final BookRating starPoint = BookRating.createStarPoint(book, point);
         pointRepository.save(starPoint);
         em.flush();
 
         // when
-        List<BookStarPoint> foundPoint = pointRepository.findByBookId(book.getId());
+        List<BookRating> foundPoint = pointRepository.findByBookId(book.getId());
 
         // then
         assertThat(foundPoint).isNotEmpty().contains(starPoint);
