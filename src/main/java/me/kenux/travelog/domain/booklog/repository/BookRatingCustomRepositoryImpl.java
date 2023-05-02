@@ -3,7 +3,7 @@ package me.kenux.travelog.domain.booklog.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import static me.kenux.travelog.domain.booklog.entity.QBookRating.bookRating;
+import static me.kenux.travelog.domain.booklog.entity.QBookRate.bookRate;
 
 @RequiredArgsConstructor
 public class BookRatingCustomRepositoryImpl implements BookRatingCustomRepository {
@@ -12,9 +12,9 @@ public class BookRatingCustomRepositoryImpl implements BookRatingCustomRepositor
 
     @Override
     public Double getBookRating(Long bookId) {
-        return queryFactory.select(bookRating.rating.avg())
-                .from(bookRating)
-                .where(bookRating.book.id.eq(bookId))
-                .fetchOne();
+        return queryFactory.select(bookRate.rate.avg())
+            .from(bookRate)
+            .where(bookRate.book.id.eq(bookId))
+            .fetchOne();
     }
 }
