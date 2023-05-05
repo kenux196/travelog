@@ -1,19 +1,18 @@
 package me.kenux.travelog.domain.booklog.repository;
 
+import jakarta.persistence.EntityManager;
 import me.kenux.travelog.RepositoryTestConfigure;
+import me.kenux.travelog.dataprovider.BookDataProvider;
+import me.kenux.travelog.dataprovider.MemberDataProvider;
 import me.kenux.travelog.domain.booklog.entity.Book;
 import me.kenux.travelog.domain.booklog.entity.BookLog;
 import me.kenux.travelog.domain.booklog.entity.BookStatus;
 import me.kenux.travelog.domain.booklog.repository.dto.BookLogSearchCond;
 import me.kenux.travelog.domain.member.entity.Member;
-import me.kenux.travelog.domain.member.entity.UserPassword;
-import me.kenux.travelog.domain.member.repository.MemberRepository;
-import me.kenux.travelog.domain.member.repository.PasswordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,11 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BookLogRepositoryTest extends RepositoryTestConfigure {
 
     @Autowired
-    PasswordRepository passwordRepository;
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    BookRepository bookRepository;
+    EntityManager em;
     @Autowired
     BookLogRepository bookLogRepository;
 
@@ -35,14 +30,10 @@ class BookLogRepositoryTest extends RepositoryTestConfigure {
 
     @BeforeEach
     void setup() {
-        final UserPassword password = new UserPassword("1");
-        passwordRepository.save(password);
-        member = Member.createNewMember("member1", "member1@test.com", password);
-        memberRepository.save(member);
-        LocalDate publishDate = LocalDate.of(2023, 1, 1);
-        book = Book.createNewBook("book1", "author1", "isbn", publishDate, "publisher");
-        bookRepository.save(book);
-
+        BookDataProvider bookDataProvider = new BookDataProvider(em);
+        book = bookDataProvider.provideBookData();
+        MemberDataProvider memberDataProvider = new MemberDataProvider(em);
+        member = memberDataProvider.provideMemberData();
         bookLog = BookLog.createNewLog(book, member);
         bookLogRepository.save(bookLog);
     }
