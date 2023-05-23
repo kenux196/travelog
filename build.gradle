@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.0.6'
+    id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.0'
     id "org.flywaydb.flyway" version "8.0.1" // TODO - flyway 버전 업데이트 필요. 2023-01-19 sky
     id 'jacoco'
@@ -35,10 +35,6 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.mockito:mockito-inline'
-
-    // thymeleaf
-//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     // Querydsl for spring boot 3.0
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
@@ -56,6 +52,9 @@ dependencies {
     // 설정파일 암호화
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70', 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // time based uuid generator
+    implementation 'com.fasterxml.uuid:java-uuid-generator:4.1.0'
 }
 
 //Querydsl 추가, 자동 생성된 Q클래스 gradle clean으로 제거

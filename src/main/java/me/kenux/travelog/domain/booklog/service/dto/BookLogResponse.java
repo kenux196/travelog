@@ -15,7 +15,7 @@ public class BookLogResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private BookStatus bookStatus;
-    private BookInfoDto.SimpleInfo bookInfo;
+    private BookInfoDto.Simple bookInfo;
 
     public static BookLogResponse from(BookLog bookLog) {
         return BookLogResponse.builder()
@@ -23,7 +23,7 @@ public class BookLogResponse {
                 .bookStatus(bookLog.getBookStatus())
                 .startDate(bookLog.getStartDate())
                 .endDate(bookLog.getEndDate())
-                .bookInfo(BookInfoDto.SimpleInfo.from(bookLog.getBook()))
+                .bookInfo(BookInfoDto.Simple.from(bookLog.getBook()))
                 .build();
     }
 }

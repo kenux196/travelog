@@ -3,8 +3,8 @@ package me.kenux.travelog.web.api.book;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.kenux.travelog.domain.booklog.service.BookManagementService;
 import me.kenux.travelog.domain.booklog.service.BookSearchService;
+import me.kenux.travelog.domain.booklog.service.dto.AddBookRequest;
 import me.kenux.travelog.domain.booklog.service.dto.BookInfoDto;
-import me.kenux.travelog.domain.booklog.service.dto.RegisterBookRequest;
 import me.kenux.travelog.global.security.jwt.JwtTokenIssuer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,7 +51,7 @@ class BookControllerTest {
     @WithMockUser(roles = "USER", username = "user@test.com")
     void getBooks_success() throws Exception {
         // given
-        List<BookInfoDto.BasicInfo> mockBookInfos = new ArrayList<>();
+        List<BookInfoDto.Basic> mockBookInfos = new ArrayList<>();
         given(bookSearchService.getBooks(any())).willReturn(mockBookInfos);
 
         mockMvc.perform(get("/api/books")
@@ -66,7 +66,7 @@ class BookControllerTest {
     @WithMockUser(roles = "USER", username = "user@test.com")
     void registerBook() throws Exception {
         // given
-        RegisterBookRequest request = Mockito.mock(RegisterBookRequest.class);
+        AddBookRequest request = Mockito.mock(AddBookRequest.class);
 
         ObjectMapper objectMapper = new ObjectMapper();
         final String content = objectMapper.writeValueAsString(request);

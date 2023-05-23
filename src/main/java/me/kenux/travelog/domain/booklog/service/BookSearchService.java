@@ -2,6 +2,7 @@ package me.kenux.travelog.domain.booklog.service;
 
 import lombok.RequiredArgsConstructor;
 import me.kenux.travelog.domain.booklog.repository.BookRepository;
+import me.kenux.travelog.domain.booklog.repository.BookRatingRepository;
 import me.kenux.travelog.domain.booklog.repository.dto.BookSearchCond;
 import me.kenux.travelog.domain.booklog.service.dto.BookInfoDto;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,11 @@ import java.util.List;
 public class BookSearchService {
 
     private final BookRepository bookRepository;
+    private final BookRatingRepository bookRatingRepository;
 
-
-    public List<BookInfoDto.BasicInfo> getBooks(BookSearchCond cond) {
+    public List<BookInfoDto.Basic> getBooks(BookSearchCond cond) {
         return bookRepository.findBooksByCondition(cond).stream()
-                .map(BookInfoDto.BasicInfo::from)
+                .map(BookInfoDto.Basic::from)
                 .toList();
     }
 }
