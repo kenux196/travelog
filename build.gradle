@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.0.6'
+    id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.0'
     id "org.flywaydb.flyway" version "8.0.1" // TODO - flyway 버전 업데이트 필요. 2023-01-19 sky
     id 'jacoco'
@@ -34,10 +34,6 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.mockito:mockito-inline'
-
-    // thymeleaf
-//    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     // Querydsl for spring boot 3.0
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
