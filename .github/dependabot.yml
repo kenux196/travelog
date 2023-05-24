@@ -13,5 +13,4 @@ updates:
       time: "22:30"
       timezone: "Asia/Seoul"
     labels:
-      "gradle"
-      "dependencies"
+      - "gradle dependencies"
