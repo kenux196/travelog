@@ -26,7 +26,7 @@ class BookRateRepositoryTest extends RepositoryTestConfigure {
 
     private Book book;
     private Member member;
-    private static final List<Integer> BOOK_RATES = Arrays.asList(1, 2, 3, 4, 5);
+    private static final List<Short> BOOK_RATES = Arrays.asList((short) 1, (short) 2, (short) 3, (short) 4, (short)5);
 
     @BeforeEach
     void setup() {
@@ -39,7 +39,7 @@ class BookRateRepositoryTest extends RepositoryTestConfigure {
 
     @Test
     void saveBookRate() {
-        final BookRate rate = BookRate.createBookRate(book, member, 1);
+        final BookRate rate = BookRate.createBookRate(book, member, (short) 1);
 
         Throwable throwable = catchThrowable(() -> bookRatingRepository.save(rate));
 
