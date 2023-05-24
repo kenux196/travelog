@@ -10,7 +10,7 @@ updates:
     schedule:
       interval: "weekly"
       day: "wednesday"
-      time: "22:30"
+      time: "23:00"
       timezone: "Asia/Seoul"
     labels:
       - "gradle dependencies"
