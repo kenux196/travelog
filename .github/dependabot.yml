@@ -12,4 +12,6 @@ updates:
       day: "wednesday"
       time: "22:30"
       timezone: "Asia/Seoul"
-    labels: "gradle" "dependencies"
+    labels:
+      "gradle"
+      "dependencies"
