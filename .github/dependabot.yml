@@ -14,3 +14,8 @@ updates:
       timezone: "Asia/Seoul"
     labels:
       - "gradle dependencies"
+    reviewers:
+      - "kenux196"
+    assignees:
+      - "octocat"
+    
