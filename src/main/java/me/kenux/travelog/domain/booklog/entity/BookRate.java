@@ -18,7 +18,7 @@ public class BookRate extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "rate", nullable = false)
-    private Integer rate;
+    private Short rate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
@@ -28,13 +28,13 @@ public class BookRate extends BaseTimeEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    public BookRate(Book book, Member member, int rate) {
+    public BookRate(Book book, Member member, short rate) {
         this.book = book;
         this.member = member;
         this.rate = rate;
     }
 
-    public static BookRate createBookRate(Book book, Member member, int point) {
+    public static BookRate createBookRate(Book book, Member member, short point) {
         return new BookRate(book, member, point);
     }
 }

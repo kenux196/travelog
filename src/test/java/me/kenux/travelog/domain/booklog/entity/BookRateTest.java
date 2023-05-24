@@ -26,7 +26,7 @@ class BookRateTest {
         int point = 10;
 
         // when
-        BookRate bookRate = BookRate.createBookRate(book, member, point);
+        BookRate bookRate = BookRate.createBookRate(book, member, (short) point);
 
         // then
         assertThat(bookRate.getBook()).isEqualTo(book);
