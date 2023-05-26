@@ -46,38 +46,38 @@ public class SecurityConfig {
     @Profile("!local")
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-            .requestMatchers("/assets/**")
-            .requestMatchers("/index.html");
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .requestMatchers("/assets/**")
+                .requestMatchers("/index.html");
     }
 
     @Bean
     @Profile("local")
     public WebSecurityCustomizer webSecurityCustomizerLocal() {
         return web -> web.ignoring()
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-            .requestMatchers("/assets/**")
-            .requestMatchers("/index.html")
-            .requestMatchers(toH2Console());
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .requestMatchers("/assets/**")
+                .requestMatchers("/index.html")
+                .requestMatchers(toH2Console());
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(request -> request
-                .requestMatchers("/", "/api/signup", "/api/auth/login", "/api/auth/refreshToken").permitAll()
-                .requestMatchers("/api/auth/logout").authenticated()
-                .requestMatchers("/api/members/me").authenticated()
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/books").permitAll()
-                .requestMatchers("/api/**").hasRole("USER")
-                .anyRequest().permitAll())
-            .formLogin(AbstractHttpConfigurer::disable)
-            .httpBasic(AbstractHttpConfigurer::disable)
-            .csrf(AbstractHttpConfigurer::disable)
-            .exceptionHandling(config -> config.authenticationEntryPoint(unauthorizedHandler)
-                .accessDeniedHandler(jwtAccessDeniedHandler))
-            .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/", "/api/signup", "/api/auth/login", "/api/auth/refreshToken").permitAll()
+                        .requestMatchers("/api/auth/logout").authenticated()
+                        .requestMatchers("/api/members/me").authenticated()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/books").permitAll()
+                        .requestMatchers("/api/**").hasRole("USER")
+                        .anyRequest().permitAll())
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(config -> config.authenticationEntryPoint(unauthorizedHandler)
+                        .accessDeniedHandler(jwtAccessDeniedHandler))
+                .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.apply(new JwtSecurityConfig(authenticationManagerBuilder.getOrBuild()));
 //            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
