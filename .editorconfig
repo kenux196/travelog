@@ -9,5 +9,8 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 max_line_length = 120
 
+[*.java]
+ij_java_continuation_indent_size = 8
+
 [*.{js,py,md,html,css,vue,yml,yaml}]
 indent_size = 2
