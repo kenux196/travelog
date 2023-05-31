@@ -1,8 +1,14 @@
+buildscript {
+    dependencies {
+        classpath 'org.flywaydb:flyway-mysql:9.19.1'
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.0'
-    id "org.flywaydb.flyway" version "8.0.1" // TODO - flyway 버전 업데이트 필요. 2023-01-19 sky
+    id "org.flywaydb.flyway" version "9.19.1"
     id 'jacoco'
 }
 
@@ -43,7 +49,8 @@ dependencies {
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
     // flyway db migration
-    implementation 'org.flywaydb:flyway-core'
+//    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-mysql'
 
     // jwt : https://github.com/jwtk/jjwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
