@@ -1,10 +1,7 @@
 package me.kenux.travelog.domain.member.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 
@@ -12,6 +9,7 @@ import java.time.OffsetDateTime;
 @Table(name = "password")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString
 public class UserPassword {
 
     @Id
