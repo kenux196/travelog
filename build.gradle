@@ -1,6 +1,6 @@
 buildscript {
     dependencies {
-        classpath 'org.flywaydb:flyway-mysql:9.19.4'
+        classpath 'org.flywaydb:flyway-mysql:9.20.1'
     }
 }
 
