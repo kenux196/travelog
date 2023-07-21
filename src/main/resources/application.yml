@@ -4,5 +4,4 @@ spring:
       "local": "common, log, actuator"
       "dev": "common, log"
       "prd": "common"
-      "test": "test"
     default: local
