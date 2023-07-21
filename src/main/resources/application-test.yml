@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url:  jdbc:h2:mem:testdb;DATABASE_TO_LOWER=TRUE;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    hikari:
+      minimum-idle: 10  # default 10
+      maximum-pool-size: 10  # default 10
+      idle-timeout: 600000  # default 600000(10분)
+      max-lifetime: 1800000 # default 1800000(30분)
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+#    generate-ddl: false
+#      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  flyway:
+    enabled: false
