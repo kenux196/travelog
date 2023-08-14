@@ -29,8 +29,8 @@ public class MemberService {
     public void removeMember(Long memberId) {
         log.info("Remove Member: {}", memberId);
         final Member member = getMember(memberId);
+        passwordRepository.deleteByMember(member);
         memberRepository.delete(member);
-        passwordRepository.delete(member.getUserPassword());
     }
 
     public List<MemberInfo.DetailResponse> getMembers(MemberSearchCond cond) {

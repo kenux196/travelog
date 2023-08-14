@@ -42,7 +42,6 @@ public class JavaFakerTest {
             final Member member = Member.builder()
                     .name(faker.name().name())
                     .email(faker.internet().safeEmailAddress(emailLocalPart))
-                    .password(new UserPassword(faker.internet().password()))
                     .userRole(UserRole.USER)
                     .build();
             members.add(member);

@@ -27,9 +27,7 @@ class MemberRepositoryTest extends RepositoryTestConfigure {
     @Test
     void save() {
         // given
-        final UserPassword password = new UserPassword("password");
-        passwordRepository.save(password);
-        final Member newMember = Member.createNewMember("member1", "member1@email.com", password);
+        final Member newMember = Member.createNewMember("member1", "member1@email.com");
 
         // when
         memberRepository.save(newMember);
@@ -46,9 +44,7 @@ class MemberRepositoryTest extends RepositoryTestConfigure {
         // given
         String email = "member1@email.com";
         String name = "member1";
-        final UserPassword password = new UserPassword("password");
-        passwordRepository.save(password);
-        final Member newMember = Member.createNewMember(name, email, password);
+        final Member newMember = Member.createNewMember(name, email);
         memberRepository.save(newMember);
 
         // when
@@ -66,9 +62,7 @@ class MemberRepositoryTest extends RepositoryTestConfigure {
         // given
         String email = "member1@email.com";
         String name = "member1";
-        final UserPassword password = new UserPassword("password");
-        passwordRepository.save(password);
-        final Member newMember = Member.createNewMember(name, email, password);
+        final Member newMember = Member.createNewMember(name, email);
         memberRepository.save(newMember);
 
         // when
@@ -86,9 +80,7 @@ class MemberRepositoryTest extends RepositoryTestConfigure {
         // given
         String email = "member1@email.com";
         String name = "member1";
-        final UserPassword password = new UserPassword("password");
-        passwordRepository.save(password);
-        final Member newMember = Member.createNewMember(name, email, password);
+        final Member newMember = Member.createNewMember(name, email);
         newMember.doBlock();
         memberRepository.save(newMember);
 
@@ -104,9 +96,7 @@ class MemberRepositoryTest extends RepositoryTestConfigure {
     @Test
     void existByEmail() {
         // given
-        final UserPassword password = new UserPassword("password");
-        passwordRepository.save(password);
-        final Member newMember = Member.createNewMember("member1", "member1@email.com", password);
+        final Member newMember = Member.createNewMember("member1", "member1@email.com");
         memberRepository.save(newMember);
         em.clear();
 

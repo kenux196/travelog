@@ -27,7 +27,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserDetailsImpl from(Member member) {
+    public static UserDetailsImpl from(Member member, String password) {
         Set<GrantedAuthority> roles = new HashSet<>();
         roles.add(new SimpleGrantedAuthority(member.getUserRole().getValue()));
 
@@ -35,7 +35,7 @@ public class UserDetailsImpl implements UserDetails {
             .id(member.getId())
             .username(member.getEmail())
             .email(member.getEmail())
-            .password(member.getPassword())
+            .password(password)
             .authorities(roles)
             .build();
     }

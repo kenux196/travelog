@@ -76,7 +76,7 @@ class MemberServiceTest {
 
         // then
         then(memberRepository).should(times(1)).delete(any());
-        then(passwordRepository).should(times(1)).delete(any());
+        then(passwordRepository).should(times(1)).deleteByMember(any());
     }
 
     @Test

@@ -4,6 +4,7 @@ import me.kenux.travelog.domain.member.entity.Member;
 import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.domain.member.entity.enums.UserRole;
 import me.kenux.travelog.domain.member.repository.MemberRepository;
+import me.kenux.travelog.domain.member.repository.PasswordRepository;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
 import org.junit.jupiter.api.DisplayName;
@@ -26,6 +27,8 @@ class UserDetailsServiceImplTest {
 
     @Mock
     MemberRepository memberRepository;
+    @Mock
+    PasswordRepository passwordRepository;
 
     @InjectMocks
     UserDetailsServiceImpl userDetailsService;
@@ -40,9 +43,9 @@ class UserDetailsServiceImplTest {
                 .email(username)
                 .name("member1")
                 .userRole(UserRole.USER)
-                .password(password)
                 .build();
         given(memberRepository.findByEmail(any())).willReturn(Optional.of(member));
+        given(passwordRepository.findByMember(any())).willReturn(Optional.of(password));
 
         // when
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);

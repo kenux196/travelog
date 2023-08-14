@@ -52,7 +52,6 @@ class MyInfoServiceTest {
         final Member member = Member.builder()
                 .email("user@test.com")
                 .name("user")
-                .password(new UserPassword("password"))
                 .userRole(UserRole.USER)
                 .build();
         given(securityContext.getAuthentication()).willReturn(authentication);

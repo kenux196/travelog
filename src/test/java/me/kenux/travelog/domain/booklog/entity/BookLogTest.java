@@ -107,7 +107,6 @@ class BookLogTest {
         return Member.builder()
                 .name("user1")
                 .email("user1@email.com")
-                .password(new UserPassword("password"))
                 .userRole(UserRole.USER)
                 .build();
     }
