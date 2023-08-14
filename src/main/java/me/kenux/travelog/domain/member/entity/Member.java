@@ -34,15 +34,10 @@ public class Member extends BaseTimeEntity {
 
     private OffsetDateTime lastAccessDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "password_id", nullable = false)
-    private UserPassword userPassword;
-
     @Builder
-    public Member(@NonNull String name, @NonNull String email, @NonNull UserPassword password, @NonNull UserRole userRole) {
+    public Member(@NonNull String name, @NonNull String email, @NonNull UserRole userRole) {
         this.name = name;
         this.email = email;
-        this.userPassword = password;
         this.userRole = userRole;
     }
 
@@ -54,15 +49,11 @@ public class Member extends BaseTimeEntity {
         this.lastAccessDate = OffsetDateTime.now();
     }
 
-    public static Member createNewMember(String name, String email, UserPassword password) {
-        return new Member(name, email, password, UserRole.USER);
+    public static Member createNewMember(String name, String email) {
+        return new Member(name, email, UserRole.USER);
     }
 
-    public static Member createAdmin(String name, String email, UserPassword password) {
-        return new Member(name, email, password, UserRole.ADMIN);
-    }
-
-    public String getPassword() {
-        return userPassword.getPassword();
+    public static Member createAdmin(String name, String email) {
+        return new Member(name, email, UserRole.ADMIN);
     }
 }

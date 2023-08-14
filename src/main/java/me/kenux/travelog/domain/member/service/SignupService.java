@@ -28,11 +28,11 @@ public class SignupService {
             throw new CustomException(ErrorCode.MEMBER_ALREADY_EXIST);
         }
 
-        final String encodedPassword = passwordEncoder.encode(request.getPassword());
-        final UserPassword password = new UserPassword(encodedPassword);
-        passwordRepository.save(password);
-
-        final Member newMember = Member.createNewMember(request.getName(), request.getEmail(), password);
+        final Member newMember = Member.createNewMember(request.getName(), request.getEmail());
         memberRepository.save(newMember);
+
+        final String encodedPassword = passwordEncoder.encode(request.getPassword());
+        final UserPassword password = new UserPassword(newMember, encodedPassword);
+        passwordRepository.save(password);
     }
 }

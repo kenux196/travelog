@@ -51,10 +51,11 @@ public class TestInitService implements ApplicationListener<ApplicationStartedEv
     }
 
     private void insertAdmin() {
-        UserPassword password = new UserPassword(getEncodedPassword());
-        final Member admin = Member.createAdmin("관리자", "admin@test.com", password);
-        passwordRepository.save(password);
+        final Member admin = Member.createAdmin("관리자", "admin@test.com");
         memberRepository.save(admin);
+
+        UserPassword password = new UserPassword(admin, getEncodedPassword());
+        passwordRepository.save(password);
     }
 
     private void insertMember() {
@@ -66,11 +67,11 @@ public class TestInitService implements ApplicationListener<ApplicationStartedEv
     }
 
     private void createMember(String username) {
-        UserPassword password = new UserPassword(getEncodedPassword());
-        passwordRepository.save(password);
         String email = username + "@test.com";
-        final Member admin = Member.createNewMember(username, email, password);
-        memberRepository.save(admin);
+        final Member newMember = Member.createNewMember(username, email);
+        memberRepository.save(newMember);
+        UserPassword password = new UserPassword(newMember, getEncodedPassword());
+        passwordRepository.save(password);
     }
 
     private void insertBook() {

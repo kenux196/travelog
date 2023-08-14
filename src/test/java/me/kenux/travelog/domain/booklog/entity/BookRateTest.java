@@ -20,7 +20,6 @@ class BookRateTest {
         final Member member = Member.builder()
             .name("member1")
             .email("member1@test.com")
-            .password(new UserPassword("password"))
             .userRole(UserRole.USER)
             .build();
         int point = 10;

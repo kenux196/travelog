@@ -63,7 +63,6 @@ class MemberManageControllerTest {
                     .name(name)
                     .email(email)
                     .userRole(i == 0 ? UserRole.ADMIN : UserRole.USER)
-                    .password(new UserPassword("password"))
                     .build();
             memberList.add(member);
         }

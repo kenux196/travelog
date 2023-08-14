@@ -1,6 +1,7 @@
 package me.kenux.travelog.domain.member.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.OffsetDateTime;
@@ -21,8 +22,17 @@ public class UserPassword {
 
     private OffsetDateTime lastChangedDate;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    public UserPassword(@NonNull String password) {
+    public UserPassword(String password) {
+        this.password = password;
+        this.lastChangedDate = OffsetDateTime.now();
+    }
+
+    public UserPassword(@NotNull Member member, @NotNull String password) {
+        this.member = member;
         this.password = password;
         this.lastChangedDate = OffsetDateTime.now();
     }

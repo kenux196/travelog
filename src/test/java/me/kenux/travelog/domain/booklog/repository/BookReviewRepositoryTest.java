@@ -51,9 +51,7 @@ class BookReviewRepositoryTest extends RepositoryTestConfigure {
     }
 
     private void saveTestMemberData() {
-        final UserPassword password = new UserPassword("password");
-        passwordRepository.save(password);
-        member = Member.createNewMember("member1", email, password);
+        member = Member.createNewMember("member1", email);
         memberRepository.save(member);
     }
 
