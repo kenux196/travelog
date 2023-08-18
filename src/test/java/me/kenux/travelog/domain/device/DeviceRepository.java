@@ -14,8 +14,8 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
     @Query(nativeQuery = true, value = "select d.* from device d")
     List<Device> findAllByNativeQuery();
 
-    @Query(nativeQuery = true, value = "select d.* from device d")
-    List<Device> findAllByNativeQuery(Sort sort);
+//    @Query(nativeQuery = true, value = "select d.* from device d")
+//    List<Device> findAllByNativeQuery(Sort sort);
 
     @Query(nativeQuery = true,
             value = "select * from device",
