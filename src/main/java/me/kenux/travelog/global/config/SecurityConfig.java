@@ -17,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -47,8 +48,8 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .requestMatchers("/assets/**")
-                .requestMatchers("/index.html");
+                .requestMatchers(new AntPathRequestMatcher("/assets/**"))
+                .requestMatchers(new AntPathRequestMatcher("/index.html"));
     }
 
     @Bean
@@ -56,8 +57,8 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizerLocal() {
         return web -> web.ignoring()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .requestMatchers("/assets/**")
-                .requestMatchers("/index.html")
+                .requestMatchers(new AntPathRequestMatcher("/assets/**"))
+                .requestMatchers(new AntPathRequestMatcher("/index.html"))
                 .requestMatchers(toH2Console());
     }
 
@@ -65,12 +66,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/", "/api/signup", "/api/auth/login", "/api/auth/refreshToken").permitAll()
-                        .requestMatchers("/api/auth/logout").authenticated()
-                        .requestMatchers("/api/members/me").authenticated()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/books").permitAll()
-                        .requestMatchers("/api/**").hasRole("USER")
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/"),
+                                new AntPathRequestMatcher("/api/signup"),
+                                new AntPathRequestMatcher("/api/auth/login"),
+                                new AntPathRequestMatcher("/api/auth/refreshToken")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/auth/logout")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/members/me")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/api/books")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/**")).hasRole("USER")
                         .anyRequest().permitAll())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
