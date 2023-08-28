@@ -70,10 +70,10 @@ class HelloRestControllerTest {
     @DisplayName("POST /hello 인증된 사용자 200 응답")
     @WithMockUser(roles = "ADMIN", username = "admin@test.com")
     void postHello() throws Exception {
-        mockMvc.perform(post("/hello")
+        mockMvc.perform(post("/hello/{name}", "kenux")
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(csrf())) // csrf 해결.
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }
