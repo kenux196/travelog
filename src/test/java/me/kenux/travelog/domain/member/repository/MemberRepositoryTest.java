@@ -106,4 +106,18 @@ class MemberRepositoryTest extends RepositoryTestConfigure {
         // then
         assertThat(result).isTrue();
     }
+
+    @Test
+    void updateMemberTest() {
+        // given
+        String email = "member1@email.com";
+        String name = "member1";
+        final Member newMember = Member.createNewMember(name, email);
+        newMember.doBlock();
+        memberRepository.save(newMember);
+
+        newMember.doBlock();
+        em.flush();
+        em.clear();
+    }
 }

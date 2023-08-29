@@ -3,7 +3,7 @@ package me.kenux.travelog.web.api;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kenux.travelog.domain.travellog.service.TravelLogService;
+import me.kenux.travelog.domain.travellog.service.TraveLogService;
 import me.kenux.travelog.domain.travellog.service.dto.request.TravelLogSaveRequest;
 import me.kenux.travelog.global.exception.CustomException;
 import me.kenux.travelog.global.exception.ErrorCode;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class TravelHistoryRestController {
 
-    private final TravelLogService travelLogService;
+    private final TraveLogService traveLogService;
 
     @PostMapping
     public ResponseEntity<?> createHistory(@Valid @RequestBody TravelLogSaveRequest request) {
-        travelLogService.saveTravelLog(request);
+        traveLogService.saveTravelLog(request);
         return ResponseEntity.ok().build();
     }
 

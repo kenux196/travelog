@@ -11,10 +11,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -39,6 +42,28 @@ class BookManagementServiceTest {
         bookManagementService.addBook(request);
 
         // then
-        BDDMockito.then(bookRepository).should(times(1)).saveAll(any());
+        then(bookRepository).should(times(1)).saveAll(any());
+    }
+
+    @Test
+    void filterExistBook() {
+        // given
+        Book existBook = mock(Book.class);
+        AddBookRequest.BookInfo requestBook = new AddBookRequest.BookInfo();
+        requestBook.setTitle("title");
+        requestBook.setIsbn("isbn");
+        requestBook.setAuthors("authors");
+        requestBook.setPublisher("publisher");
+        requestBook.setDatetime(OffsetDateTime.now());
+        AddBookRequest request = mock(AddBookRequest.class);
+        List<Book> foundBooks = Collections.singletonList(existBook);
+        given(bookRepository.findAllByIsbn(any())).willReturn(foundBooks);
+        given(request.getBooks()).willReturn(Collections.singletonList(requestBook));
+
+        // when
+        bookManagementService.addBook(request);
+
+        // then
+        then(bookRepository).should(times(1)).saveAll(any());
     }
 }

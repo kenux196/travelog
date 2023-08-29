@@ -19,7 +19,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
-class TravelLogServiceTest {
+class TraveLogServiceTest {
 
     @Mock
     MemberRepository memberRepository;
@@ -27,7 +27,7 @@ class TravelLogServiceTest {
     TravelLogRepository travelLogRepository;
 
     @InjectMocks
-    TravelLogService travelLogService;
+    TraveLogService traveLogService;
 
     @Test
     @DisplayName("익명 사용자의 글 등록은 예외가 발생해야 한다.")
@@ -37,7 +37,7 @@ class TravelLogServiceTest {
         given(memberRepository.existsById(any())).willReturn(false);
 
         // when then
-        assertThatThrownBy(() -> travelLogService.saveTravelLog(request))
+        assertThatThrownBy(() -> traveLogService.saveTravelLog(request))
             .isInstanceOf(CustomException.class)
             .hasMessage(ErrorCode.MEMBER_NOT_EXIST.getMessage());
     }
@@ -50,7 +50,7 @@ class TravelLogServiceTest {
         given(memberRepository.existsById(any())).willReturn(true);
 
         // when
-        travelLogService.saveTravelLog(request);
+        traveLogService.saveTravelLog(request);
 
         // then
         then(travelLogRepository).should().save(any());

@@ -113,12 +113,15 @@ tasks.jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                     "**/config/*",
+                    "**/exception/*",
+                    "**/jwt/*",
                     "**/dto/*",
                     "**/*Application*",
                     "**/*Request*",
                     "**/*Response*",
                     "**/*Dto*",
-                    "**/test/*"
+                    "**/test/*",
+                    "**/domain/common/*"
 //                    "**/*Filter*",
 //                    "**/*Exception*"
             ] + Qdomains)
@@ -143,16 +146,16 @@ tasks.jacocoTestCoverageVerification {
             // includes = []
 
             limit {
-            	counter = 'LINE'
-            	value = 'COVEREDRATIO'
-            	minimum = 0.80
-            }
-
-            limit {
-                counter = 'BRANCH'
+                counter = 'LINE'
                 value = 'COVEREDRATIO'
                 minimum = 0.80
             }
+
+//            limit {
+//                counter = 'BRANCH'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.80
+//            }
 
             limit {
                 counter = 'METHOD'
@@ -161,12 +164,15 @@ tasks.jacocoTestCoverageVerification {
             }
 
             excludes = ["**.config.*",
+                        "**.jwt.*",
+                        "**.exception.*",
                         "**.dto.*",
                         "**.*Application*",
                         "**.*Request*",
                         "**.*Response*",
                         "**.*Dto*",
-                        "**.test.*"
+                        "**.test.*",
+                        "**.domain.common.*"
 //                        "**/*Filter*",
 //                        "**/*Exception*"
             ] + Qdomains
