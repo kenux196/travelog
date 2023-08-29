@@ -1,6 +1,7 @@
 package me.kenux.travelog.domain.member.entity;
 
 import me.kenux.travelog.domain.member.entity.enums.MemberStatus;
+import me.kenux.travelog.domain.member.entity.enums.UserRole;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -20,6 +21,12 @@ class MemberTest {
 
         // when then
         assertThat(newMember.getStatus()).isEqualTo(MemberStatus.NORMAL);
+    }
+
+    @Test
+    void createAdminTest() {
+        final Member admin = Member.createAdmin("admin", "admin@test.com");
+        assertThat(admin.getUserRole()).isEqualTo(UserRole.ADMIN);
     }
 
     @Test

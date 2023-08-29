@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TravelLogService {
+public class TraveLogService {
 
     private final TravelLogRepository travelLogRepository;
     private final MemberRepository memberRepository;

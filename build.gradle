@@ -113,11 +113,15 @@ tasks.jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                     "**/config/*",
+                    "**/exception/*",
+                    "**/jwt/*",
                     "**/dto/*",
                     "**/*Application*",
                     "**/*Request*",
                     "**/*Response*",
-                    "**/*Dto*"
+                    "**/*Dto*",
+                    "**/test/*",
+                    "**/domain/common/*"
 //                    "**/*Filter*",
 //                    "**/*Exception*"
             ] + Qdomains)
@@ -141,25 +145,34 @@ tasks.jacocoTestCoverageVerification {
             element = 'CLASS'
             // includes = []
 
-//            limit {
-//            	counter = 'LINE'
-//            	value = 'COVEREDRATIO'
-//            	minimum = 0.10
-//            }
-//
-//            // 브랜치 커버리지 제한을 80%로 설정
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+
 //            limit {
 //                counter = 'BRANCH'
 //                value = 'COVEREDRATIO'
-//                minimum = 0.10
+//                minimum = 0.80
 //            }
 
-            excludes = ["**/config/*",
-                        "**/dto/*",
-                        "**/*Application*",
-                        "**/*Request*",
-                        "**/*Response*",
-                        "**/*Dto*"
+            limit {
+                counter = 'METHOD'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+
+            excludes = ["**.config.*",
+                        "**.jwt.*",
+                        "**.exception.*",
+                        "**.dto.*",
+                        "**.*Application*",
+                        "**.*Request*",
+                        "**.*Response*",
+                        "**.*Dto*",
+                        "**.test.*",
+                        "**.domain.common.*"
 //                        "**/*Filter*",
 //                        "**/*Exception*"
             ] + Qdomains

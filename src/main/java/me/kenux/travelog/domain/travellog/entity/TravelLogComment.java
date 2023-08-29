@@ -34,9 +34,4 @@ public class TravelLogComment {
     @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY)
     @Builder.Default
     private List<TravelLogComment> childComments = new ArrayList<>();
-
-    public void addCommentToHistory(TravelLog history) {
-        travelLog = history;
-        history.getComments().add(this);
-    }
 }
