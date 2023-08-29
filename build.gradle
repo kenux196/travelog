@@ -117,7 +117,8 @@ tasks.jacocoTestReport {
                     "**/*Application*",
                     "**/*Request*",
                     "**/*Response*",
-                    "**/*Dto*"
+                    "**/*Dto*",
+                    "**/test/*"
 //                    "**/*Filter*",
 //                    "**/*Exception*"
             ] + Qdomains)
@@ -141,25 +142,31 @@ tasks.jacocoTestCoverageVerification {
             element = 'CLASS'
             // includes = []
 
-//            limit {
-//            	counter = 'LINE'
-//            	value = 'COVEREDRATIO'
-//            	minimum = 0.10
-//            }
-//
-//            // 브랜치 커버리지 제한을 80%로 설정
-//            limit {
-//                counter = 'BRANCH'
-//                value = 'COVEREDRATIO'
-//                minimum = 0.10
-//            }
+            limit {
+            	counter = 'LINE'
+            	value = 'COVEREDRATIO'
+            	minimum = 0.80
+            }
 
-            excludes = ["**/config/*",
-                        "**/dto/*",
-                        "**/*Application*",
-                        "**/*Request*",
-                        "**/*Response*",
-                        "**/*Dto*"
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+
+            limit {
+                counter = 'METHOD'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+
+            excludes = ["**.config.*",
+                        "**.dto.*",
+                        "**.*Application*",
+                        "**.*Request*",
+                        "**.*Response*",
+                        "**.*Dto*",
+                        "**.test.*"
 //                        "**/*Filter*",
 //                        "**/*Exception*"
             ] + Qdomains
