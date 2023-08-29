@@ -1,12 +1,11 @@
-package me.kenux.travelog.domain.device;
+package me.kenux.travelog.zstudy.core;
 
 import jakarta.persistence.EntityManager;
 import me.kenux.travelog.RepositoryTestConfigure;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.time.OffsetDateTime;
@@ -55,7 +54,7 @@ class DeviceRepositoryTest extends RepositoryTestConfigure {
     @Test
     void findAllByJPA() {
         final List<Device> result = repository.findAll();
-        assertThat(result).hasSize(totalCount);
+        Assertions.assertThat(result).hasSize(totalCount);
     }
 
     @Test

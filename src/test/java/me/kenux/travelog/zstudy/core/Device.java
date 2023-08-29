@@ -1,4 +1,4 @@
-package me.kenux.travelog.domain.device;
+package me.kenux.travelog.zstudy.core;
 
 import jakarta.persistence.*;
 import lombok.*;

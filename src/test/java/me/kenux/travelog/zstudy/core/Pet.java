@@ -1,16 +1,15 @@
 package me.kenux.travelog.zstudy.core;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "pet")
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@ToString
 public class Pet {
 
     @Id
@@ -21,11 +20,12 @@ public class Pet {
     private String name;
 
     @Column(name = "pet_type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private PetType petType;
 
     private Integer age;
 
-    private OffsetDateTime visitTime;
+    private OffsetDateTime registrationDate;
 
     private OffsetDateTime reservedTime;
 
@@ -44,5 +44,13 @@ public class Pet {
 
     public void reserveVisit(OffsetDateTime reservedTime) {
         this.reservedTime = reservedTime;
+    }
+
+    @Builder
+    public Pet(String name, PetType petType, Integer age, OffsetDateTime registrationDate) {
+        this.name = name;
+        this.petType = petType;
+        this.age = age;
+        this.registrationDate = registrationDate;
     }
 }
