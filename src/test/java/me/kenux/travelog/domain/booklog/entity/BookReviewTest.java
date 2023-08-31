@@ -4,11 +4,10 @@ import me.kenux.travelog.domain.member.entity.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
 
 class BookReviewTest {
 
@@ -16,26 +15,31 @@ class BookReviewTest {
 
     @BeforeEach
     void setup() {
-        Member member = Mockito.mock(Member.class);
-        Book book = Mockito.mock(Book.class);
+        Member member = mock(Member.class);
+        Book book = mock(Book.class);
         String review = "review content";
         Integer rate = 5;
         bookReview = BookReview.createBookReview(book, member, review, rate);
     }
 
     @Test
-    @DisplayName("Book is null, create BookReview failed - NullPointException")
+    @DisplayName("If param contains null, then create BookReview failed - NPE")
     void createBookReview_exception() {
         // given
-        Member member = Mockito.mock(Member.class);
+        Book book = mock(Book.class);
+        Member member = mock(Member.class);
         String review = "review content";
         int rate = 5;
 
         // when
-        final Throwable throwable = catchThrowable(() -> BookReview.createBookReview(null, member, review, rate));
-
-        // then
-        assertThat(throwable).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> BookReview.createBookReview(null, member, review, rate))
+                .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> BookReview.createBookReview(book, null, review, rate))
+                .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> BookReview.createBookReview(book, member, null, rate))
+                .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> BookReview.createBookReview(book, member, review, null))
+                .isInstanceOf(NullPointerException.class);
     }
 
     @Test

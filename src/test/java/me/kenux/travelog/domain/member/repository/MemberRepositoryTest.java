@@ -94,6 +94,20 @@ class MemberRepositoryTest extends RepositoryTestConfigure {
     }
 
     @Test
+    @DisplayName("회원 조건 검색: 조건 미설정 전체 검색")
+    void findWithoutCondition() {
+        String email = "member1@email.com";
+        String name = "member1";
+        final Member newMember = Member.createNewMember(name, email);
+        newMember.doBlock();
+        memberRepository.save(newMember);
+
+        final List<Member> members = memberRepository.findMemberByCondition(null);
+
+        assertThat(members).hasSize(1);
+    }
+
+    @Test
     void existByEmail() {
         // given
         final Member newMember = Member.createNewMember("member1", "member1@email.com");

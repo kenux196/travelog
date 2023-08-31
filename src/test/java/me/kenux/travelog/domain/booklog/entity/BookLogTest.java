@@ -10,6 +10,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 class BookLogTest {
 
@@ -26,6 +27,26 @@ class BookLogTest {
         assertThat(bookLog.getBook().getTitle()).isEqualTo("book1");
         assertThat(bookLog.getMember().getName()).isEqualTo("user1");
         assertThat(bookLog.getBookStatus()).isEqualTo(BookStatus.NOT_STARTED);
+    }
+
+    @Test
+    void createBookLogTest_whenBookIsNull_thenNPE() {
+        final Member member = getTestMember();
+        final Book book = null;
+
+        final Throwable throwable = catchThrowable(() -> BookLog.createNewLog(book, member));
+
+        assertThat(throwable).isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    void createBookLogTest_whenMemberIsNull_thenNPE() {
+        final Member member = null;
+        final Book book = getTestBook();
+
+        final Throwable throwable = catchThrowable(() -> BookLog.createNewLog(book, member));
+
+        assertThat(throwable).isInstanceOf(NullPointerException.class);
     }
 
     @Test
