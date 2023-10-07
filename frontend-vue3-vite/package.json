@@ -17,7 +17,7 @@
     "dotenv": "^16.0.3",
     "pinia": "^2.0.28",
     "pinia-plugin-persist": "^1.0.0",
-    "postcss": "^8.4.21",
+    "postcss": "^8.4.31",
     "tailwindcss": "^3.2.7",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
