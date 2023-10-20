@@ -20,7 +20,7 @@ jobs:
   set-profile:
     name: "Set Profile"
     environment: Azure Deploy
-    runs-on: [code-linux]
+    runs-on: ubuntu-latest
     outputs:
       subscription-id: ${{ steps.set_profile.outputs.subsid }}
       branch: ${{ steps.set_profile.outputs.branch }}
