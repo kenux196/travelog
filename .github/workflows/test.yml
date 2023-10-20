@@ -1,0 +1,76 @@
+name: "[SKY] Action test"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "배포할 환경을 선택하세요."
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - stg
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  set-profile:
+    name: "Set Profile"
+    environment: Azure Deploy
+    runs-on: [code-linux]
+    outputs:
+      subscription-id: ${{ steps.set_profile.outputs.subsid }}
+      branch: ${{ steps.set_profile.outputs.branch }}
+      appservice: ${{ steps.set_profile.outputs.appservice }}
+    steps:
+      # Log into Azure
+      #- name: 'Az CLI login'
+      #  uses: azure/login@v1
+      #  with:
+      #    client-id: ${{ secrets.AZURE_CLIENT_ID }}
+      #    tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      #    allow-no-subscriptions: true
+
+      - name: Set Profile
+        id: set_profile
+        shell: bash
+        run: |-
+          set -ex
+          if [[ "${{ github.event.inputs.environment }}" == "dev" ]]; then
+            subsid=$( az account subscription list --query "[?displayName=='bIoTCloudDevelopment'].id" -o tsv | cut -d"/" -f3 )
+            rgname="biot-dev-krc-rg"
+            branch=${{ github.ref }}
+            project="biot"
+            region="krc"
+          elif [[ "${{ github.event.inputs.environment }}" == "stg" ]]; then
+            subsid=$( az account subscription list --query "[?displayName=='bIoTCloudStaging'].id" -o tsv | cut -d"/" -f3 )
+            rgname="biot-stg-krc-rg"
+            branch="staging"
+            project="biot"
+            region="krc"
+          elif [[ "${{ github.event.inputs.environment }}" == "prod" ]]; then
+            subsid=$( az account subscription list --query "[?displayName=='bIoTCloudProduction'].id" -o tsv | cut -d"/" -f3 )
+            rgname="biot-prod-krc-rg"
+            branch="master"
+            project="biot"
+            region="krc"
+          else
+            subsid=$( az account subscription list --query "[?displayName=='EHSCloudProduction'].id" -o tsv | cut -d"/" -f3 )
+            rgname="ehs-prod-weu-rg"
+            branch="master"
+            project="ehs"
+            region="weu"
+          fi
+
+          name="\<${{ github.event.repository.name }}\>"
+
+          appname_lower=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+          app_service_name="${project}-${{ github.event.inputs.environment }}-${region}-app-${appname_lower}"
+
+          echo ::set-output name=subsid::${subsid}
+          echo ::set-output name=resourceGroup::${rgname}
+          echo ::set-output name=branch::${branch}
+          echo ::set-output name=appservice::${app_service_name}
