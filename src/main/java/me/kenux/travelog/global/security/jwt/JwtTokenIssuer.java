@@ -99,9 +99,6 @@ public class JwtTokenIssuer {
         return Jwts.parser()
                 .verifyWith(getSigningKey(secretKey))
                 .build();
-//        return Jwts.parserBuilder()
-//            .setSigningKey(getSigningKey(secretKey))
-//            .build();
     }
 
     public String getUserNameFromJwtToken(String token) {
