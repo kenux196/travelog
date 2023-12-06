@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Collection;
@@ -39,31 +40,33 @@ class JwtAuthenticationProviderTest {
     }
 
     private String createToken(String username, List<String> roles, Date now, int expireMin, String secretKey) {
-        final Claims claims = Jwts.claims().setSubject(username);
-        claims.put(KEY_ROLES, roles);
+        final Claims claims = Jwts.claims()
+                .subject(username)
+                .add(KEY_ROLES, roles)
+                .build();
         return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + (long) ONE_MINUTE * expireMin))
-                .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
+                .claims(claims)
+                .issuedAt(now)
+                .expiration(new Date(now.getTime() + (long) ONE_MINUTE * expireMin))
+                .signWith(getSigningKey(secretKey), Jwts.SIG.HS512)
                 .compact();
     }
 
-    private Key getSigningKey(String secretKey) {
+    private SecretKey getSigningKey(String secretKey) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     @Test
     void givenNotSupportAuthentication_whenCallSupports_thenReturnFalse() {
-        assertThat(provider.supports(UsernamePasswordAuthenticationToken.class)).isEqualTo(false);
-        assertThat(provider.supports(AbstractAuthenticationToken.class)).isEqualTo(false);
-        assertThat(provider.supports(Authentication.class)).isEqualTo(false);
+        assertThat(provider.supports(UsernamePasswordAuthenticationToken.class)).isFalse();
+        assertThat(provider.supports(AbstractAuthenticationToken.class)).isFalse();
+        assertThat(provider.supports(Authentication.class)).isFalse();
     }
 
     @Test
     void givenSupportAuthentication_whenCallSupports_thenReturnTrue() {
-        assertThat(provider.supports(JwtAuthenticationToken.class)).isEqualTo(true);
+        assertThat(provider.supports(JwtAuthenticationToken.class)).isTrue();
     }
 
     @Test
