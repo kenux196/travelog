@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.*;
@@ -46,17 +47,18 @@ public class JwtTokenIssuer {
 
     private String createToken(String userName, String authority, int expireMin) {
         Date now = new Date();
-        Claims claims = Jwts.claims().setSubject(userName);
-        claims.put(KEY_ROLES, Collections.singleton(authority));
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(getExpiration(expireMin))
-                .signWith(getSigningKey(secretKey), SignatureAlgorithm.HS512)
+        Claims claims = Jwts.claims()
+                .subject(userName)
+                .add(KEY_ROLES, Collections.singleton(authority))
+                .build();
+        return Jwts.builder().claims(claims)
+                .issuedAt(now)
+                .expiration(getExpiration(expireMin))
+                .signWith(getSigningKey(secretKey), Jwts.SIG.HS512)
                 .compact();
     }
 
-    private Key getSigningKey(String secretKey) {
+    private SecretKey getSigningKey(String secretKey) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
@@ -94,9 +96,9 @@ public class JwtTokenIssuer {
     }
 
     private JwtParser jwtParser() {
-        return Jwts.parserBuilder()
-            .setSigningKey(getSigningKey(secretKey))
-            .build();
+        return Jwts.parser()
+                .verifyWith(getSigningKey(secretKey))
+                .build();
     }
 
     public String getUserNameFromJwtToken(String token) {

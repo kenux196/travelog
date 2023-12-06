@@ -13,6 +13,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.ArrayList;
@@ -43,8 +44,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         Claims claims;
         try {
             claims = jwtParser()
-                    .parseClaimsJws(((JwtAuthenticationToken) authentication).getJsonWebToken())
-                    .getBody();
+                    .parseSignedClaims(((JwtAuthenticationToken) authentication).getJsonWebToken())
+                    .getPayload();
         } catch (ExpiredJwtException expiredJwtException) {
             throw new JwtExpiredException("jwt expired exception", expiredJwtException);
         } catch (SignatureException | MalformedJwtException | IllegalArgumentException exception) {
@@ -54,12 +55,12 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     }
 
     private JwtParser jwtParser() {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey(secretKey))
-                .build();
+        return Jwts.parser()
+                .verifyWith(getSigningKey(secretKey)).build();
     }
 
-    private Key getSigningKey(String secretKey) {
+
+    private SecretKey getSigningKey(String secretKey) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
