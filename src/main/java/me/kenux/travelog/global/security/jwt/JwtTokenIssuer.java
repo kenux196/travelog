@@ -51,7 +51,6 @@ public class JwtTokenIssuer {
                 .subject(userName)
                 .add(KEY_ROLES, Collections.singleton(authority))
                 .build();
-//        claims.put(KEY_ROLES, Collections.singleton(authority));
         return Jwts.builder().claims(claims)
                 .issuedAt(now)
                 .expiration(getExpiration(expireMin))

@@ -44,8 +44,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         Claims claims;
         try {
             claims = jwtParser()
-                    .parseClaimsJws(((JwtAuthenticationToken) authentication).getJsonWebToken())
-                    .getBody();
+                    .parseSignedClaims(((JwtAuthenticationToken) authentication).getJsonWebToken())
+                    .getPayload();
         } catch (ExpiredJwtException expiredJwtException) {
             throw new JwtExpiredException("jwt expired exception", expiredJwtException);
         } catch (SignatureException | MalformedJwtException | IllegalArgumentException exception) {
@@ -57,9 +57,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private JwtParser jwtParser() {
         return Jwts.parser()
                 .verifyWith(getSigningKey(secretKey)).build();
-//        return Jwts.parserBuilder()
-//                .setSigningKey(getSigningKey(secretKey))
-//                .build();
     }
 
 
