@@ -1,10 +1,8 @@
 package me.kenux.travelog.zstudy;
 
-import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
 import me.kenux.travelog.domain.member.entity.Member;
-import me.kenux.travelog.domain.member.entity.UserPassword;
 import me.kenux.travelog.domain.member.entity.enums.UserRole;
+import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class JavaFakerTest {
+class JavaFakerTest {
 
     private Faker faker;
 
