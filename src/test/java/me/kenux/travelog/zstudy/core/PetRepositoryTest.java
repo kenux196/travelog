@@ -1,8 +1,8 @@
 package me.kenux.travelog.zstudy.core;
 
-import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.RepositoryTestConfigure;
+import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
