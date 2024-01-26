@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:mariadb://kenux.duckdns.org:3306/test
     username: kenux
-    password: ENC(aHa2RW3L77g852hK+TDN97K6Gr/XxEJ8p/MnOcQsXCg=)
+    password: ENC(YXeVMjeJ2XWyLbPgQahNDiqRoQcJFHyfRJE23O59ugJ5+huwqUgLUyERwA0iUVKd)
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:

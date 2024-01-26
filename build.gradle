@@ -59,7 +59,6 @@ dependencies {
 
     // 설정파일 암호화
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
 
     // time based uuid generator
     implementation 'com.fasterxml.uuid:java-uuid-generator:4.3.0'
