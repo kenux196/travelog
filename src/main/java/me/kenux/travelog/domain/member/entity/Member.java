@@ -27,9 +27,11 @@ public class Member extends BaseTimeEntity {
     private String email;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar")
     private UserRole userRole;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar")
     private MemberStatus status = MemberStatus.NORMAL;
 
     private OffsetDateTime lastAccessDate;

@@ -35,6 +35,7 @@ public class TravelLog extends BaseEntity {
     private Integer duration;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar")
     @NotNull
     private TravelType travelType;
 
