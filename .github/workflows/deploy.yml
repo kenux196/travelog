@@ -23,16 +23,18 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build -x test
-          cp ./build/libs/travelog-*-SNAPSHOT.jar ./build/libs/app.jar
+          cp ./build/libs/travelog-0.0.1-SNAPSHOT.jar ./build/libs/app.jar
       - name: ssh connection
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         with:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
           user: ${{ secrets.USER }}
-          key: ${{ secrets.KEY }}
+          pass: ${{ secrets.PASS }}
+#          key: ${{ secrets.KEY }}
           scp: |
-            ./build/libs/app.jar ./web-app-runner.sh  => /home/${{ secrets.USER }}/web
+            ./build/libs/app.jar => /home/${{ secrets.USER }}/web
+            ./build/libs/web-app-runner.sh => /home/${{ secrets.USER }}/web
           last_ssh: |
             cd /home/${{ secrets.USER }}/web
             ./web-app-runner.sh dev
