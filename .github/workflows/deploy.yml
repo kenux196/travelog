@@ -25,7 +25,7 @@ jobs:
           ./gradlew build -x test
           cp ./build/libs/travelog-*-SNAPSHOT.jar ./build/libs/app.jar
       - name: ssh connection
-        uses: cross-the-world/ssh-scp-pipelines@latest
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         with:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
