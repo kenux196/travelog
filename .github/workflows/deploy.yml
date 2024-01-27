@@ -1,0 +1,38 @@
+name: Deploy OCI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Initialize
+        uses: actions/checkout@v3
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: build backend
+        run: |
+          chmod +x gradlew
+          ./gradlew build -x test
+          cp ./build/libs/travelog-*-SNAPSHOT.jar ./build/libs/app.jar
+      - name: ssh connection
+        uses: cross-the-world/ssh-scp-pipelines@latest
+        with:
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          user: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          scp: |
+            ./build/libs/app.jar ./web-app-runner.sh  => /home/${{ secrets.USER }}/web
+          last_ssh: |
+            cd /home/${{ secrets.USER }}/web
+            ./web-app-runner.sh dev
