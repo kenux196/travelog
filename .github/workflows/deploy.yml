@@ -31,7 +31,7 @@ jobs:
           port: ${{ secrets.PORT }}
           user: ${{ secrets.USER }}
           pass: ${{ secrets.PASS }}
-#          key: ${{ secrets.KEY }}
+          key: ${{ secrets.KEY }}
           scp: |
             ./build/libs/app.jar => /home/${{ secrets.USER }}/web
             ./build/libs/web-app-runner.sh => /home/${{ secrets.USER }}/web
