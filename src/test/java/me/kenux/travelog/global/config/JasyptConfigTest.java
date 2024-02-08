@@ -17,10 +17,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class JasyptConfigTest {
 
-    @Qualifier("encryptorBean")
+    @Qualifier("jasyptStringEncryptor")
     @Autowired
     private StringEncryptor encryptor;
-
 
     @Test
     @DisplayName("Jasypt 암호화 복호화 테스트")

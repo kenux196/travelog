@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: Travel-Log
   profiles:
     group:
       "local": "common, log, actuator, p6spy"

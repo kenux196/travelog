@@ -1,0 +1,16 @@
+# actuator test
+
+### actuator
+GET http://localhost:8080/actuator
+
+### health check
+GET http://localhost:8080/actuator/health
+
+### info
+GET http://localhost:8080/actuator/info
+
+### env : 디폴트로 막아야 한다.
+GET http://localhost:8080/actuator/env
+
+### beans : 디폴트로 막아야 한다.
+GET http://localhost:8080/actuator/beans

@@ -24,6 +24,7 @@ public class BookLog extends BaseTimeEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar")
     private BookStatus bookStatus;
 
     private LocalDate startDate;

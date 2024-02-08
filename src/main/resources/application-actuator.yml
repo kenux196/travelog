@@ -5,15 +5,14 @@ spring:
 management:
   endpoints:
     enabled-by-default: false
+    jmx:
+      exposure:
+        exclude: "*"
     web:
       exposure:
-        include: "*"
+        include: "info, health"
   endpoint:
-    env:
-      enabled: true
-    flyway:
-      enabled: true
-    beans:
-      enabled: true
     info:
+      enabled: true
+    health:
       enabled: true
