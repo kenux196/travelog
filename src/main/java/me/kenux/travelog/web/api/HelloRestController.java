@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Hello Controller")
+@Tag(name = "Hello Controller", description = "테스트 컨트롤러 모음")
 @RestController
 @RequestMapping("/hello")
 @Slf4j

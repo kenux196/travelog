@@ -1,5 +1,6 @@
 package me.kenux.travelog.web.admin;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.member.repository.dto.MemberSearchCond;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "MemberManage Controller", description = "회원 관리 API (관리자 전용)")
 @RestController
 @RequestMapping("/api/admin/members")
 @RequiredArgsConstructor

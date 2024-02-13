@@ -1,5 +1,6 @@
 package me.kenux.travelog.domain.booklog.service.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -11,11 +12,13 @@ import org.springframework.util.StringUtils;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+@Schema(description = "책 추가 요청 메시지")
 @Data
 public class AddBookRequest {
 
     List<BookInfo> books;
 
+    @Schema(description = "책 정보 메시지")
     @Data
     public static class BookInfo {
         @NotBlank

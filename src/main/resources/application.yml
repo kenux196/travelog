@@ -3,7 +3,7 @@ spring:
     name: Travel-Log
   profiles:
     group:
-      "local": "common, log, actuator"
-      "dev": "common, log"
+      "local": "common, log, actuator, springdoc"
+      "dev": "common, log, springdoc"
       "prd": "common"
     default: local
