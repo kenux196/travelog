@@ -1,5 +1,6 @@
 package me.kenux.travelog.web.api.book;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kenux.travelog.domain.booklog.repository.dto.BookSearchCond;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * This is tested for data
  */
 
+@Tag(name = "Book Controller", description = "책 API")
 @RestController
 @RequestMapping("/api/books")
 @RequiredArgsConstructor

@@ -1,5 +1,6 @@
 package me.kenux.travelog.web.api;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import me.kenux.travelog.global.exception.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "TravelHistory Controller", description = "여행일지 API")
 @RestController
 @RequestMapping("/api/travels")
 @RequiredArgsConstructor

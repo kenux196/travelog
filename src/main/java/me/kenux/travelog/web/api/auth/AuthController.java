@@ -1,5 +1,6 @@
 package me.kenux.travelog.web.api.auth;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Auth Controller", description = "인증에 관련된 API 입니다.")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
